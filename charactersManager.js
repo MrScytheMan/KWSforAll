@@ -6,7 +6,9 @@ class KwsCharactersManager {
     }
     setCurrentCharacterId(charId) {
         this.currentCharacterId = charId;
-        this.currentIndex = this.characters.findIndex(charId);
+        this.currentIndex = this.characters.findIndex((value, index, array) => {
+            return value == charId;
+        });
     }
     getNextCharId() {
         if (this.characters.length == 1) {
