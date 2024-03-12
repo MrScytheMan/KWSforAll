@@ -4,6 +4,7 @@
      scr.innerHTML = `const LoadScript = (url, cb) => { fetch(url).then(res => res.json()).then((out) => { cb(out) }).catch(err => { throw err }); }
  
  const links = {
+    "link":"https://raw.githubusercontent.com/KWSforAll/KWSforAll/development/connectionManager.js",
     "link0":"https://raw.githubusercontent.com/KWSforAll/KWSforAll/development/charactersManager.js",
     "link1":"https://raw.githubusercontent.com/KWSforAll/KWSforAll/development/ballExp.js",
     "link2":"https://raw.githubusercontent.com/KWSforAll/KWSforAll/development/ballUpgrade.js",
