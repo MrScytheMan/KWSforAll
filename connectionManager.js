@@ -2,7 +2,7 @@ class KwsConnectionManager {
     constructor() {
         console.log("KWS: new connection monitor created");
         const reconnectionCookieName = "KwsReconnectCharId";
-        runConnectionMonitor();
+        this.runConnectionMonitor();
     }
     setReconnectionCookie(reset = false) {
         const d = new Date();
