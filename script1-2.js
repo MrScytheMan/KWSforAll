@@ -1726,12 +1726,12 @@ if (typeof GAME === 'undefined') { } else {
             goToNextChar() {
                 this.resetAFO();
                 var charId = this.charactersManager.getNextCharId();
-                this.emitOrder({ a: 2, char_id: charId });
+                GAME.emitOrder({ a: 2, char_id: charId });
             }
             goToPreviousChar() {
                 this.resetAFO();
                 var charId = this.charactersManager.getPreviousCharId();
-                this.emitOrder({ a: 2, char_id: charId });
+                GAME.emitOrder({ a: 2, char_id: charId });
             }
             adjustCurrentCharacterId() {
                 var thisCharId = GAME.char_id;
