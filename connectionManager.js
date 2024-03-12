@@ -65,9 +65,11 @@ class KwsConnectionManager {
       }
 }
 
+var kwsConnectionMonitor = undefined;
+
 if(typeof kwsConnectionMonitor === 'undefined') {
     console.log("KWS: no connection monitor - create new");
-    const kwsConnectionMonitor = new KwsConnectionManager();
+    kwsConnectionMonitor = new KwsConnectionManager();
 } else {
     console.log("KWS: connection monitor detected - run monitoring");
     kwsConnectionMonitor.runConnectionMonitor();
