@@ -60,6 +60,9 @@ class KwsConnectionManager {
                 $("#cg_login_button2").eq(0).click();
                 console.log("KWS: try to select character in 1s...");
                 setTimeout(this.login, 1000);
+            } else {
+                console.log("KWS: no login needed, check connection in 5s...");
+                setTimeout(this.runConnectionMonitor, 5000);
             }
         }
         console.log("KWS: connection monitor, check in 5s...");
