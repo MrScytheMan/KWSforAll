@@ -17,7 +17,8 @@ if (typeof GAME === 'undefined') { } else {
             }
         }
         class kwsv3 {
-            constructor() {
+            constructor(charactersManager) {
+                this.charactersManager = charactersManager;
                 this.isLogged((data) => {
                     Object.defineProperty(GAME, 'pid', {
                         writable: false
@@ -69,6 +70,8 @@ if (typeof GAME === 'undefined') { } else {
                 $('.MoveIcon[data-option="map_multi_pvp"]').after('<div class="MoveIcon bigg option" data-option="map_quest_skip" data-toggle="tooltip" data-original-title="<div class=tt>Opcja Dalej w otwartym zadaniu jeśli jest jedna. Atakuje bosy w zadaniach i zamyka raport z walki. W zadaniu nuda wybiera opcję na zabicie mobków. W zadaniu subki wybiera opcję za 100k. Zamyka komunikaty. Zbiera zasób na którym stoimy.<br />Klawisz skrótu:<b class=orange>X</b></div>"><img src="https://i.imgur.com/wuK91VF.png"></div>');
                 $('.MoveIcon[data-option="map_quest_skip"]').after('<div class="MoveIcon bigg option" data-option="map_quest_skip_time" data-toggle="tooltip" data-original-title="<div class=tt>Używanie zegarków w zadaniach<br />Klawisz skrótu:<b class=orange>N</b></div>"><img src="https://i.imgur.com/9YCvJKe.png"></div>');
                 $('.MoveIcon[data-option="map_quest_skip_time"]').after('<div class="MoveIcon bigg option" data-option="map_alternative_pilot" data-toggle="tooltip" data-original-title="<div class=tt>Ukryje pilota, pokazuje inną klawiaturę<br />Klawisz skrótu:<b class=orange>=</b></div>"><img src="https://up.be3.ovh/upload/1709400449.png"></div>');
+                $("#changeProfile").before('<button id="changeProfilePrev" class="option" data-option="prevChar">Prev</button>');
+                $("#changeProfile").after('<button id="changeProfileNext" class="option" data-option="nextChar">Next</button>');
                 this.auto_abyss_interval = false;
                 this.auto_arena = false;
                 setInterval(() => {
@@ -1038,21 +1041,13 @@ if (typeof GAME === 'undefined') { } else {
                     }
                 });
                 $("body").on("click", "#changeProfile", () => {
-                    if ($("#resp_Panel .resp_status").eq(0).hasClass("green")) {
-                        $("#resp_Panel .resp_button.resp_resp").click();
-                    }
-                    if ($("#pvp_Panel .pvp_status").eq(0).hasClass("green")) {
-                        $("#pvp_Panel .pvp_button.pvp_pvp").click();
-                    }
-                    if ($("#lpvm_Panel .lpvm_status").eq(0).hasClass("green")) {
-                        $("#lpvm_Panel .lpvm_button.lpvm_lpvm").click();
-                    }
-                    if ($("#res_Panel .res_status").eq(0).hasClass("green")) {
-                        $("#res_Panel .res_button.res_res").click();
-                    }
-                    if ($(".manage_autoExpeditions").eq(0).hasClass("kws_active_icon")) {
-                        $(".manage_autoExpeditions").click();
-                    }
+                    this.resetAFO();
+                });
+                $("body").on("click", "#changeProfilePrev", () => {
+                    this.goToPreviousChar();
+                });
+                $("body").on("click", "#changeProfileNext", () => {
+                    this.goToNextChar();
                 });
                 $("body").on("click", `button[data-page="stelep"].cps`, () => {
                     $("#clan_inner_stelep").attr("style", "");
@@ -1359,6 +1354,10 @@ if (typeof GAME === 'undefined') { } else {
                             }
                         } else if (event.key === "=") {
                             this.createAlternativePilot();
+                        } else if (event.key === ",") {
+                            this.goToPreviousChar();
+                        } else if (event.key === ".") {
+                            this.goToNextChar();
                         } else if (event.key === "9" && JQS.qcc.is(":visible")) { }
                     }
                 });
@@ -1723,8 +1722,35 @@ if (typeof GAME === 'undefined') { } else {
                     $(document).trigger(keyEvent);
                 });
             }
+            goToNextChar() {
+                this.resetAFO();
+                var charId = this.charactersManager.getNextCharId();
+                this.emitOrder({ a: 2, char_id: char_id });
+            }
+            goToPreviousChar() {
+                this.resetAFO();
+                var charId = this.charactersManager.getPreviousCharId();
+                this.emitOrder({ a: 2, char_id: char_id });
+            }
+            resetAFO() {
+                if ($("#resp_Panel .resp_status").eq(0).hasClass("green")) {
+                    $("#resp_Panel .resp_button.resp_resp").click();
+                }
+                if ($("#pvp_Panel .pvp_status").eq(0).hasClass("green")) {
+                    $("#pvp_Panel .pvp_button.pvp_pvp").click();
+                }
+                if ($("#lpvm_Panel .lpvm_status").eq(0).hasClass("green")) {
+                    $("#lpvm_Panel .lpvm_button.lpvm_lpvm").click();
+                }
+                if ($("#res_Panel .res_status").eq(0).hasClass("green")) {
+                    $("#res_Panel .res_button.res_res").click();
+                }
+                if ($(".manage_autoExpeditions").eq(0).hasClass("kws_active_icon")) {
+                    $(".manage_autoExpeditions").click();
+                }
+            }
         }
-        const kws = new kwsv3();
+        const kws = new kwsv3(kwsLocalCharacters);
         GAME.komunikat2 = function (kom) {
             if (this.koms.indexOf(kom) == -1) {
                 if (this.komc > 50) this.komc = 40;
@@ -2125,7 +2151,7 @@ if (typeof GAME === 'undefined') { } else {
         let roll2 = false;
         let roll1 = false;
         let roll3 = false;
-        let version = '3.4.0';
+        let version = '3.4.1';
     }
     )
 }
