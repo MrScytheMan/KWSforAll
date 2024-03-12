@@ -42,7 +42,7 @@ class KwsConnectionManager {
       }
 
       login() {
-        var disconnectedCharacterId = getReconnectionCookie();
+        var disconnectedCharacterId = this.getReconnectionCookie();
         if (disconnectedCharacterId != '') {
             console.log("KWS: reconnecting to disconnected charID = %s", disconnectedCharacterId);
             GAME.emitOrder({ a: 2, char_id: disconnectedCharacterId });
