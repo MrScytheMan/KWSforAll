@@ -59,7 +59,7 @@ class KwsConnectionManager {
             this.isRunning = false;
             return;
         } else {
-            var disconnectedCharacterId = getReconnectionCookie();
+            var disconnectedCharacterId = this.getReconnectionCookie();
             if(($("#cg_login_button2").length != 0) && (disconnectedCharacterId != '')) {
                 console.log("KWS: attempt to login...");
                 $("#cg_login_button2").eq(0).click();
