@@ -1,5 +1,6 @@
 class KwsConnectionManager {
     constructor() {
+        this.isRunning = false;
         console.log("KWS: new connection monitor created");
         const reconnectionCookieName = "KwsReconnectCharId";
         this.runConnectionMonitor();
@@ -30,6 +31,7 @@ class KwsConnectionManager {
 
       redirectToMain() {
         console.log("KWS: redirect to main page after disconnect");
+        this.isRunning = false;
         GAME.redirect(locals.main_url,0);
       }
 
@@ -48,11 +50,13 @@ class KwsConnectionManager {
       }
 
       runConnectionMonitor() {
+        this.isRunning = true;
         console.log("KWS: connection monitor check...");
         if($("#kom_con").find('button[data-option="logout"]').length > 0) {
             console.log("KWS: disconnect detected!");
             this.setReconnectionCookie();
             this.logout();
+            this.isRunning = false;
             return;
         } else {
             console.log("KWS: attempt to login...");
@@ -61,12 +65,10 @@ class KwsConnectionManager {
                 console.log("KWS: try to select character in 1s...");
                 setTimeout(this.login, 1000);
             } else {
-                console.log("KWS: no login needed, check connection in 5s...");
-                setTimeout(this.runConnectionMonitor, 5000);
+                console.log("KWS: no login needed...");
             }
         }
-        console.log("KWS: connection monitor, check in 5s...");
-        setTimeout(this.runConnectionMonitor, 5000);
+        this.isRunning = false;
       }
 }
 
@@ -82,7 +84,13 @@ function verifyConnectionManager() {
         console.log("KWS: no connection monitor - create new");
         kwsConnectionMonitor = new KwsConnectionManager();
     } else {
-        console.log("KWS: connection monitor detected, all good!");
+        console.log("KWS: connection monitor detected");
+        if (kwsConnectionMonitor.isRunning) {
+            console.log("KWS: connection monitor running, all good!");
+        } else {
+            console.log("KWS: connection monitor not running, trying to manually run it");
+            kwsConnectionMonitor.runConnectionMonitor();
+        }
     }
 }
 
