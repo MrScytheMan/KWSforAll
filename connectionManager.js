@@ -59,8 +59,9 @@ class KwsConnectionManager {
             this.isRunning = false;
             return;
         } else {
-            console.log("KWS: attempt to login...");
-            if($("#cg_login_button2").length != 0) {
+            var disconnectedCharacterId = getReconnectionCookie();
+            if(($("#cg_login_button2").length != 0) && (disconnectedCharacterId != '')) {
+                console.log("KWS: attempt to login...");
                 $("#cg_login_button2").eq(0).click();
                 console.log("KWS: try to select character in 1s...");
                 setTimeout(this.login, 1000);
