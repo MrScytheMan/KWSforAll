@@ -1468,12 +1468,9 @@ if (typeof GAME === 'undefined') {} else {
             };
             GAME.parseListPlayer = function (entry, pvp_master) {
                 var res = '';
-                if (
-                    (GAME.char_data.reborn < 4 && entry.data.reborn < 4) ||
-                    (entry.data.reborn <= GAME.char_data.reborn) ||
-                    (!PVP.higherRebornAvoid)
-                ) {
+                if (entry.data) {
                     var pd = entry.data;
+                    if ( PVP.higherRebornAvoid && pd.reborn > GAME.char_data.reborn && pd.reborn > 3){return res;}
                     var qb = '';
                     var klan = '', erank = '';
                     if (pd.klan_id) {
