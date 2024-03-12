@@ -72,10 +72,18 @@ class KwsConnectionManager {
 
 var kwsConnectionMonitor = undefined;
 
-if(typeof kwsConnectionMonitor === 'undefined') {
-    console.log("KWS: no connection monitor - create new");
-    kwsConnectionMonitor = new KwsConnectionManager();
-} else {
-    console.log("KWS: connection monitor detected - run monitoring");
-    kwsConnectionMonitor.runConnectionMonitor();
+if (kwsConnectionMonitorVerifier) {
+    clearInterval(kwsConnectionMonitorVerifier);
+    kwsConnectionMonitorVerifier = undefined;
 }
+
+function verifyConnectionManager() {
+    if(typeof kwsConnectionMonitor === 'undefined') {
+        console.log("KWS: no connection monitor - create new");
+        kwsConnectionMonitor = new KwsConnectionManager();
+    } else {
+        console.log("KWS: connection monitor detected, all good!");
+    }
+}
+
+var kwsConnectionMonitorVerifier = setInterval(verifyConnectionManager, 2500);
