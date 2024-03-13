@@ -47,6 +47,7 @@ class KwsConnectionManager {
         if (disconnectedCharacterId != '') {
             console.log("KWS: reconnecting to disconnected charID = %s", disconnectedCharacterId);
             GAME.emitOrder({ a: 2, char_id: disconnectedCharacterId });
+            this.setReconnectionCookie(true);
         }
       }
 
@@ -80,7 +81,6 @@ class KwsConnectionManager {
                     this.clickFirstLogin();
                 }
                 setTimeout(this.login, 1000);
-                this.setReconnectionCookie(true);
             } else {
                 console.log("KWS: no login needed...");
             }
