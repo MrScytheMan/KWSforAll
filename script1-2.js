@@ -405,7 +405,7 @@ if (typeof GAME === 'undefined') { } else {
                 $(".qlink.manage_auto_arena").removeClass("kws_active_icon");
             }
             freeAssist() {
-                let fafa_el = $(`button[data-option="clan_assist"]:visible`);
+                let fafa_el = $(`button[data-option="clan_assist"]`);
                 if (fafa_el.length > 0) {
                     let fafa_tid = parseInt(fafa_el.eq(0).attr("data-tid"));
                     let fafa_target = parseInt(fafa_el.eq(0).attr("data-target"));
@@ -415,17 +415,16 @@ if (typeof GAME === 'undefined') { } else {
                         tid: fafa_tid,
                         target: fafa_target
                     });
-                    fafa_el.eq(0).hide();
                     setTimeout(() => {
                         this.freeAssist();
                     }, 2100);
                 } else {
-                    GAME.socket.emit('ga', {
-                        a: 39,
-                        type: 54
-                    });
                     GAME.komunikat("Asystowano wszystkim!");
                 }
+                GAME.socket.emit('ga', {
+                    a: 39,
+                    type: 54
+                });
             }
             autobless() {
                 let arr = $.map($('.use_buff:checked'), function (e, i) { return +e.value; });
