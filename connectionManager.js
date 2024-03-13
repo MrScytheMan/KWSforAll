@@ -2,7 +2,6 @@ class KwsConnectionManager {
     constructor() {
         this.isRunning = false;
         console.log("KWS: new connection monitor created");
-        const reconnectionCookieName = "kwsreccharid";
         this.runConnectionMonitor();
     }
     setReconnectionCookie(reset = false) {
@@ -11,12 +10,12 @@ class KwsConnectionManager {
         let expires = "expires="+d.toUTCString();
         var cookieValue = reset ? '' : GAME.char_id;
         console.log("KWS: setting reconnection cookie = %s", cookieValue);
-        document.cookie = this.reconnectionCookieName + "=" + cookieValue + ";" + expires + ";path=/" + ";domain=kosmiczni.pl";
-        document.cookie = this.reconnectionCookieName + "=" + cookieValue + ";" + expires + ";path=/";
+        document.cookie = "kwsreccharid" + "=" + cookieValue + ";" + expires + ";path=/" + ";domain=kosmiczni.pl";
+        document.cookie = "kwsreccharid" + "=" + cookieValue + ";" + expires + ";path=/";
       }
       
       getReconnectionCookie() {
-        let name = this.reconnectionCookieName + "=";
+        let name = "kwsreccharid" + "=";
         let ca = document.cookie.split(';');
         for(let i = 0; i < ca.length; i++) {
           let c = ca[i];
