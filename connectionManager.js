@@ -11,7 +11,7 @@ class KwsConnectionManager {
         let expires = "expires="+d.toUTCString();
         var cookieValue = reset ? '' : GAME.char_id;
         console.log("KWS: setting reconnection cookie = %s", cookieValue);
-        document.cookie = this.reconnectionCookieName + "=" + cookieValue + ";" + expires + ";path=/";
+        document.cookie = this.reconnectionCookieName + "=" + cookieValue + ";" + expires + ";path=/" + ";domain=kosmiczni.pl";
       }
       
       getReconnectionCookie() {
