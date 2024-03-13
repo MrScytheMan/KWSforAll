@@ -2,7 +2,7 @@ class KwsConnectionManager {
     constructor() {
         this.isRunning = false;
         console.log("KWS: new connection monitor created");
-        const reconnectionCookieName = "KwsReconnectCharId";
+        const reconnectionCookieName = "kwsreccharid";
         this.runConnectionMonitor();
     }
     setReconnectionCookie(reset = false) {
@@ -73,7 +73,7 @@ class KwsConnectionManager {
             return;
         } else {
             var disconnectedCharacterId = this.getReconnectionCookie();
-            if ((disconnectedCharacterId != '')) {
+            if (disconnectedCharacterId != '') {
                 console.log("KWS: attempt to login...");
                 if ($("#server_choose").is(":visible")) {
                     this.clickSecondLogin();
