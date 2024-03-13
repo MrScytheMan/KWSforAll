@@ -75,12 +75,14 @@ class KwsConnectionManager {
             var disconnectedCharacterId = this.getReconnectionCookie();
             if (disconnectedCharacterId != '') {
                 console.log("KWS: attempt to login...");
-                if ($("#server_choose").is(":visible")) {
+                var allCharacters = [...$("li[data-option=select_char]")];
+                if (allCharacters.length != 0) {
+                    this.login();
+                } else if ($("#server_choose").is(":visible")) {
                     this.clickSecondLogin();
                 } else {
                     this.clickFirstLogin();
                 }
-                setTimeout(this.login, 1000);
             } else {
                 console.log("KWS: no login needed...");
             }
