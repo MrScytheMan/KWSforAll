@@ -53,6 +53,7 @@ class KwsConnectionManager {
       clickFirstLogin() {
         console.log("KWS: attempt to login first step...");
         $("#cg_login_button1").eq(0).click();
+        setTimeout(this.clickSecondLogin, 1000);
       }
 
       clickSecondLogin() {
@@ -71,12 +72,15 @@ class KwsConnectionManager {
             return;
         } else {
             var disconnectedCharacterId = this.getReconnectionCookie();
-            if(($("#cg_login_button2").length != 0) && (disconnectedCharacterId != '')) {
+            if ((disconnectedCharacterId != '')) {
                 console.log("KWS: attempt to login...");
-                setTimeout(this.clickFirstLogin, 750);
-                setTimeout(this.clickSecondLogin, 1500);
-                console.log("KWS: try to select character in 1s...");
-                setTimeout(this.login, 2250);
+                if ($("#server_choose").is(":visible")) {
+                    this.clickSecondLogin();
+                } else {
+                    this.clickFirstLogin();
+                }
+                setTimeout(this.login, 1000);
+                this.setReconnectionCookie(true);
             } else {
                 console.log("KWS: no login needed...");
             }
