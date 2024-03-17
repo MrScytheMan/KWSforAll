@@ -1,7 +1,7 @@
   {
     "name": "KW assistant",
     "description": "Dla kazdego - za free, na zawsze",
-    "version": "3.4.0",
+    "version": "3.4.1",
     "manifest_version": 3,
     "permissions": [
       "tabs",
