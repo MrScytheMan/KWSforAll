@@ -1506,9 +1506,7 @@ if (typeof GAME === 'undefined') {} else {
                 var res = '';
                 if (entry.data) {
                     var pd = entry.data;
-                    if (PVP.higherRebornAvoid) {
-                        if (pd.reborn > 3 && pd.reborn > GAME.char_data.reborn) { return res; }
-                    }
+                    if ( PVP.higherRebornAvoid && pd.reborn > GAME.char_data.reborn && pd.reborn > 3){return res;}
                     pd.empire = entry.empire;
                     var qb = '';
                     var erank = '';
