@@ -956,6 +956,14 @@ if (typeof GAME === 'undefined') { } else {
                     });
                 }, 500);
             }
+            open_instance() {
+                if ($("[id=instance_list]").is(':hidden')){
+                    GAME.page_switch('game_instances');
+                }
+                if (GAME.current_instance) {
+                    GAME.socket.emit('ga', {a: 29, type: 1, instance: GAME.current_instance });
+                }
+            }
             questProceed() {
                 if (JQS.qcc.is(":visible")) {
                     if ($("button[data-option=finish_quest]").length === 1) {
@@ -1530,6 +1538,8 @@ if (typeof GAME === 'undefined') { } else {
                             kom_clear();
                         } else if (event.key === "b" || event.key === "B") {
                             this.pvpKill();
+                        } else if (event.key === "`" ) {
+                            this.open_instance();
                         } else if (event.key === "n" || event.key === "N") {
                             this.useCompressor();
                         } else if (event.key === "2") {
@@ -1583,7 +1593,9 @@ if (typeof GAME === 'undefined') { } else {
                             this.createAlternativePilot();
                         } else if (event.key === ",") {
                             this.goToPreviousChar();
-                        } else if (event.key === ".") {
+                        } else if (event.key === "Tab" && event.shiftKey) {
+                            this.goToPreviousChar();
+                        } else if (event.key === "Tab") {
                             this.goToNextChar();
                         } else if (event.key === "9" && JQS.qcc.is(":visible")) { }
                     }
