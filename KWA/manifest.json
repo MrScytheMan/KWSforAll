@@ -1,7 +1,7 @@
   {
-    "name": "KW assistant",
-    "description": "Dla kazdego - za free, na zawsze",
-    "version": "3.4.3",
+    "name": "KW Assistant",
+    "description": "Dla kazdego - za free, na zawsze! Mozliwe dzieki wsparciu patronow na www.patronite.pl/kwa | Szczegolne podziekowania dla: - https://www.youtube.com/@SebastianWujke1",
+    "version": "3.4.4",
     "manifest_version": 3,
     "permissions": [
       "tabs",
