@@ -88,8 +88,8 @@ if (typeof GAME === 'undefined') { } else {
                 this.auto_abyss_interval = false;
                 this.auto_arena = false;
                 this.additionalTopBarVisible = false;
-                this.baselinePower = GAME.char_data.moc;
-                this.baselineLevel = GAME.char_data.level;
+                this.baselinePower = undefined;
+                this.baselineLevel = undefined;
                 setInterval(() => {
                     if ('char_data' in GAME) {
                         this.updateTopBar();
@@ -706,6 +706,12 @@ if (typeof GAME === 'undefined') { } else {
                 $("#secondary_char_stats .activities ul").html(activities);
                 let innerHTML = ` <span class='kws_top_bar_section sk_info' style='cursor:pointer;'>SK: <span style="color:${sk_status == "AKTYWNE" ? "lime" : "white"};">${sk_status}</span></span> <span class='kws_top_bar_section train_upgr_info' style='cursor:pointer;'>KODY: <span style="color:${train_upgr == "AKTYWNE" ? "lime" : "white"};">${train_upgr}</span></span><span class='kws_top_bar_section lvl' style='cursor:pointer;'>LVL: <span>${lvlh}/H</span></span><span class='kws_top_bar_section pvp' style='cursor:pointer;'>PVP: <span>${pvp_count}</span></span><span class='kws_top_bar_section arena' style='cursor:pointer;'>ARENA: <span>${arena_count}</span></span> ${is_trader.getDay() == 6 ? trader : ''} [${soulCards_one}| ${soulCards_two}| ${soulCards_three}| ${soulCards_four}| ${soulCards_five}]  ${additionalStats} <span class='kws_top_bar_section version' style='cursor:pointer;'>Wersja: <span>${version}</span></span> `;
                 $(".kws_top_bar").html(innerHTML);
+                if (this.baselinePower == undefined) {
+                    this.baselinePower = GAME.char_data.moc;
+                }
+                if (this.baselineLevel == undefined) {
+                    this.baselineLevel = GAME.char_data.level;
+                }
                 let calculated_power = GAME.dots(GAME.char_data.moc - this.baselinePower);//(GAME.char_data.moc - this.baselinePower).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
                 let calculatedPowerReset = `<span class='kws_top_bar_section additional_stats_reset' style='cursor:pointer;color:"white"}'>RESET</span>`;
                 let futureStats = this.prepareFutureStatsData();
