@@ -69,7 +69,9 @@ if (typeof GAME === 'undefined') { } else {
                     background: linear-gradient(0deg, rgba(247,121,12,1) 0%, rgba(252,238,54,1) 100%);
                     border: 0px solid #973804;
                 }`);
+                this.addToCSS(`.kws_additional_top_bar{float:left !important; position: absolute; z-index: -1; display: none} .kws_additional_top_bar_section{color:white;padding:3px 5px 3px 5px;border-radius:5px;margin-right:8px;user-select:none;}`);
                 $("#top_bar").append(`<div class="kws_top_bar"></div>`);
+                $("#top_bar").append(`<div class="kws_additional_top_bar"></div>`);
                 $("#bless_type_2").click();
                 $(`.channel_opts .option.chat_icon.load`).addClass('better_chat_loading').removeAttr('id').removeAttr('data-option');
                 $("#clan_inner_planets h3").eq(0).append(`<button id="poka_telep" style="margin-left:5px;" class="newBtn">pokaż / ukryj salę telep</button>`);
@@ -85,6 +87,9 @@ if (typeof GAME === 'undefined') { } else {
                 $("#changeProfile").after('<button id="changeProfileNext" class="btn_small_gold" data-option="nextChar">Next</button>');
                 this.auto_abyss_interval = false;
                 this.auto_arena = false;
+                this.additionalTopBarVisible = false;
+                this.baselinePower = GAME.char_data.moc;
+                this.baselineLevel = GAME.char_data.level;
                 setInterval(() => {
                     if ('char_data' in GAME) {
                         this.updateTopBar();
@@ -694,12 +699,18 @@ if (typeof GAME === 'undefined') { } else {
                 let soulCards_three = `<span class='kws_top_bar_section soul_cards_three' style='cursor:pointer;color:${soulCards_current == "III" ? "red" : "white"}'>KD3</span>`;
                 let soulCards_four = `<span class='kws_top_bar_section soul_cards_four' style='cursor:pointer;color:${soulCards_current == "IV" ? "red" : "white"}'>KD4</span>`;
                 let soulCards_five = `<span class='kws_top_bar_section soul_cards_five' style='cursor:pointer;color:${soulCards_current == "V" ? "red" : "white"}'>KD5</span>`;
+                let additionalStats = `<span class='kws_top_bar_section additional_stats' style='cursor:pointer;color:${this.additionalTopBarVisible ? "orange" : "white"}'>STATY</span>`;
                 let instance = `${sum_instances}/12`;
                 $("#secondary_char_stats .instance ul").html(instance);
                 let activities = `${activity}/185 (${received}/5)`;
                 $("#secondary_char_stats .activities ul").html(activities);
-                let innerHTML = ` <span class='kws_top_bar_section sk_info' style='cursor:pointer;'>SK: <span style="color:${sk_status == "AKTYWNE" ? "lime" : "white"};">${sk_status}</span></span> <span class='kws_top_bar_section train_upgr_info' style='cursor:pointer;'>KODY: <span style="color:${train_upgr == "AKTYWNE" ? "lime" : "white"};">${train_upgr}</span></span><span class='kws_top_bar_section lvl' style='cursor:pointer;'>LVL: <span>${lvlh}/H</span></span><span class='kws_top_bar_section pvp' style='cursor:pointer;'>PVP: <span>${pvp_count}</span></span><span class='kws_top_bar_section arena' style='cursor:pointer;'>ARENA: <span>${arena_count}</span></span> ${is_trader.getDay() == 6 ? trader : ''} [${soulCards_one}| ${soulCards_two}| ${soulCards_three}| ${soulCards_four}| ${soulCards_five}] <span class='kws_top_bar_section version' style='cursor:pointer;'>Wersja: <span>${version}</span></span> `;
+                let innerHTML = ` <span class='kws_top_bar_section sk_info' style='cursor:pointer;'>SK: <span style="color:${sk_status == "AKTYWNE" ? "lime" : "white"};">${sk_status}</span></span> <span class='kws_top_bar_section train_upgr_info' style='cursor:pointer;'>KODY: <span style="color:${train_upgr == "AKTYWNE" ? "lime" : "white"};">${train_upgr}</span></span><span class='kws_top_bar_section lvl' style='cursor:pointer;'>LVL: <span>${lvlh}/H</span></span><span class='kws_top_bar_section pvp' style='cursor:pointer;'>PVP: <span>${pvp_count}</span></span><span class='kws_top_bar_section arena' style='cursor:pointer;'>ARENA: <span>${arena_count}</span></span> ${is_trader.getDay() == 6 ? trader : ''} [${soulCards_one}| ${soulCards_two}| ${soulCards_three}| ${soulCards_four}| ${soulCards_five}]  ${additionalStats} <span class='kws_top_bar_section version' style='cursor:pointer;'>Wersja: <span>${version}</span></span> `;
                 $(".kws_top_bar").html(innerHTML);
+                let calculated_power = GAME.dots(GAME.char_data.moc - this.baselinePower);//(GAME.char_data.moc - this.baselinePower).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                let calculatedPowerReset = `<span class='kws_top_bar_section additional_stats_reset' style='cursor:pointer;color:"white"}'>RESET</span>`;
+                let futureStats = this.prepareFutureStatsData();
+                let calculated_levels = GAME.dots(GAME.char_data.level - this.baselineLevel);
+                $(".kws_additional_top_bar").html(` <span class='kws_additional_top_bar_section pvm_power' style='cursor:pointer;'>ZDOBYTA MOC: <span style="color:lime;">${calculated_power}</span></span> <span class='kws_additional_top_bar_section future_stats' style='cursor:pointer;'>${futureStats}</span><span class='kws_additional_top_bar_section lvlsGained' style='cursor:pointer;'>ZDOBYTE LVL: <span>${calculated_levels}</span></span><span class='kws_additional_top_bar_section psk' style='cursor:pointer;'>PSK: ${GAME.dots(GAME.char_data.minor_ball)}</span> ${calculatedPowerReset}`);
                 this.adjustCurrentCharacterId();
                 // this.checkTournamentsSigning();
             }
@@ -1145,6 +1156,12 @@ if (typeof GAME === 'undefined') { } else {
                         set: 4
                     });
                 });
+                $("body").on("click", `.kws_top_bar_section.additional_stats`, () => {
+                    this.handleAdditionalTopBarVisibility();
+                });
+                $("body").on("click", `.kws_additional_top_bar_section.additional_stats_reset`, () => {
+                    this.resetCalculatedPower();
+                });
                 $("body").on("click", `.kws_top_bar_section.train_upgr_info`, () => {
                     GAME.page_switch('game_train');
                 });
@@ -1459,6 +1476,80 @@ if (typeof GAME === 'undefined') { } else {
                         });
                     }
                 });
+            }
+            prepareFutureStatsData() {
+                let staty = GAME.char_data;
+                if(staty.reborn==0){
+                    var moc=staty.sila+staty.szyb+staty.wytrz+staty.swoli+staty.ki;
+                    var fb=Math.round(moc/10000000,3);
+                    return `${LNG.lab166} : <span class="orange">${GAME.dots(fb)}</span>`;
+                }
+                if(staty.reborn==1){
+                    var expm=Math.round(staty.exp/5000),mocm=Math.round(staty.moc/10);
+                    var fb=expm+mocm;
+                    return `${LNG.lab167} : <span class="orange" id="future_wspol">${GAME.dots(fb)}</span> [${LNG.lab217}: <span class="green">${GAME.dots(mocm)}</span>, ${LNG.lab218}: <span class="green">${GAME.dots(expm)}</span>]`;
+                }
+                if(staty.reborn==2){
+                    var ps=0;
+                    var moc=staty.sila+staty.szyb+staty.wytrz+staty.swoli+staty.ki;
+                    var mocm=Math.round(moc/100000000000);
+                    if(mocm>1000) mocm=1000;
+                    ps+=mocm;
+                    var wsplm=Math.round(staty.reborn_bonus/100);
+                    if(wsplm>1000) wsplm=1000;
+                    ps+=wsplm;
+                    var fb=Math.round(staty.god/10000);
+                    return `${LNG.lab168} : <span class="orange">${GAME.dots(fb)}</span> ${LNG.lab220} : <span class="orange">${GAME.dots(ps)}</span> [${LNG.lab217}: <span class="green">${GAME.dots(mocm)}</span>, ${LNG.lab219}: <span class="green">${GAME.dots(wsplm)}</span>]`;
+                }
+                if(staty.reborn==3){
+                    var gki=1000;
+                    var wtam=Math.floor(staty.wta/100000000000);
+                    gki+=wtam;
+                    var moc=staty.sila+staty.szyb+staty.wytrz+staty.swoli+staty.ki;
+                    var mocm1=Math.round(moc/10000000000000);
+                    gki+=mocm1;
+                    if(gki>1000000) gki=1000000;
+                    var ps=10;
+                    var levm=Math.floor(staty.level/200);
+                    ps+=levm;
+                    var moc=staty.sila+staty.szyb+staty.wytrz+staty.swoli+staty.ki+staty.wta;
+                    var mocm2=Math.floor(moc/10000000000000000);
+                    ps+=mocm2;
+                    if(ps>150) ps=150;
+                    return `${LNG.lab169} : <span class="orange">${GAME.dots(gki)}</span> [1000 + ${LNG.lab217}: <span class="green">${GAME.dots(mocm1)}</span>, ${LNG.lab221}: <span class="green">${GAME.dots(wtam)}</span>] ${LNG.lab170} : <span class="orange">${GAME.dots(ps)}</span> [10+ ${LNG.lab217}: <span class="green">${GAME.dots(mocm2)}</span>, ${LNG.lab222}: <span class="green">${GAME.dots(levm)}</span>]`;
+                }
+                if(staty.reborn==4){
+                    var ins=10;
+                    var wtam=Math.floor(staty.wta/1000000000000);
+                    ins+=wtam;
+                    var gkid=staty.gki/1000;
+                    ins+=gkid;
+                    if(ins>100000) ins=100000;
+                    return `${LNG.lab434} : <span class="orange">${GAME.dots(ins)}</span> [10 + ${LNG.lab435}: <span class="green">${GAME.dots(gkid)}</span>, ${LNG.lab221}: <span class="green">${GAME.dots(wtam)}</span>]`;
+                }
+            }
+            handleAdditionalTopBarVisibility() {
+                if(this.additionalTopBarVisible) {
+                    this.hideAdditionalTopBar();
+                    this.additionalTopBarVisible = false;
+                } else {
+                    this.showAdditionalTopBar();
+                    this.additionalTopBarVisible = true;
+                }
+            }
+            resetCalculatedPower() {
+                this.baselinePower = GAME.char_data.moc;
+                this.baselineLevel = GAME.char_data.level;
+            }
+            showAdditionalTopBar() {
+                $("#game_win")[0].style.marginTop = '30px';
+                document.querySelector("#top_bar").style.height = '60px';
+                $(".kws_additional_top_bar")[0].style.display = 'block';
+            }
+            hideAdditionalTopBar() {
+                $(".kws_additional_top_bar")[0].style.display = 'none';
+                document.querySelector("#top_bar").style.height = '30px';
+                $("#game_win")[0].style.marginTop = '0px';
             }
             checkTournamentsSigning() {
                 var currentServerTime = new Date(GAME.getTime()*1000);
