@@ -1074,9 +1074,11 @@ if (typeof GAME === 'undefined') { } else {
                 });
                 $("body").on("click", "#changeProfilePrev", () => {
                     this.goToPreviousChar();
+                    this.resetCalculatedPower();
                 });
                 $("body").on("click", "#changeProfileNext", () => {
                     this.goToNextChar();
+                    this.resetCalculatedPower();
                 });
                 $("body").on("click", `button[data-page="stelep"].cps`, () => {
                     $("#clan_inner_stelep").attr("style", "");
@@ -1544,8 +1546,8 @@ if (typeof GAME === 'undefined') { } else {
                 }
             }
             resetCalculatedPower() {
-                this.baselinePower = GAME.char_data.moc;
-                this.baselineLevel = GAME.char_data.level;
+                this.baselinePower = undefined;
+                this.baselineLevel = undefined;
             }
             showAdditionalTopBar() {
                 $("#game_win")[0].style.marginTop = '30px';
