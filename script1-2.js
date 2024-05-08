@@ -1549,12 +1549,13 @@ if (typeof GAME === 'undefined') { } else {
             }
             showAdditionalTopBar() {
                 $("#game_win")[0].style.marginTop = '30px';
-                document.querySelector("#top_bar").style.height = '60px';
+                $("#top_bar").style.height = '60px';
+                $(".kws_additional_top_bar")[0].style.marginTop = '30px';
                 $(".kws_additional_top_bar")[0].style.display = 'block';
             }
             hideAdditionalTopBar() {
                 $(".kws_additional_top_bar")[0].style.display = 'none';
-                document.querySelector("#top_bar").style.height = '30px';
+                $("#top_bar").style.height = '30px';
                 $("#game_win")[0].style.marginTop = '0px';
             }
             checkTournamentsSigning() {
