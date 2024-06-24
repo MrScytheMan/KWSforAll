@@ -1597,19 +1597,25 @@ if (typeof GAME === 'undefined') { } else {
                 var currentServerTime = new Date(GAME.getTime()*1000);
                 var currentServerHour = currentServerTime.getHours();
                 var currentServerMinute = currentServerTime.getMinutes();
-                if(currentServerHour > 21 && currentServerHour < 18) {
+                if(currentServerHour > 20 && currentServerHour < 18) {
                     this.tourSigned = false;
+                    this.tournamentCategory = undefined;
+                    this.newTournamentID = undefined;
                 } else if (!this.tourSigned) {
-                    if (currentServerMinute > 10) {
+                    if ((currentServerHour == 18 && currentServerMinute > 9) || (currentServerHour > 18 && currentServerHour < 21)) {
+                        if(GAME.char_data.id)
                         this.tourSigned = true;
                         this.findTournamentCategory();
-                        if (this.tournamentCategory <= 54) {
-                            setTimeout(() => { GAME.emitOrder({a:57,type:0,type2:0,page:1});  }, 1000);
-                        } else {
-                            setTimeout(() => { GAME.emitOrder({a:57,type:0,type2:0,page:2}); }, 1000);
-                        }
-                        setTimeout(() => { GAME.emitOrder({a:57,type:1,tid:this.newTournamentID});  }, 2000);
-                        setTimeout(() => { GAME.emitOrder({a:57,type:4});  }, 3000);
+                        setTimeout(() => {
+                            if (this.tournamentCategory <= 54) {
+                                GAME.emitOrder({a: 57, type: 0, type2: 0, page: 1});
+                            } else {
+                                GAME.emitOrder({a: 57, type: 0, type2: 0, page: 2});
+                            }
+                        }, 500);
+                        setTimeout(() => { GAME.emitOrder({a: 57, type: 1, tid: this.newTournamentID}); }, 1000);
+                        setTimeout(() => { GAME.emitOrder({a: 57, type: 4}); }, 1500);
+                        setTimeout(() => { kom_clear(); }, 2000);
                     }
                 }
             }
@@ -1996,6 +2002,11 @@ if (typeof GAME === 'undefined') { } else {
                 if ($(".manage_autoExpeditions").eq(0).hasClass("kws_active_icon")) {
                     $(".manage_autoExpeditions").click();
                 }
+                setTimeout(() => {
+                    this.tourSigned = false;
+                    this.tournamentCategory = undefined;
+                    this.newTournamentID = undefined;
+                }, 1000);
             }
         }
         const kws = new kwsv3(kwsLocalCharacters);
