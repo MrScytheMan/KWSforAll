@@ -27,6 +27,7 @@ if (typeof GAME === 'undefined') { } else {
                         writable: false
                     });
                 });
+                this.isCheckingTournaments = false;
                 this.tournamentCategory = undefined;
                 this.newTournamentID = undefined;
                 this.tourSigned = false;
@@ -1594,6 +1595,8 @@ if (typeof GAME === 'undefined') { } else {
                 }
             }
             checkTournamentsSigning() {
+                if(this.isCheckingTournaments) { return; }
+                this.isCheckingTournaments = true;
                 var currentServerTime = new Date(GAME.getTime()*1000);
                 var currentServerHour = currentServerTime.getHours();
                 var currentServerMinute = currentServerTime.getMinutes();
@@ -1621,8 +1624,12 @@ if (typeof GAME === 'undefined') { } else {
                         setTimeout(() => { console.log("KWA_TOURNAMENTS: sign in player");GAME.emitOrder({a: 57, type: 1, tid: this.newTournamentID}); }, 1000);
                         setTimeout(() => { console.log("KWA_TOURNAMENTS: sign in all pets");GAME.emitOrder({a: 57, type: 4}); }, 1500);
                         setTimeout(() => { console.log("KWA_TOURNAMENTS: clear popups");kom_clear(); }, 2000);
+                        this.setTimerForTournamentsReset();
                     }
                 }
+            }
+            setTimerForTournamentsReset() {
+                setTimeout(() => { this.isCheckingTournaments = false; }, 30000);
             }
             createAlternativePilot() {
                 document.getElementById('map_pilot').style.width = '512px';
