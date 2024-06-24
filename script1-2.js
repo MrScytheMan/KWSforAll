@@ -1030,34 +1030,34 @@ if (typeof GAME === 'undefined') { } else {
                 return `<b class="orange">[~${lvls_gained} lvl'i]</b>`;
             }
             handleSockets(res) {
-                if (!this.stopped) {
-                    switch (res.a) {
-                        case 7: //?? PvP fight result?
-                            if (!this.stopped) {
-                                if("result" in res && res.result && "reward" in res.result && res.result.reward && "arena_exp" in res.result.reward && res.result.reward.arena_exp && res.result.result === 1) {
-                                    this.arena_count();
-                                } else if ("result" in res && res.result && "reward" in res.result && res.result.reward && "empire_war" in res.result.reward && res.result.reward.empire_war && res.result.result === 1) {
-                                    this.pvp_count();
-                                } else {
-                                    break;
-                                }
+                console.log("KWA_HANDLE_SOCKETS: res.a == %s", res.a);
+                switch (res.a) {
+                    case 7: //?? PvP fight result?
+                        if (!this.stopped) {
+                            if("result" in res && res.result && "reward" in res.result && res.result.reward && "arena_exp" in res.result.reward && res.result.reward.arena_exp && res.result.result === 1) {
+                                this.arena_count();
+                            } else if ("result" in res && res.result && "reward" in res.result && res.result.reward && "empire_war" in res.result.reward && res.result.reward.empire_war && res.result.result === 1) {
+                                this.pvp_count();
                             } else {
                                 break;
                             }
-                        case 57: //Tournament related
-                            if(res.tours) {
-                                if (res.a === 57 && res.tours) {
-                                    const foundCatObject = res.tours.find(tour => tour.cat === this.tournamentCategory);
-                                    if (foundCatObject) {
-                                        this.newTournamentID = foundCatObject.id;
-                                    }
-                                }
-                            } else {
-                                break;
-                            }
-                        default:
+                        } else {
                             break;
-                    }
+                        }
+                    case 57: //Tournament related
+                        if(res.tours) {
+                            if (res.a === 57 && res.tours) {
+                                const foundCatObject = res.tours.find(tour => tour.cat === this.tournamentCategory);
+                                if (foundCatObject) {
+                                    this.newTournamentID = foundCatObject.id;
+                                }
+                            }
+                        } else {
+                            break;
+                        }
+                    default:
+                        console.log("KWA_HANDLE_SOCKETS: unhandeled response");
+                        break;
                 }
             }
             createCSS() {
