@@ -1600,7 +1600,7 @@ if (typeof GAME === 'undefined') { } else {
                 if(currentServerHour > 21 && currentServerHour < 18) {
                     this.tourSigned = false;
                 } else if (!this.tourSigned) {
-                    if (!this.firstTournamentPageLoaded && currentServerMinute > 10) {
+                    if (currentServerMinute > 10) {
                         this.tourSigned = true;
                         this.findTournamentCategory();
                         if (kategoriaTurniej <= 54) {
