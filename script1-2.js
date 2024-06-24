@@ -1597,25 +1597,30 @@ if (typeof GAME === 'undefined') { } else {
                 var currentServerTime = new Date(GAME.getTime()*1000);
                 var currentServerHour = currentServerTime.getHours();
                 var currentServerMinute = currentServerTime.getMinutes();
+                console.log("KWA_TOURNAMENTS: Check tournaments sign");
                 if(currentServerHour > 20 && currentServerHour < 18) {
+                    console.log("KWA_TOURNAMENTS: Wrong hours, reset values");
                     this.tourSigned = false;
                     this.tournamentCategory = undefined;
                     this.newTournamentID = undefined;
                 } else if (!this.tourSigned) {
+                    console.log("KWA_TOURNAMENTS: not signed");
                     if ((currentServerHour == 18 && currentServerMinute > 9) || (currentServerHour > 18 && currentServerHour < 21)) {
-                        if(GAME.char_data.id)
+                        console.log("KWA_TOURNAMENTS: correct time");
                         this.tourSigned = true;
                         this.findTournamentCategory();
+                        console.log("KWA_TOURNAMENTS: tournament category fetched");
                         setTimeout(() => {
+                            console.log("KWA_TOURNAMENTS: fetch tournaments IDs");
                             if (this.tournamentCategory <= 54) {
                                 GAME.emitOrder({a: 57, type: 0, type2: 0, page: 1});
                             } else {
                                 GAME.emitOrder({a: 57, type: 0, type2: 0, page: 2});
                             }
                         }, 500);
-                        setTimeout(() => { GAME.emitOrder({a: 57, type: 1, tid: this.newTournamentID}); }, 1000);
-                        setTimeout(() => { GAME.emitOrder({a: 57, type: 4}); }, 1500);
-                        setTimeout(() => { kom_clear(); }, 2000);
+                        setTimeout(() => { console.log("KWA_TOURNAMENTS: sign in player");GAME.emitOrder({a: 57, type: 1, tid: this.newTournamentID}); }, 1000);
+                        setTimeout(() => { console.log("KWA_TOURNAMENTS: sign in all pets");GAME.emitOrder({a: 57, type: 4}); }, 1500);
+                        setTimeout(() => { console.log("KWA_TOURNAMENTS: clear popups");kom_clear(); }, 2000);
                     }
                 }
             }
@@ -1987,6 +1992,7 @@ if (typeof GAME === 'undefined') { } else {
                 }
             }
             resetAFO() {
+                console.log("KWA_RESET_AFO: reset AFO values");
                 if ($("#resp_Panel .resp_status").eq(0).hasClass("green")) {
                     $("#resp_Panel .resp_button.resp_resp").click();
                 }
@@ -2003,6 +2009,7 @@ if (typeof GAME === 'undefined') { } else {
                     $(".manage_autoExpeditions").click();
                 }
                 setTimeout(() => {
+                    console.log("KWA_RESET_AFO: reset tournaments values");
                     this.tourSigned = false;
                     this.tournamentCategory = undefined;
                     this.newTournamentID = undefined;
