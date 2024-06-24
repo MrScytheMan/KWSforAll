@@ -27,6 +27,8 @@ if (typeof GAME === 'undefined') { } else {
                         writable: false
                     });
                 });
+                this.tournamentCategory = undefined;
+                this.newTournamentID = undefined;
                 this.tourSigned = false;
                 this.firstTournamentPageLoaded = false;
                 this.settings = this.getSettings();
@@ -1028,10 +1030,32 @@ if (typeof GAME === 'undefined') { } else {
             }
             handleSockets(res) {
                 if (!this.stopped) {
-                    if (res.a === 7 && "result" in res && res.result && "reward" in res.result && res.result.reward && "arena_exp" in res.result.reward && res.result.reward.arena_exp && res.result.result === 1) {
-                        this.arena_count();
-                    } else if (res.a === 7 && "result" in res && res.result && "reward" in res.result && res.result.reward && "empire_war" in res.result.reward && res.result.reward.empire_war && res.result.result === 1) {
-                        this.pvp_count();
+                    switch (res.a) {
+                        case 7: //?? PvP fight result?
+                            if (!this.stopped) {
+                                if("result" in res && res.result && "reward" in res.result && res.result.reward && "arena_exp" in res.result.reward && res.result.reward.arena_exp && res.result.result === 1) {
+                                    this.arena_count();
+                                } else if ("result" in res && res.result && "reward" in res.result && res.result.reward && "empire_war" in res.result.reward && res.result.reward.empire_war && res.result.result === 1) {
+                                    this.pvp_count();
+                                } else {
+                                    break;
+                                }
+                            } else {
+                                break;
+                            }
+                        case 57: //Tournament related
+                            if(res.tours) {
+                                if (res.a === 57 && res.tours) {
+                                    const foundCatObject = res.tours.find(tour => tour.cat === this.tournamentCategory);
+                                    if (foundCatObject) {
+                                        this.newTournamentID = foundCatObject.id;
+                                    }
+                                }
+                            } else {
+                                break;
+                            }
+                        default:
+                            break;
                     }
                 }
             }
@@ -1560,44 +1584,32 @@ if (typeof GAME === 'undefined') { } else {
                 $("#top_bar")[0].style.height = '30px';
                 $("#game_win")[0].style.marginTop = '0px';
             }
+            findTournamentCategory() {
+                for (var type = 2; type <= 2; type++) {
+                    for (var cat = 1; cat <= 69; cat++) {
+                        if (GAME.isYourTourCat(type, cat, GAME.char_data.reborn, GAME.char_data.level)) {
+                            this.tournamentCategory = cat;
+                        }
+                    }
+                }
+            }
             checkTournamentsSigning() {
                 var currentServerTime = new Date(GAME.getTime()*1000);
                 var currentServerHour = currentServerTime.getHours();
                 var currentServerMinute = currentServerTime.getMinutes();
                 if(currentServerHour > 21 && currentServerHour < 18) {
                     this.tourSigned = false;
-                    this.firstTournamentPageLoaded = false;
-                } else {
+                } else if (!this.tourSigned) {
                     if (!this.firstTournamentPageLoaded && currentServerMinute > 10) {
-                        GAME.emitOrder({ a: 57, type: 0, type2: 0, page: 1 });
-                        this.firstTournamentPageLoaded = true;
-                    }
-                    if (this.firstTournamentPageLoaded && !this.tourSigned) {
-                        setTimeout(() => {
-                            this.handleTournamentsSign();
-                        }, 200);
-                    }
-                }
-            }
-            handleTournamentsSign() {
-                if(this.tourSigned) { return }
-                var currentServerTime = new Date(GAME.getTime()*1000);
-                var currentServerHour = currentServerTime.getHours();
-                var currentServerMinute = currentServerTime.getMinutes();
-                if((currentServerHour == 18 && currentServerMinute > 10) || (currentServerHour > 18 && currentServerHour < 21)) {
-                    var tourSignButton = $("[data-option=tournament_sign]");
-                    if(tourSignButton.length == 0) {
-                        GAME.emitOrder({ a: 57, type: 0, type2: 0, page: 2 });
-                        setTimeout(() => {
-                            this.handleTournamentsSign();
-                        }, 200);
-                    } else {
                         this.tourSigned = true;
-                        var tid = tourSignButton[0].getAttribute("data-tid");
-                        GAME.emitOrder({a:57,type:1,tid:tid});
-                        setTimeout(() => {
-                            GAME.emitOrder({a:57,type:4});
-                        }, 600);
+                        this.findTournamentCategory();
+                        if (kategoriaTurniej <= 54) {
+                            setTimeout(() => { GAME.emitOrder({a:57,type:0,type2:0,page:1});  }, 1000);
+                        } else {
+                            setTimeout(() => { GAME.emitOrder({a:57,type:0,type2:0,page:2}); }, 1000);
+                        }
+                        setTimeout(() => { GAME.emitOrder({a:57,type:1,tid:this.newTournamentID});  }, 2000);
+                        setTimeout(() => { GAME.emitOrder({a:57,type:4});  }, 3000);
                     }
                 }
             }
