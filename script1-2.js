@@ -1603,7 +1603,7 @@ if (typeof GAME === 'undefined') { } else {
                     if (currentServerMinute > 10) {
                         this.tourSigned = true;
                         this.findTournamentCategory();
-                        if (kategoriaTurniej <= 54) {
+                        if (this.tournamentCategory <= 54) {
                             setTimeout(() => { GAME.emitOrder({a:57,type:0,type2:0,page:1});  }, 1000);
                         } else {
                             setTimeout(() => { GAME.emitOrder({a:57,type:0,type2:0,page:2}); }, 1000);
