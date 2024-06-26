@@ -1629,7 +1629,7 @@ if (typeof GAME === 'undefined') { } else {
                 }
             }
             setTimerForTournamentsReset() {
-                setTimeout(() => { this.isCheckingTournaments = false; }, 30000);
+                setTimeout(() => { this.isCheckingTournaments = false; }, 5000);
             }
             createAlternativePilot() {
                 document.getElementById('map_pilot').style.width = '512px';
