@@ -27,6 +27,9 @@ if (typeof GAME === 'undefined') { } else {
                         writable: false
                     });
                 });
+                this.isCheckingTournaments = false;
+                this.tournamentCategory = undefined;
+                this.newTournamentID = undefined;
                 this.tourSigned = false;
                 this.firstTournamentPageLoaded = false;
                 this.settings = this.getSettings();
@@ -718,7 +721,7 @@ if (typeof GAME === 'undefined') { } else {
                 let calculated_levels = GAME.dots(GAME.char_data.level - this.baselineLevel);
                 $(".kws_additional_top_bar").html(` <span class='kws_additional_top_bar_section pvm_power' style='cursor:pointer;'>ZDOBYTA MOC: <span style="color:lime;">${calculated_power}</span></span> <span class='kws_additional_top_bar_section future_stats' style='cursor:pointer;'>${futureStats}</span><span class='kws_additional_top_bar_section lvlsGained' style='cursor:pointer;'>ZDOBYTE LVL: <span>${calculated_levels}</span></span><span class='kws_additional_top_bar_section psk' style='cursor:pointer;'>PSK: ${GAME.dots(GAME.char_data.minor_ball)}</span> ${calculatedPowerReset}`);
                 this.adjustCurrentCharacterId();
-                // this.checkTournamentsSigning();
+                this.checkTournamentsSigning();
             }
             collectActivities() {
                 let received = $("#act_prizes").find("div.act_prize.disabled").length;
@@ -1027,12 +1030,34 @@ if (typeof GAME === 'undefined') { } else {
                 return `<b class="orange">[~${lvls_gained} lvl'i]</b>`;
             }
             handleSockets(res) {
-                if (!this.stopped) {
-                    if (res.a === 7 && "result" in res && res.result && "reward" in res.result && res.result.reward && "arena_exp" in res.result.reward && res.result.reward.arena_exp && res.result.result === 1) {
-                        this.arena_count();
-                    } else if (res.a === 7 && "result" in res && res.result && "reward" in res.result && res.result.reward && "empire_war" in res.result.reward && res.result.reward.empire_war && res.result.result === 1) {
-                        this.pvp_count();
-                    }
+                console.log("KWA_HANDLE_SOCKETS: res.a == %s", res.a);
+                switch (res.a) {
+                    case 7: //?? PvP fight result?
+                        if (!this.stopped) {
+                            if("result" in res && res.result && "reward" in res.result && res.result.reward && "arena_exp" in res.result.reward && res.result.reward.arena_exp && res.result.result === 1) {
+                                this.arena_count();
+                            } else if ("result" in res && res.result && "reward" in res.result && res.result.reward && "empire_war" in res.result.reward && res.result.reward.empire_war && res.result.result === 1) {
+                                this.pvp_count();
+                            } else {
+                                break;
+                            }
+                        } else {
+                            break;
+                        }
+                    case 57: //Tournament related
+                        if(res.tours) {
+                            if (res.a === 57 && res.tours) {
+                                const foundCatObject = res.tours.find(tour => tour.cat === this.tournamentCategory);
+                                if (foundCatObject) {
+                                    this.newTournamentID = foundCatObject.id;
+                                }
+                            }
+                        } else {
+                            break;
+                        }
+                    default:
+                        console.log("KWA_HANDLE_SOCKETS: unhandeled response");
+                        break;
                 }
             }
             createCSS() {
@@ -1560,46 +1585,51 @@ if (typeof GAME === 'undefined') { } else {
                 $("#top_bar")[0].style.height = '30px';
                 $("#game_win")[0].style.marginTop = '0px';
             }
-            checkTournamentsSigning() {
-                var currentServerTime = new Date(GAME.getTime()*1000);
-                var currentServerHour = currentServerTime.getHours();
-                var currentServerMinute = currentServerTime.getMinutes();
-                if(currentServerHour > 21 && currentServerHour < 18) {
-                    this.tourSigned = false;
-                    this.firstTournamentPageLoaded = false;
-                } else {
-                    if (!this.firstTournamentPageLoaded && currentServerMinute > 10) {
-                        GAME.emitOrder({ a: 57, type: 0, type2: 0, page: 1 });
-                        this.firstTournamentPageLoaded = true;
-                    }
-                    if (this.firstTournamentPageLoaded && !this.tourSigned) {
-                        setTimeout(() => {
-                            this.handleTournamentsSign();
-                        }, 200);
+            findTournamentCategory() {
+                for (var type = 2; type <= 2; type++) {
+                    for (var cat = 1; cat <= 69; cat++) {
+                        if (GAME.isYourTourCat(type, cat, GAME.char_data.reborn, GAME.char_data.level)) {
+                            this.tournamentCategory = cat;
+                        }
                     }
                 }
             }
-            handleTournamentsSign() {
-                if(this.tourSigned) { return }
+            checkTournamentsSigning() {
+                if(this.isCheckingTournaments) { return; }
+                this.isCheckingTournaments = true;
                 var currentServerTime = new Date(GAME.getTime()*1000);
                 var currentServerHour = currentServerTime.getHours();
                 var currentServerMinute = currentServerTime.getMinutes();
-                if((currentServerHour == 18 && currentServerMinute > 10) || (currentServerHour > 18 && currentServerHour < 21)) {
-                    var tourSignButton = $("[data-option=tournament_sign]");
-                    if(tourSignButton.length == 0) {
-                        GAME.emitOrder({ a: 57, type: 0, type2: 0, page: 2 });
-                        setTimeout(() => {
-                            this.handleTournamentsSign();
-                        }, 200);
-                    } else {
+                console.log("KWA_TOURNAMENTS: Check tournaments sign");
+                if(currentServerHour > 20 && currentServerHour < 18) {
+                    console.log("KWA_TOURNAMENTS: Wrong hours, reset values");
+                    this.tourSigned = false;
+                    this.tournamentCategory = undefined;
+                    this.newTournamentID = undefined;
+                } else if (!this.tourSigned) {
+                    console.log("KWA_TOURNAMENTS: not signed");
+                    if ((currentServerHour == 18 && currentServerMinute > 9) || (currentServerHour > 18 && currentServerHour < 21)) {
+                        console.log("KWA_TOURNAMENTS: correct time");
                         this.tourSigned = true;
-                        var tid = tourSignButton[0].getAttribute("data-tid");
-                        GAME.emitOrder({a:57,type:1,tid:tid});
+                        this.findTournamentCategory();
+                        console.log("KWA_TOURNAMENTS: tournament category fetched");
                         setTimeout(() => {
-                            GAME.emitOrder({a:57,type:4});
-                        }, 600);
+                            console.log("KWA_TOURNAMENTS: fetch tournaments IDs");
+                            if (this.tournamentCategory <= 54) {
+                                GAME.emitOrder({a: 57, type: 0, type2: 0, page: 1});
+                            } else {
+                                GAME.emitOrder({a: 57, type: 0, type2: 0, page: 2});
+                            }
+                        }, 500);
+                        setTimeout(() => { console.log("KWA_TOURNAMENTS: sign in player");GAME.emitOrder({a: 57, type: 1, tid: this.newTournamentID}); }, 1000);
+                        setTimeout(() => { console.log("KWA_TOURNAMENTS: sign in all pets");GAME.emitOrder({a: 57, type: 4}); }, 1500);
+                        setTimeout(() => { console.log("KWA_TOURNAMENTS: clear popups");kom_clear(); }, 2000);
+                        this.setTimerForTournamentsReset();
                     }
                 }
+            }
+            setTimerForTournamentsReset() {
+                setTimeout(() => { this.isCheckingTournaments = false; }, 5000);
             }
             createAlternativePilot() {
                 document.getElementById('map_pilot').style.width = '512px';
@@ -1969,6 +1999,7 @@ if (typeof GAME === 'undefined') { } else {
                 }
             }
             resetAFO() {
+                console.log("KWA_RESET_AFO: reset AFO values");
                 if ($("#resp_Panel .resp_status").eq(0).hasClass("green")) {
                     $("#resp_Panel .resp_button.resp_resp").click();
                 }
@@ -1984,6 +2015,12 @@ if (typeof GAME === 'undefined') { } else {
                 if ($(".manage_autoExpeditions").eq(0).hasClass("kws_active_icon")) {
                     $(".manage_autoExpeditions").click();
                 }
+                setTimeout(() => {
+                    console.log("KWA_RESET_AFO: reset tournaments values");
+                    this.tourSigned = false;
+                    this.tournamentCategory = undefined;
+                    this.newTournamentID = undefined;
+                }, 1000);
             }
         }
         const kws = new kwsv3(kwsLocalCharacters);
@@ -2387,7 +2424,7 @@ if (typeof GAME === 'undefined') { } else {
         let roll2 = false;
         let roll1 = false;
         let roll3 = false;
-        let version = '3.4.5';
+        let version = '3.4.6';
     }
     )
 }

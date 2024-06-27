@@ -1549,15 +1549,15 @@ if (typeof GAME === 'undefined') {} else {
                 SENZU_MAGIC: 'SENZU_MAGIC',
                 SENZU_PURPLE: 'SENZU_PURPLE',
                 CONF_BLUE_AMOUNT: () => {
-                    return Math.floor(GAME.getCharMaxPr() / 100 * 0.7)
+                    return Math.floor(GAME.getCharMaxPr() / 100 * 0.9999)
                 },
-                CONF_BLUE_AMOUNT1: Math.floor(GAME.getCharMaxPr() / 100 * 0.7),
-                CONF_PURPLE_AMOUNT: 20,
+                CONF_BLUE_AMOUNT1: Math.floor(GAME.getCharMaxPr() / 100 * 0.9999),
+                CONF_PURPLE_AMOUNT: 30,
                 CONF_GREEN_AMOUNT: () => {
-                    return Math.floor(GAME.getCharMaxPr() / 2000 * 0.7)
+                    return Math.floor(GAME.getCharMaxPr() / 2000 * 0.9999)
                 },
-                CONF_GREEN_AMOUNT1: Math.floor(GAME.getCharMaxPr() / 2000 * 0.7),
-                CONF_YELLOW_AMOUNT: 4,
+                CONF_GREEN_AMOUNT1: Math.floor(GAME.getCharMaxPr() / 2000 * 0.9999),
+                CONF_YELLOW_AMOUNT: 6,
                 CONF_SENZU: false,
                 bless: false,
                 checkOST_timer: 0,
