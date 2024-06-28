@@ -1534,7 +1534,7 @@ if (typeof GAME === 'undefined') {} else {
                 return res;
             };
             var RESP = {
-                wait: 10,
+                wait: 1,
                 stop: true,
                 checkOST: true,
                 checkSSJ: true,
