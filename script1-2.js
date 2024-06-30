@@ -96,7 +96,6 @@ if (typeof GAME === 'undefined') { } else {
                 setInterval(() => {
                     if ('char_data' in GAME) {
                         this.updateTopBar();
-                        console.log("Updating top bar...");
                     }
                 }, 1000);
                 this.setWebsiteBackground();
