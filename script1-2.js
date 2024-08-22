@@ -899,6 +899,8 @@ if (typeof GAME === 'undefined') { } else {
                             type: 6,
                             id: fb_id
                         });
+                    } else if (GAME.quest_action && GAME.quest_action_count < GAME.quest_action_max) {
+                        GAME.questAction() 
                     } else if ($(".quest_win .sekcja").text().toLowerCase() === "nuda" && $("button[data-option=finish_quest]").length === 3) {
                         let qb_id = $("button[data-option=finish_quest]").attr("data-qb_id");
                         GAME.socket.emit('ga', {
