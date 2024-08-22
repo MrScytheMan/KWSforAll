@@ -1020,6 +1020,8 @@ if (typeof GAME === 'undefined') { } else {
                             type: 8,
                             mid: qb_id
                         });
+                    } else if ($(".quest_action").is(":visible")) {
+                        GAME.questAction() 
                     }
                     setTimeout(() => {
                         $('#fight_view').fadeOut();
