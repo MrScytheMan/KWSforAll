@@ -930,7 +930,7 @@ if (typeof GAME === 'undefined') {} else {
                 higherRebornAvoid: false,
                 caseNumber: 0,
                 wait: 10,
-                wait2: 80,
+                wait2: 30,
                 czekajpvp: 160,
                 WSP: 50,
                 licznik: 0,
@@ -1165,7 +1165,7 @@ if (typeof GAME === 'undefined') {} else {
                             quick: 1
                         });
                         PVP.licznik++;
-                        window.setTimeout(PVP.kill_players, PVP.czekajpvp / PVP.WSPP());
+                        window.setTimeout(PVP.kill_players, 105);
                     } else {
                         GAME.socket.emit('ga', {
                             a: 24,
@@ -1173,7 +1173,7 @@ if (typeof GAME === 'undefined') {} else {
                             quick: 1
                         });
                         PVP.licznik++;
-                        window.setTimeout(PVP.kill_players, PVP.czekajpvp / PVP.WSPP());
+                        window.setTimeout(PVP.kill_players, 105);
                     }
                 } else {
                     window.setTimeout(PVP.start, PVP.wait / PVP.WSPP());
