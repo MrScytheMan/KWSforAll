@@ -986,7 +986,7 @@ if (typeof GAME === 'undefined') {} else {
                 higherRebornAvoid: false,
                 caseNumber: 0,
                 wait: 10,
-                wait2: 80,
+                wait2: 30,
                 czekajpvp: 160,
                 WSP: 50,
                 licznik: 0,
