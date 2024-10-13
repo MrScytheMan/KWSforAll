@@ -123,6 +123,8 @@ if (typeof GAME === 'undefined') { } else {
                 let riddle = this.riddles.find((r) => r.id == r_id);
                 if (riddle) {
                     $("input[id=quest_riddle]").val(riddle.answer);
+                } else {
+                    console.log('riddle id: ', r_id)
                 }
             }
             getSettings() {
