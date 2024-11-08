@@ -308,7 +308,7 @@ if (typeof GAME === 'undefined') { } else {
                                 a: 8,
                                 type: 3
                             });
-                        } else if (this.auto_arena && !isNaN(opponent)) { } else if (GAME.char_tables.timed_actions[0] == undefined || GAME.char_tables.timed_actions[1] == undefined && GAME.char_data.bonus16 > GAME.getTime()) {
+                        } else if (this.auto_arena && !isNaN(opponent)) { } else if (GAME.char_tables.timed_actions[0] == undefined || (! this.auto_arena && GAME.char_tables.timed_actions[1] == undefined && GAME.char_data.bonus16 > GAME.getTime())) {
                             GAME.socket.emit('ga', {
                                 a: 10,
                                 type: 2,
