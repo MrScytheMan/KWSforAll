@@ -430,6 +430,9 @@ if (typeof GAME === 'undefined') { } else {
                     komunikat();
                 }, 1000);
             }
+            petChange() {
+                console.log("active");
+            }
             activateAllClanBuffs() {
                 let abut = $("#clan_buffs").find(`button[data-option="activate_war_buff"]`);
                 let isDisabled = $("#clan_buffs").find(`button[data-option="activate_war_buff"]`).parents("tr").hasClass("disabled");
@@ -1103,6 +1106,20 @@ if (typeof GAME === 'undefined') { } else {
                         blessInterval = setInterval(this.autobless, 11000);
                         isAutoBlessActive = true;
                         console.log("Automatyczne błogosławienie zostało włączone.");
+                      }
+                });
+                let petBonusChangeStatus = false;
+                let petInterval = null;
+                $("body").on("click", '.pet_bonus_change', () => {
+                    if (petBonusChangeStatus) {
+                        clearInterval(petInterval);
+                        petInterval = null;
+                        petBonusChangeStatus = false;
+                        console.log("Automatyczne mieszanie peta zostało wyłączone.");
+                      } else {
+                        petInterval = setInterval(this.petChange, 1000);
+                        petBonusChangeStatus = true;
+                        console.log("Automatyczne mieszanie peta zostało włączone.");
                       }
                 });
                 $("body").on("click", ".activate_all_clan_buffs", () => {
