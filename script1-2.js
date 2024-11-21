@@ -73,6 +73,7 @@ if (typeof GAME === 'undefined') { } else {
                     border: 0px solid #973804;
                 }`);
                 this.addToCSS(`.kws_additional_top_bar{float:left !important; position: absolute; z-index: -1; display: none} .kws_additional_top_bar_section{color:white;padding:3px 5px 3px 5px;border-radius:5px;margin-right:8px;user-select:none;}`);
+                this.addToCSS(`#bonusMenu {display: none; position: absolute; top: 80px; right: 5px; padding: 10px; background: rgba(48, 49, 49, 0.8); border: solid #ffffff7a 1px; border-radius: 5px; z-index: 10; } #bonusMenu select { margin: 5px 0; background: #ffffff99; border: solid #6f6f6f 1px; border-radius: 5px; color: black; }`);
                 $("#top_bar").append(`<div class="kws_top_bar"></div>`);
                 $("#top_bar").append(`<div class="kws_additional_top_bar"></div>`);
                 $("#bless_type_2").click();
@@ -80,7 +81,7 @@ if (typeof GAME === 'undefined') { } else {
                 $("#clan_inner_planets h3").eq(0).append(`<button id="poka_telep" style="margin-left:5px;" class="newBtn">pokaż / ukryj salę telep</button>`);
                 $(`<button class="newBtn free_assist_for_all" style="margin-right:5px;">Asystuj wszystkim za darmo</button>`).insertBefore(`button[data-option="clan_assist_all"]`);
                 $(`<button class="gold_button auto_bless">AUTOMAT</button>`).insertBefore(`button[data-option="grant_buff"]`);
-                $(`<button class="newBtn pet_bonus_change" style="margin-right:4ch;">KWA ZMIEŃ</button>`).insertBefore(`button[data-option="pet_bonch_go"]`);
+                $(`<div id="bonusMenu"> <div><b>Wybierz bonusy:</b></div> ${generateBonusSelects(4)} <div><b>Wybierz ID Peta:</b></div> <select id="petIdSelect"> ${generatePetOptions()} </select> <button id="startButton">Start</button> </div>`)
                 $("#clan_inner_wars h3").eq(0).append(` <button class="newBtn activate_all_clan_buffs">Aktywuj wszystkie buffy</button>`);
                 $(`#minimap_con`).append(`<div id="kws_locInfo"><div class="sekcja">INFORMACJE O LOKACJI</div><div class="content"></div></div>`);
                 $("#sett_page_local div").eq(0).prepend(`<b class="green">Zmień tło strony </b><div class="game_input"><input id="new_website_bg" style="width:370px;" type="text"></div><button class="option newBtn kws_change_website_bg" style="margin-left:5px;">Zmień</button><button class="option newBtn kws_reset_website_bg" style="margin-left:5px;">Reset</button><br><br>`);
@@ -430,9 +431,54 @@ if (typeof GAME === 'undefined') { } else {
                     komunikat();
                 }, 1000);
             }
-            petChange() {
-                console.log("active");
+            generateBonusSelects(count) {
+                let options = `<option value="0">Brak</option>
+                               <option value="1">% do siły</option>
+                               <option value="2">% do szybkości</option>
+                               <option value="3">% do wytrzymałości</option>
+                               <option value="4">% do siły woli</option>
+                               <option value="5">% do energii ki</option>
+                               <option value="6">% do wszystkich statystyk</option>
+                               <option value="7">% do efektywności treningu</option>
+                               <option value="8">% do rezultatu treningu</option>
+                               <option value="9">% do szansy na podwójnie efektywny bonus za ulepszenie treningu</option>
+                               <option value="10">% do max Punktów Akcji</option>
+                               <option value="11"> do przyrostu Punktów Akcji</option>
+                               <option value="12">% do przyrostu Punktów Akcji</option>
+                               <option value="13">% do doświadczenia</option>
+                               <option value="14">% do szansy na zdobycie przedmiotu z walk PvM</option>
+                               <option value="15">% do ilości mocy z walk PvM</option>
+                               <option value="16">% do szansy na moc z walk PvM</option>
+                               <option value="17">% do mocy za skompletowanie SK</option>
+                               <option value="18">% do mocy za skompletowanie PSK</option>
+                               <option value="19">% do mocy za wygrane walki wojenne</option>
+                               <option value="20">% do obrażeń</option>
+                               <option value="21">% do obrażeń od technik</option>
+                               <option value="22">% do obrażeń od trafień krytycznych</option>
+                               <option value="23">% do redukcji obrażeń</option>
+                               <option value="24">% redukcji obrażeń od technik</option>
+                               <option value="25">% do redukcji szansy na otrzymanie trafienia krytycznego</option>
+                               <option value="26">% redukcji obrażeń od trafień krytycznych</option>
+                               <option value="27">% do szansy na trafienie krytyczne</option>
+                               <option value="28">% do odporności na krwawienia</option>
+                               <option value="29">% do skuteczności krwawień</option>
+                               <option value="30">% do odporności na podpalenia</option>
+                               <option value="31">% do skuteczności podpaleń</option>
+                               `;
+                let selects = '';
+                for (let i = 0; i < count; i++) {
+                  selects += `<select>${options}</select>`;
+                }
+                return selects;
             }
+            generatePetOptions() {
+                let options = '';
+                for (let i = 1; i <= 100; i++) {
+                  options += `<option value="${i}">Pet ${i}</option>`;
+                }
+                return options;
+              }
+            
             activateAllClanBuffs() {
                 let abut = $("#clan_buffs").find(`button[data-option="activate_war_buff"]`);
                 let isDisabled = $("#clan_buffs").find(`button[data-option="activate_war_buff"]`).parents("tr").hasClass("disabled");
@@ -1109,23 +1155,41 @@ if (typeof GAME === 'undefined') { } else {
                       }
                 });
                 $("body").on("click", 'button[data-option="pet_bonch"]', () => {
-                    $(".pet_bonus_change").show();
+                    $(`#bonusMenu`).show();
                 });
-                let petBonusChangeStatus = false;
-                let petInterval = null;
-                
-                $("body").on("click", '.pet_bonus_change', () => {
-                    if (petBonusChangeStatus) {
-                        clearInterval(petInterval);
-                        petInterval = null;
-                        petBonusChangeStatus = false;
-                        console.log("Automatyczne mieszanie peta zostało wyłączone.");
+                $("body").on("click", "#bonusMenu .startButton", () => {
+                    const selectedOptions = Array.from($('#bonusMenu select').not('#petIdSelect'))
+                    .map(select => {
+                      const value = select.value;
+                      const optionText = select.options[select.selectedIndex].text;
+                      return value !== "0" ? optionText : null;
+                    })
+                    .filter(option => option !== null);
+                  let intervalId;
+                  function checkAndSendData() {
+                    var container = document.querySelector("#kom_con > div > div.content > div");
+                    var greenTextValues = Array.from(container.querySelectorAll("b.green")).map(el => {
+                      return el.nextSibling ? el.nextSibling.textContent.trim() : "";
+                    });
+                    const allMatch = selectedOptions.every(option => greenTextValues.includes(option));
+                    if (pet_helper_STOP) {
+                      if (allMatch) {
+                        console.log("Wszystkie wybrane wartości pasują:", selectedOptions);
+                        clearInterval(intervalId);
                       } else {
-                        //$("#petResetPanel").show();
-                        //petInterval = setInterval(this.petChange, 1000);
-                        petBonusChangeStatus = true;
-                        console.log("Automatyczne mieszanie peta zostało włączone.");
+                        console.log("Brak pełnego dopasowania, ponawiam próbę...");
+                        const petId = $('#petIdSelect').val();
+                        const buttonpet = document.querySelector(`#pet_list > div:nth-child(${petId}) > div.rightSide > div > button:nth-child(2)`);
+                        const petId2 = buttonpet.getAttribute("data-pet");
+                        console.log(petId2);
+                        GAME.socket.emit('ga', { a: 43, type: 7, pet: petId2 });
+                        kom_clear();
                       }
+                    } else {
+                      clearInterval(intervalId);
+                    }
+                  }
+                  intervalId = setInterval(checkAndSendData, 2000);
                 });
                 $("body").on("click", ".activate_all_clan_buffs", () => {
                     this.activateAllClanBuffs();
