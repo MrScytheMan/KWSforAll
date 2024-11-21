@@ -413,8 +413,8 @@ if (typeof GAME === 'undefined') { } else {
                 }
             }
             autobless() {
-                const arr = $.map($('.use_buff:checked'), function (e, i) { return +e.value; });
-                const btype = $('input[name="bless_type"]:checked').val();
+                let arr = $.map($('.use_buff:checked'), function (e, i) { return +e.value; });
+                let btype = $('input[name="bless_type"]:checked').val();
                 GAME.socket.emit('ga', {
                   a: 14,
                   type: 5,
