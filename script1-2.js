@@ -1090,10 +1090,10 @@ if (typeof GAME === 'undefined') { } else {
                 });
                 $("body").on("click", '.auto_bless', () => {
                     var isAutoBlessActive = false;
-                    let blessInterval;
+                    var blessInterval = null;
                     if (isAutoBlessActive) {
                         clearInterval(blessInterval);
-                        //blessInterval = null;
+                        blessInterval = null;
                         isAutoBlessActive = false;
                         console.log("Automatyczne błogosławienie zostało wyłączone.");
                       } else {
