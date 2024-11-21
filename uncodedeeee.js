@@ -1668,11 +1668,24 @@ if (typeof GAME === 'undefined') {} else {
                 }
                     return true;
                 } else if (GAME.is_training && $("#train_uptime").find('.timer').length == 0 && RESP.code) {
-                    GAME.socket.emit('ga', {
-                        a: 8,
-                        type: 5,
-                        apud: 'vzaaa'
-                    });
+                    if(RESP.codeTP){
+                        setTimeout(() => {
+                            GAME.socket.emit('ga', {
+                                a: 8,
+                                type: 5,
+                                multi: ':checked',
+                                apud: 'vzaaa'
+                            });
+                        }, 1600);
+                    }else{
+                    setTimeout(() => {
+                        GAME.socket.emit('ga', {
+                            a: 8,
+                            type: 5,
+                            apud: 'vzaaa'
+                        });
+                    }, 1600);
+                }
                     return true;
                 } else if (GAME.is_training && $("#train_uptime").find('.timer').length == 1 && RESP.code) {
                     GAME.socket.emit('ga', {
@@ -2737,11 +2750,24 @@ if (typeof GAME === 'undefined') {} else {
                     });
                     window.setTimeout(CODE.kodyy, CODE.wait);
                 } else if ($("#train_uptime").find('.timer').length == 0) {
-                    GAME.socket.emit('ga', {
-                        a: 8,
-                        type: 5,
-                        apud: 'vzaaa'
-                    });
+                    if(RESP.codeTP){
+                        setTimeout(() => {
+                            GAME.socket.emit('ga', {
+                                a: 8,
+                                type: 5,
+                                multi: ':checked',
+                                apud: 'vzaaa'
+                            });
+                        }, 1600);
+                    }else{
+                    setTimeout(() => {
+                        GAME.socket.emit('ga', {
+                            a: 8,
+                            type: 5,
+                            apud: 'vzaaa'
+                        });
+                    }, 1600);
+                }
                     window.setTimeout(CODE.start, CODE.wait);
                 } else {
                     window.setTimeout(CODE.start, CODE.wait);
