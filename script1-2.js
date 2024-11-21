@@ -1089,19 +1089,11 @@ if (typeof GAME === 'undefined') { } else {
                     this.freeAssist();
                 });
                 $("body").on("click", '.auto_bless', () => {
-                    let isAutoBlessActive = false;
                     let blessInterval;
 
-                    if (isAutoBlessActive) {
-                        clearInterval(blessInterval);
-                        isAutoBlessActive = false;
-                        console.log("Automatyczne błogosławienie zostało wyłączone.");
-                      } else {
-                        //this.autobless();
                         blessInterval = setInterval(this.autobless(), 15000);
-                        isAutoBlessActive = true;
                         console.log("Automatyczne błogosławienie zostało włączone.");
-                      }
+
                 });
                 $("body").on("click", ".activate_all_clan_buffs", () => {
                     this.activateAllClanBuffs();
