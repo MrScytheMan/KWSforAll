@@ -290,7 +290,7 @@ if (typeof GAME === 'undefined') {} else {
                         RESP.kontoTP = false;
                         RESP.codeTP = 0;
                     } else {
-                        $(".resp_konto .resp_status").removeClass("green").addClass("green").html("On");
+                        $(".resp_konto .resp_status").removeClass("red").addClass("green").html("On");
                         RESP.kontoTP = true;
                         RESP.codeTP = 1;
                     }
