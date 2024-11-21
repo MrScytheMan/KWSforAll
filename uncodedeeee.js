@@ -1555,7 +1555,7 @@ if (typeof GAME === 'undefined') {} else {
                 checkSSJ: true,
                 jaka: 0,
                 zmiana: false,
-                kontoTP: false,
+                kontoTP: true,
                 codeTP: 0,
                 multifight: true,
                 reload: false,
