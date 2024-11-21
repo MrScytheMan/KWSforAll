@@ -288,12 +288,12 @@ if (typeof GAME === 'undefined') {} else {
                     if (RESP.kontoTP) {
                         $(".resp_konto .resp_status").removeClass("green").addClass("red").html("Off");
                         RESP.kontoTP = false;
-                        RESP.codeTP = 0;
+                        RESP.codeTP = false;
                         console.log("off")
                     } else {
                         $(".resp_konto .resp_status").removeClass("red").addClass("green").html("On");
                         RESP.kontoTP = true;
-                        RESP.codeTP = 1;
+                        RESP.codeTP = true;
                         console.log("on")
                     }
                 });
@@ -1556,7 +1556,7 @@ if (typeof GAME === 'undefined') {} else {
                 jaka: 0,
                 zmiana: false,
                 kontoTP: true,
-                codeTP: 0,
+                codeTP: true,
                 multifight: true,
                 reload: false,
                 SENZU_BLUE: 'SENZU_BLUE',
@@ -2750,16 +2750,6 @@ if (typeof GAME === 'undefined') {} else {
                     });
                     window.setTimeout(CODE.kodyy, CODE.wait);
                 } else if ($("#train_uptime").find('.timer').length == 0) {
-                    if(RESP.codeTP){
-                        setTimeout(() => {
-                            GAME.socket.emit('ga', {
-                                a: 8,
-                                type: 5,
-                                multi: ':checked',
-                                apud: 'vzaaa'
-                            });
-                        }, 1600);
-                    }else{
                     setTimeout(() => {
                         GAME.socket.emit('ga', {
                             a: 8,
@@ -2767,7 +2757,6 @@ if (typeof GAME === 'undefined') {} else {
                             apud: 'vzaaa'
                         });
                     }, 1600);
-                }
                     window.setTimeout(CODE.start, CODE.wait);
                 } else {
                     window.setTimeout(CODE.start, CODE.wait);
