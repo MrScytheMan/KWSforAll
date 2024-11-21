@@ -1108,8 +1108,12 @@ if (typeof GAME === 'undefined') { } else {
                         console.log("Automatyczne błogosławienie zostało włączone.");
                       }
                 });
+                $("body").on("click", 'button[data-option="pet_bonch"]', () => {
+                    $(".pet_bonus_change").show();
+                });
                 let petBonusChangeStatus = false;
                 let petInterval = null;
+                
                 $("body").on("click", '.pet_bonus_change', () => {
                     if (petBonusChangeStatus) {
                         clearInterval(petInterval);
