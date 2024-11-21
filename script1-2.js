@@ -1089,16 +1089,14 @@ if (typeof GAME === 'undefined') { } else {
                     this.freeAssist();
                 });
                 $("body").on("click", '.auto_bless', () => {
-                    var isAutoBlessActive = false;
-                    var blessInterval = null;
+                    let isAutoBlessActive = false;
                     if (isAutoBlessActive) {
                         clearInterval(blessInterval);
-                        blessInterval = null;
                         isAutoBlessActive = false;
                         console.log("Automatyczne błogosławienie zostało wyłączone.");
                       } else {
                         //this.autobless();
-                        blessInterval = setInterval(this.autobless(), 15000);
+                        let blessInterval = setInterval(this.autobless(), 15000);
                         isAutoBlessActive = true;
                         console.log("Automatyczne błogosławienie zostało włączone.");
                       }
