@@ -1088,9 +1088,9 @@ if (typeof GAME === 'undefined') { } else {
                 $("body").on("click", ".free_assist_for_all", () => {
                     this.freeAssist();
                 });
+                let isAutoBlessActive = false;
+                let blessInterval = null;
                 $("body").on("click", '.auto_bless', () => {
-                    let isAutoBlessActive = false;
-                    let blessInterval = null;
                     if (isAutoBlessActive) {
                         clearInterval(blessInterval);
                         blessInterval = null;
