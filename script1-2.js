@@ -1088,7 +1088,7 @@ if (typeof GAME === 'undefined') { } else {
                 $("body").on("click", ".free_assist_for_all", () => {
                     this.freeAssist();
                 });
-                $("body").on("click", 'button.option.btn_small_gold[data-option="auto_bless"]', () => {
+                $("body").on("click", '.auto_bless', () => {
                     let isAutoBlessActive = false;
                     let blessInterval = null;
                     if (isAutoBlessActive) {
