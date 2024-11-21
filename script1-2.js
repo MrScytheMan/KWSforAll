@@ -422,10 +422,12 @@ if (typeof GAME === 'undefined') { } else {
                   players: $('#bless_players').val(),
                   btype: btype
                 });
-                /*function komunikat() {
+                function komunikat() {
                     kom_clear();
                   }
-                  setInterval(komunikat, 1000);*/
+                  setTimeout(() => {
+                    komunikat();
+                }, 1000);
             }
             activateAllClanBuffs() {
                 let abut = $("#clan_buffs").find(`button[data-option="activate_war_buff"]`);
