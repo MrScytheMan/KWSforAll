@@ -1117,7 +1117,8 @@ if (typeof GAME === 'undefined') { } else {
                         petBonusChangeStatus = false;
                         console.log("Automatyczne mieszanie peta zostało wyłączone.");
                       } else {
-                        petInterval = setInterval(this.petChange, 1000);
+                        //$("#petResetPanel").show();
+                        //petInterval = setInterval(this.petChange, 1000);
                         petBonusChangeStatus = true;
                         console.log("Automatyczne mieszanie peta zostało włączone.");
                       }
