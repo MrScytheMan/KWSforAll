@@ -1089,8 +1089,8 @@ if (typeof GAME === 'undefined') { } else {
                     this.freeAssist();
                 });
                 $("body").on("click", '.auto_bless', () => {
-                    var isAutoBlessActive = false;
-                    var blessInterval = null;
+                    const isAutoBlessActive = false;
+                    const blessInterval = null;
                     if (isAutoBlessActive) {
                         clearInterval(blessInterval);
                         blessInterval = null;
