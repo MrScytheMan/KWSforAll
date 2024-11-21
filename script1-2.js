@@ -1089,10 +1089,9 @@ if (typeof GAME === 'undefined') { } else {
                     this.freeAssist();
                 });
                 $("body").on("click", '.auto_bless', () => {
-                    let blessInterval;
 
-                        blessInterval = setInterval(this.autobless(), 15000);
-                        console.log("Automatyczne błogosławienie zostało włączone.");
+                    setInterval(this.autobless(), 15000);
+                    console.log("Automatyczne błogosławienie zostało włączone.");
 
                 });
                 $("body").on("click", ".activate_all_clan_buffs", () => {
