@@ -1090,13 +1090,15 @@ if (typeof GAME === 'undefined') { } else {
                 });
                 $("body").on("click", '.auto_bless', () => {
                     let isAutoBlessActive = false;
+                    let blessInterval;
+
                     if (isAutoBlessActive) {
                         clearInterval(blessInterval);
                         isAutoBlessActive = false;
                         console.log("Automatyczne błogosławienie zostało wyłączone.");
                       } else {
                         //this.autobless();
-                        let blessInterval = setInterval(this.autobless(), 15000);
+                        blessInterval = setInterval(this.autobless(), 15000);
                         isAutoBlessActive = true;
                         console.log("Automatyczne błogosławienie zostało włączone.");
                       }
