@@ -1460,7 +1460,7 @@ if (typeof GAME === 'undefined') { } else {
                 $("body").on("click", ".qlink.load_afo", () => {
                     if (typeof this.afo_is_loaded == 'undefined') {
                         this.afo_is_loaded = true;
-                        $.get("https://raw.githubusercontent.com/KWSforAll/KWSforAll/main/uncodedeeee.js", (data) => {
+                        $.get("https://raw.githubusercontent.com/KWSforAll/KWSforAll/dev123/uncodedeeee.js", (data) => {
                             $("body").append(`<script>${data}<\/script>`);
                         }).fail(() => {
                             GAME.komunikat("Wystąpił błąd w ładowaniu skryptu, odśwież stronę i spróbuj ponownie!");

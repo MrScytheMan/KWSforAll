@@ -277,9 +277,22 @@ if (typeof GAME === 'undefined') {} else {
                     if (RESP.code) {
                         $(".resp_code .resp_status").removeClass("green").addClass("red").html("Off");
                         RESP.code = false;
+                        $('#resp_Panel .resp_konto').hide();
                     } else {
                         $(".resp_code .resp_status").removeClass("red").addClass("green").html("On");
                         RESP.code = true;
+                        $('#resp_Panel .resp_konto').show();
+                    }
+                });
+                $('#resp_Panel .resp_konto').click(() => {
+                    if (RESP.kontoTP) {
+                        $(".resp_konto .resp_status").removeClass("green").addClass("red").html("Off");
+                        RESP.kontoTP = false;
+                        RESP.codeTP = 0;
+                    } else {
+                        $(".resp_konto .resp_status").removeClass("green").addClass("green").html("On");
+                        RESP.kontoTP = true;
+                        RESP.codeTP = 1;
                     }
                 });
                 $('#resp_Panel .resp_sub').click(() => {
@@ -1540,6 +1553,8 @@ if (typeof GAME === 'undefined') {} else {
                 checkSSJ: true,
                 jaka: 0,
                 zmiana: false,
+                kontoTP: false,
+                codeTP: 0,
                 multifight: true,
                 reload: false,
                 SENZU_BLUE: 'SENZU_BLUE',
