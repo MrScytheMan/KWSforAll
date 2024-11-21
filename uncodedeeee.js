@@ -1648,6 +1648,16 @@ if (typeof GAME === 'undefined') {} else {
                         stat: 1,
                         duration: 1
                     });
+                    if(RESP.codeTP){
+                        setTimeout(() => {
+                            GAME.socket.emit('ga', {
+                                a: 8,
+                                type: 5,
+                                multi: ':checked',
+                                apud: 'vzaaa'
+                            });
+                        }, 1600);
+                    }else{
                     setTimeout(() => {
                         GAME.socket.emit('ga', {
                             a: 8,
@@ -1655,6 +1665,7 @@ if (typeof GAME === 'undefined') {} else {
                             apud: 'vzaaa'
                         });
                     }, 1600);
+                }
                     return true;
                 } else if (GAME.is_training && $("#train_uptime").find('.timer').length == 0 && RESP.code) {
                     GAME.socket.emit('ga', {
