@@ -1097,7 +1097,7 @@ if (typeof GAME === 'undefined') { } else {
                         isAutoBlessActive = false;
                         console.log("Automatyczne błogosławienie zostało wyłączone.");
                       } else {
-                        blessInterval = setInterval(this.autobless(), 15000);
+                        blessInterval = setInterval(autobless(), 15000);
                         isAutoBlessActive = true;
                         console.log("Automatyczne błogosławienie zostało włączone.");
                       }
