@@ -289,10 +289,12 @@ if (typeof GAME === 'undefined') {} else {
                         $(".resp_konto .resp_status").removeClass("green").addClass("red").html("Off");
                         RESP.kontoTP = false;
                         RESP.codeTP = 0;
+                        console.log("off")
                     } else {
                         $(".resp_konto .resp_status").removeClass("red").addClass("green").html("On");
                         RESP.kontoTP = true;
                         RESP.codeTP = 1;
+                        console.log("on")
                     }
                 });
                 $('#resp_Panel .resp_sub').click(() => {
