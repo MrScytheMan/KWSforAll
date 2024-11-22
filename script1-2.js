@@ -1222,7 +1222,7 @@ if (typeof GAME === 'undefined') { } else {
                         let iloscKarmy = parseInt($("#ilosc_karm").text(), 10);
                         if (iloscKarmy === 0) {
                             isPetBonchActive = false;
-                            console.log("pozostało: "+iloscKarmy+"Karmy");
+                            console.log("Brak Karmy.");
                         }
                         if (isPetBonchActive) {
                           if (allMatch) {
