@@ -1240,8 +1240,6 @@ if (typeof GAME === 'undefined') { } else {
                       $("body").on("click", '.stopButton', function () {
                         if(isPetBonchActive){
                             isPetBonchActive = false;
-                        } else {
-                            isPetBonchActive = true;
                         }
                       });
                       // Rozpocznij sprawdzanie i wysyłanie danych
