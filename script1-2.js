@@ -1107,18 +1107,8 @@ if (typeof GAME === 'undefined') { } else {
                 $("body").on("click", '#ekw_page_items div[data-base_item_id="1784"]', () => {
                     $("#ekw_menu_use").one("click", () => { 
                             setTimeout(() => {
-                                const $contentDiv = $(".content");
-                                if ($contentDiv.length) {
-                                    const $newInputDiv = $('<div>', { class: 'game_input small' });
-                                    const $maxButton = $('<button>', { class: 'btn_small_gold', text: 'MAX' });
-                
-                                    $newInputDiv.append($maxButton);
-                                    $contentDiv.append($newInputDiv);
-                
-                                    console.log('Dodano nowy element z przyciskiem MAX.');
-                                } else {
-                                    console.error('Nie znaleziono elementu .content');
-                                }
+                                console.log("test passed");
+                                $(`<button class="btn_small_gold otwieranie_kart" style="margin-right:4ch;">X100 OPEN</button>`).insertBefore("#kom_con > div > div.content > div:nth-child(1) > button.option.btn_small_gold");
                             }, 333);
                     });
                 });
