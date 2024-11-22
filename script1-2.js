@@ -1185,7 +1185,7 @@ if (typeof GAME === 'undefined') { } else {
                             $("body").append(`<style>${petCSS}</style>${petHTML}`);
                         }
                         setTimeout(() => {
-                            if ($(".petItem").length === 0) {
+                            if ($(".pet-number").length === 0) {
                                 const petItems = document.querySelectorAll('.petItem');
                                 petItems.forEach((petItem, index) => {
                                     const numberLabel = document.createElement('div');
