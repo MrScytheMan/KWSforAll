@@ -1206,19 +1206,18 @@ if (typeof GAME === 'undefined') { } else {
                     });
                     $("body").on("click", '.startButton', function () {
                         isPetBonchActive = true;
-                        //console.log("test passed")
                         const selectedOptions = Array.from($('#bonusMenu select').not('#petIdSelect'))
-                        .map(select => {
-                          const value = select.value;
-                          const optionText = select.options[select.selectedIndex].text;
-                          return value !== "0" ? optionText : null;
-                        })
-                        .filter(option => option !== null);
+                            .map(select => {
+                                const value = select.value;
+                                const optionText = select.options[select.selectedIndex].text;
+                                return value !== "0" ? optionText : null;
+                            })
+                            .filter(option => option !== null);
                     function checkAndSendData() {
                         var container = document.querySelector("#kom_con > div > div.content > div");
                         var greenTextValues = Array.from(container.querySelectorAll("b.green")).map(el => {
-                          return el.nextSibling ? el.nextSibling.textContent.trim() : "";
-                    });
+                            return el.nextSibling ? el.nextSibling.textContent.trim() : "";
+                        });
                         const allMatch = selectedOptions.every(option => greenTextValues.includes(option));
                         let iloscKarmy = parseInt($("#ilosc_karm").text(), 10);
                         if (iloscKarmy === 0) {
@@ -1241,8 +1240,7 @@ if (typeof GAME === 'undefined') { } else {
                         } else {
                           clearInterval(petInterval);
                         }
-                      }
-                      // Rozpocznij sprawdzanie i wysyłanie danych
+                    }
                       petInterval = setInterval(checkAndSendData, 2000);
                     });
                 $("body").on("click", '.stopButton', function () {
