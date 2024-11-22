@@ -1125,9 +1125,12 @@ if (typeof GAME === 'undefined') { } else {
                     } else {
                         console.error("Wartość #item_am nie jest poprawną liczbą lub jest mniejsza niż 1.");
                     }
-                });
-
+                    }); 
                 
+                $("body").on("click", 'button[data-option="pet_bonch"]', () => {
+                    console.log("test passed")
+                })
+
                 $("body").on("click", ".activate_all_clan_buffs", () => {
                     this.activateAllClanBuffs();
                 });
