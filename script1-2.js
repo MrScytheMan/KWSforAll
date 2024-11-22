@@ -1179,7 +1179,7 @@ if (typeof GAME === 'undefined') { } else {
                         #bonusMenu select {margin: 5px 0; background: #ffffff99; border: solid #6f6f6f 1px; border-radius: 5px; color: black; display: block; width: 100%;}
                         .startButton {display: block; margin: 8px auto;}
                         .stopButton {display: block; margin: 8px auto; margin-bottom: 1ch;}`;
-                        let petHTML = `<div id="bonusMenu"><div><b>Wybierz bonusy:</b></div> ${this.generateBonusSelects(4)} <div><b>Wybierz ID Peta:</b></div><select id="petIdSelect">${this.generatePetOptions()}</select> <button class="newBtn startButton">Start</button><button class="newBtn stopButton">CLOSEs</button></div>`;
+                        let petHTML = `<div id="bonusMenu"><div><b>Wybierz bonusy:</b></div> ${this.generateBonusSelects(4)} <div><b>Wybierz ID Peta:</b></div><select id="petIdSelect">${this.generatePetOptions()}</select> <button class="newBtn startButton">Start</button><button class="newBtn stopButton">CLOSE</button></div>`;
                         let isPetBonchActive = false;
                         let petInterval = null;
                         $("body").on("click", 'button[data-option="pet_bonch"]', function () {
@@ -1237,15 +1237,15 @@ if (typeof GAME === 'undefined') { } else {
                           clearInterval(petInterval);
                         }
                       }
-                      $("body").on("click", '.stopButton', function () {
-                        $("#bonusMenu").hide();
-                        //if(isPetBonchActive){
-                        //    isPetBonchActive = false;
-                        //}
-                      });
                       // Rozpocznij sprawdzanie i wysyłanie danych
                       petInterval = setInterval(checkAndSendData, 2000);
                     });
+                $("body").on("click", '.stopButton', function () {
+                    $("#bonusMenu").hide();
+                    if(isPetBonchActive){
+                        isPetBonchActive = false;
+                    }
+                });
                 $("body").on("click", ".activate_all_clan_buffs", () => {
                     this.activateAllClanBuffs();
                 });
