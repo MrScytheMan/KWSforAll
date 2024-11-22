@@ -1206,7 +1206,7 @@ if (typeof GAME === 'undefined') { } else {
                             $("#bonusMenu").toggle();
                         }, 333);
                     });
-                    $("body").on("click", '.startbutton', function () {
+                    $("body").on("click", '.startButton', function () {
                         console.log("test passed")
                        /* isPetBonchActive = true;
                         const selectedOptions = Array.from($('#bonusMenu select').not('#petIdSelect'))
