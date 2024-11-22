@@ -1,4 +1,4 @@
-class ballReset {
+class script3 {
     constructor() {
 /* KARTY */
 document.querySelector('#ekw_page_items div[data-base_item_id="1784"]').addEventListener('click', function() {
