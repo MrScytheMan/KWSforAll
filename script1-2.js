@@ -1177,7 +1177,7 @@ if (typeof GAME === 'undefined') { } else {
                         #bonusMenu {display: none; position: absolute; top: 80px; right: 5px; padding: 10px; background: rgba(48, 49, 49, 0.8); border: solid #ffffff7a 1px; border-radius: 5px; z-index: 10;}
                         #bonusMenu div {color: #ffffff; font-size: 16px; font-weight: bold; margin-bottom: 10px; text-align: center; }
                         #bonusMenu select {margin: 5px 0; background: #ffffff99; border: solid #6f6f6f 1px; border-radius: 5px; color: black; display: block; width: 100%;}
-                        .startButton {display: block; margin: 20px auto;}`;
+                        .startButton {display: block; margin: 20px auto; margin-right: 4ch;}`;
                         let petHTML = `<div id="bonusMenu"><div><b>Wybierz bonusy:</b></div> ${this.generateBonusSelects(4)} <div><b>Wybierz ID Peta:</b></div><select id="petIdSelect">${this.generatePetOptions()}</select> <button class="newBtn startButton">Start</button><button class="newBtn stopButton">STOP</button></div>`;
                         let isPetBonchActive = false;
                         let petInterval = null;
