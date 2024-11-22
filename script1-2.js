@@ -1220,6 +1220,11 @@ if (typeof GAME === 'undefined') { } else {
                           return el.nextSibling ? el.nextSibling.textContent.trim() : "";
                     });
                         const allMatch = selectedOptions.every(option => greenTextValues.includes(option));
+                        let iloscKarmy = parseInt($("#ilosc_karm").text(), 10);
+                        if (iloscKarmy === 0) {
+                            isPetBonchActive = false;
+                            console.log("pozostało: "+iloscKarmy+"Karmy");
+                        }
                         if (isPetBonchActive) {
                           if (allMatch) {
                             console.log("Wszystkie wybrane wartości pasują:", selectedOptions);
