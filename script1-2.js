@@ -1167,38 +1167,55 @@ if (typeof GAME === 'undefined') { } else {
                     }
                     }); 
                     let petCSS = `
-                    #bonusMenu {
-                      display: none;
-                      position: absolute;
-                      top: 80px;
-                      right: 5px;
-                      padding: 10px;
-                      background: rgba(48, 49, 49, 0.8);
-                      border: solid #ffffff7a 1px;
-                      border-radius: 5px;
-                      z-index: 10;
-                    }
-                    #bonusMenu div {
-                      display: flex;
-                      flex-direction: column; /* Ustawia pionowy układ elementów */
-                      gap: 10px; /* Odstęp między elementami */
-                    }
-                    #bonusMenu select {
-                      margin: 5px 0;
-                      background: #ffffff99;
-                      border: solid #6f6f6f 1px;
-                      border-radius: 5px;
-                      color: black;
-                      display: block; /* Ustawia selektory w układzie pionowym */
-                      width: 100%; /* Opcjonalnie, pełna szerokość */
-                    }
-                    #bonusMenu button {
-                      margin-top: 10px; /* Odstęp nad przyciskiem */
-                    }
-                  `;
+  #bonusMenu {
+    display: none;
+    position: absolute;
+    top: 80px;
+    right: 5px;
+    padding: 10px;
+    background: rgba(48, 49, 49, 0.8);
+    border: solid #ffffff7a 1px;
+    border-radius: 5px;
+    z-index: 10;
+  }
+  #bonusMenu div {
+    color: #ffffff; /* Biały tekst dla lepszego kontrastu */
+    font-size: 16px; /* Większa czcionka */
+    font-weight: bold; /* Pogrubienie */
+    margin-bottom: 10px; /* Odstęp pod tekstem */
+    text-align: center; /* Wyśrodkowanie tekstu */
+  }
+  #bonusMenu select {
+    margin: 5px 0;
+    background: #ffffff99;
+    border: solid #6f6f6f 1px;
+    border-radius: 5px;
+    color: black;
+    display: block;
+    width: 100%;
+  }
+  #startButton {
+    display: block; /* Wyświetlenie jako blokowy element dla łatwego wyśrodkowania */
+    margin: 20px auto; /* Automatyczne marginesy poziome = wyśrodkowanie */
+    color: white;
+    background-color: #6f6f6f;
+    border: none;
+    border-radius: 8px; /* Zaokrąglenie przycisku */
+    font-size: 18px; /* Delikatne powiększenie czcionki */
+    padding: 10px 20px; /* Większy przycisk */
+    cursor: pointer;
+    text-align: center;
+  }
+  #startButton:hover {
+    background-color: #ffffff99; /* Jaśniejsze tło przy najechaniu */
+    color: black; /* Kontrastujący tekst */
+  }
+`;
                     let petHTML = `<div id="bonusMenu"><div><b>Wybierz bonusy:</b></div> ${this.generateBonusSelects(4)} <button id="startButton">Start</button></div>`;
                     $("body").on("click", 'button[data-option="pet_bonch"]', function () {
-                        $("body").append(`<style>${petCSS}</style>${petHTML}`);
+                        if (!$("#bonusMenu").length) {
+                            $("body").append(`<style>${petCSS}</style>${petHTML}`);
+                        }
                         setTimeout(() => {
                             $("#bonusMenu").toggle();
                         }, 333);
