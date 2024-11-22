@@ -1138,6 +1138,7 @@ if (typeof GAME === 'undefined') { } else {
                 $("body").on("click", ".free_assist_for_all", () => {
                     this.freeAssist();
                 });
+                //AutomaticBless
                 let isAutoBlessActive = false;
                 let blessInterval = null;
                 $("body").on("click", '.auto_bless', () => {
@@ -1152,6 +1153,7 @@ if (typeof GAME === 'undefined') { } else {
                         console.log("Automatyczne błogosławienie zostało włączone.");
                       }
                 });
+                //MultipleCard
                 $("body").on("click", '#ekw_page_items div[data-base_item_id="1784"]', () => {
                     $("#ekw_menu_use").one("click", () => { 
                             setTimeout(() => {
@@ -1173,6 +1175,7 @@ if (typeof GAME === 'undefined') { } else {
                         console.error("Wartość #item_am nie jest poprawną liczbą lub jest mniejsza niż 1.");
                     }
                     }); 
+                    //pet_bonch_go
                     let petCSS = `
                         #bonusMenu {display: none; position: absolute; top: 80px; right: 5px; padding: 10px; background: rgba(48, 49, 49, 0.8); border: solid #ffffff7a 1px; border-radius: 5px; z-index: 10;}
                         #bonusMenu div {color: #ffffff; font-size: 16px; font-weight: bold; margin-bottom: 10px; text-align: center; }
@@ -1249,6 +1252,7 @@ if (typeof GAME === 'undefined') { } else {
                         isPetBonchActive = false;
                     }
                 });
+                //
                 $("body").on("click", ".activate_all_clan_buffs", () => {
                     this.activateAllClanBuffs();
                 });
