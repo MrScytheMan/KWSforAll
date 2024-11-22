@@ -1115,7 +1115,7 @@ if (typeof GAME === 'undefined') { } else {
                 $("body").on("click", '.otwieranie_kart', () => {
                     let upperLimit = parseInt(document.querySelector("#item_am").value, 10);
                     if (!isNaN(upperLimit) && upperLimit > 0) {
-                        for (let i = 0; i <= upperLimit; i++) {
+                        for (let i = 0; i < upperLimit; i++) {
                             setTimeout(() => {
                                 let cards = $(`#ekw_page_items div[data-base_item_id="1784"]`);
                                 let cards_id = parseInt(cards.attr("data-item_id"));
