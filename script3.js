@@ -1,3 +1,5 @@
+class ballReset {
+    constructor() {
 /* KARTY */
 document.querySelector('#ekw_page_items div[data-base_item_id="1784"]').addEventListener('click', function() {
     console.log('Kliknięto element o data-base_item_id="1784".');
@@ -42,3 +44,5 @@ setTimeout(() => {
 }, 333);
     });
 });
+    }
+}
