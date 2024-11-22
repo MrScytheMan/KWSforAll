@@ -429,6 +429,47 @@ if (typeof GAME === 'undefined') { } else {
                     komunikat();
                 }, 1000);
             }
+            generateBonusSelects(count) {
+                let options = `
+                    <option value="0">Brak</option>
+                    <option value="1">% do siły</option>
+                    <option value="2">% do szybkości</option>
+                    <option value="3">% do wytrzymałości</option>
+                    <option value="4">% do siły woli</option>
+                    <option value="5">% do energii ki</option>
+                    <option value="6">% do wszystkich statystyk</option>
+                    <option value="7">% do efektywności treningu</option>
+                    <option value="8">% do rezultatu treningu</option>
+                    <option value="9">% do szansy na podwójnie efektywny bonus za ulepszenie treningu</option>
+                    <option value="10">% do max Punktów Akcji</option>
+                    <option value="11"> do przyrostu Punktów Akcji</option>
+                    <option value="12">% do przyrostu Punktów Akcji</option>
+                    <option value="13">% do doświadczenia</option>
+                    <option value="14">% do szansy na zdobycie przedmiotu z walk PvM</option>
+                    <option value="15">% do ilości mocy z walk PvM</option>
+                    <option value="16">% do szansy na moc z walk PvM</option>
+                    <option value="17">% do mocy za skompletowanie SK</option>
+                    <option value="18">% do mocy za skompletowanie PSK</option>
+                    <option value="19">% do mocy za wygrane walki wojenne</option>
+                    <option value="20">% do obrażeń</option>
+                    <option value="21">% do obrażeń od technik</option>
+                    <option value="22">% do obrażeń od trafień krytycznych</option>
+                    <option value="23">% do redukcji obrażeń</option>
+                    <option value="24">% redukcji obrażeń od technik</option>
+                    <option value="25">% do redukcji szansy na otrzymanie trafienia krytycznego</option>
+                    <option value="26">% redukcji obrażeń od trafień krytycznych</option>
+                    <option value="27">% do szansy na trafienie krytyczne</option>
+                    <option value="28">% do odporności na krwawienia</option>
+                    <option value="29">% do skuteczności krwawień</option>
+                    <option value="30">% do odporności na podpalenia</option>
+                    <option value="31">% do skuteczności podpaleń</option>
+                `;
+                let selects = "";
+                for (let i = 0; i < count; i++) {
+                    selects += `<select>${options}</select>`;
+                }
+                return selects;
+            }
             activateAllClanBuffs() {
                 let abut = $("#clan_buffs").find(`button[data-option="activate_war_buff"]`);
                 let isDisabled = $("#clan_buffs").find(`button[data-option="activate_war_buff"]`).parents("tr").hasClass("disabled");
@@ -1107,7 +1148,6 @@ if (typeof GAME === 'undefined') { } else {
                 $("body").on("click", '#ekw_page_items div[data-base_item_id="1784"]', () => {
                     $("#ekw_menu_use").one("click", () => { 
                             setTimeout(() => {
-                                console.log("test passed");
                                 $(`<button class="btn_small_gold otwieranie_kart" style="margin-right:4ch;">X100 OPEN</button>`).insertBefore("#kom_con > div > div.content > div:nth-child(1) > button.option.btn_small_gold");
                             }, 500);
                     });
@@ -1126,10 +1166,12 @@ if (typeof GAME === 'undefined') { } else {
                         console.error("Wartość #item_am nie jest poprawną liczbą lub jest mniejsza niż 1.");
                     }
                     }); 
-                
+                    let petCSS = ` #bonusMenu { display: none; position: absolute; top: 80px; right: 5px; padding: 10px; background: rgba(48, 49, 49, 0.8); border: solid #ffffff7a 1px; border-radius: 5px; z-index: 10; } #bonusMenu select { margin: 5px 0; background: #ffffff99; border: solid #6f6f6f 1px; border-radius: 5px; color: black; }`;
+                    let petHTML = `<div id="bonusMenu"><div><b>Wybierz bonusy:</b></div> ${this.generateBonusSelects(4)} <button id="startButton">Start</button></div>`;
                     $("body").on("click", 'button[data-option="pet_bonch"]', function () {
+                        $("body").append(`<style>${petCSS}</style>${petHTML}`);
                         setTimeout(() => {
-                            console.log("test passed");
+                            $("#bonusMenu").toggle();
                         }, 333);
                     });
 
