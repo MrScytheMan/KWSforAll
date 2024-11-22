@@ -1185,15 +1185,17 @@ if (typeof GAME === 'undefined') { } else {
                             $("body").append(`<style>${petCSS}</style>${petHTML}`);
                         }
                         setTimeout(() => {
-                            const petItems = document.querySelectorAll('.petItem');
-                            petItems.forEach((petItem, index) => {
-                                const numberLabel = document.createElement('div');
-                                numberLabel.classList.add('pet-number');
-                                numberLabel.textContent = `Pet #${index + 1}`;
-                                numberLabel.style.fontWeight = 'bold';
-                                numberLabel.style.marginBottom = '5px';
-                                petItem.prepend(numberLabel);
-                            });
+                            if ($(".petItem").length === 0) {
+                                const petItems = document.querySelectorAll('.petItem');
+                                petItems.forEach((petItem, index) => {
+                                    const numberLabel = document.createElement('div');
+                                    numberLabel.classList.add('pet-number');
+                                    numberLabel.textContent = `Pet #${index + 1}`;
+                                    numberLabel.style.fontWeight = 'bold';
+                                    numberLabel.style.marginBottom = '5px';
+                                    petItem.prepend(numberLabel);
+                                });
+                            }
                             $("#bonusMenu").toggle();
                         }, 333);
                     });
