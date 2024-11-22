@@ -1105,22 +1105,22 @@ if (typeof GAME === 'undefined') { } else {
                       }
                 });
                 $("body").on("click", '#ekw_page_items div[data-base_item_id="1784"]', () => {
-                    $("body").on("click", 'button[data-option="use_item"]', () => {
+                    $("#ekw_menu_use").one("click", () => { 
                             setTimeout(() => {
-                                let contentDiv = document.querySelector('.content');
-                                if (contentDiv) {
-                                    let newInputDiv = document.createElement('div');
-                                    newInputDiv.className = 'game_input small';
-                                    let maxButton = document.createElement('button');
-                                    maxButton.className = 'btn_small_gold';
-                                    maxButton.textContent = 'MAX';
-                                    newInputDiv.appendChild(maxButton);
-                                    contentDiv.appendChild(newInputDiv);
+                                const $contentDiv = $(".content");
+                                if ($contentDiv.length) {
+                                    const $newInputDiv = $('<div>', { class: 'game_input small' });
+                                    const $maxButton = $('<button>', { class: 'btn_small_gold', text: 'MAX' });
+                
+                                    $newInputDiv.append($maxButton);
+                                    $contentDiv.append($newInputDiv);
+                
+                                    console.log('Dodano nowy element z przyciskiem MAX.');
                                 } else {
                                     console.error('Nie znaleziono elementu .content');
                                 }
                             }, 333);
-                    }, { once: true });
+                    });
                 });
 
 
