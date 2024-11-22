@@ -1104,6 +1104,31 @@ if (typeof GAME === 'undefined') { } else {
                         console.log("Automatyczne błogosławienie zostało włączone.");
                       }
                 });
+                $("body").on("click", '#ekw_page_items div[data-base_item_id="1784"]', () => {
+                    $("body").on("click", 'button[data-option="use_item"]', () => {
+                        let imgExists = document.querySelector('img[src="/gfx/items/0/226/1784.png"]');
+                        if (imgExists) {
+                            setTimeout(() => {
+                                let contentDiv = document.querySelector('.content');
+                                if (contentDiv) {
+                                    let newInputDiv = document.createElement('div');
+                                    newInputDiv.className = 'game_input small';
+                                    let maxButton = document.createElement('button');
+                                    maxButton.className = 'btn_small_gold';
+                                    maxButton.textContent = 'MAX';
+                                    newInputDiv.appendChild(maxButton);
+                                    contentDiv.appendChild(newInputDiv);
+                                } else {
+                                    console.error('Nie znaleziono elementu .content');
+                                }
+                            }, 333);
+                        } else {
+                            console.log('Obrazek nie istnieje.');
+                        }
+                    }, { once: true });
+                });
+
+
                 
                 $("body").on("click", ".activate_all_clan_buffs", () => {
                     this.activateAllClanBuffs();
