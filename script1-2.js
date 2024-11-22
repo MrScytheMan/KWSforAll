@@ -470,6 +470,13 @@ if (typeof GAME === 'undefined') { } else {
                 }
                 return selects;
             }
+            generatePetOptions() {
+                let options = '';
+                for (let i = 1; i <= 100; i++) {
+                    options += `<option value="${i}">Pet ${i}</option>`;
+                }
+                return options;
+            }
             activateAllClanBuffs() {
                 let abut = $("#clan_buffs").find(`button[data-option="activate_war_buff"]`);
                 let isDisabled = $("#clan_buffs").find(`button[data-option="activate_war_buff"]`).parents("tr").hasClass("disabled");
@@ -1167,51 +1174,12 @@ if (typeof GAME === 'undefined') { } else {
                     }
                     }); 
                     let petCSS = `
-  #bonusMenu {
-    display: none;
-    position: absolute;
-    top: 80px;
-    right: 5px;
-    padding: 10px;
-    background: rgba(48, 49, 49, 0.8);
-    border: solid #ffffff7a 1px;
-    border-radius: 5px;
-    z-index: 10;
-  }
-  #bonusMenu div {
-    color: #ffffff; /* Biały tekst dla lepszego kontrastu */
-    font-size: 16px; /* Większa czcionka */
-    font-weight: bold; /* Pogrubienie */
-    margin-bottom: 10px; /* Odstęp pod tekstem */
-    text-align: center; /* Wyśrodkowanie tekstu */
-  }
-  #bonusMenu select {
-    margin: 5px 0;
-    background: #ffffff99;
-    border: solid #6f6f6f 1px;
-    border-radius: 5px;
-    color: black;
-    display: block;
-    width: 100%;
-  }
-  #startButton {
-    display: block; /* Wyświetlenie jako blokowy element dla łatwego wyśrodkowania */
-    margin: 20px auto; /* Automatyczne marginesy poziome = wyśrodkowanie */
-    color: white;
-    background-color: #6f6f6f;
-    border: none;
-    border-radius: 8px; /* Zaokrąglenie przycisku */
-    font-size: 18px; /* Delikatne powiększenie czcionki */
-    padding: 10px 20px; /* Większy przycisk */
-    cursor: pointer;
-    text-align: center;
-  }
-  #startButton:hover {
-    background-color: #ffffff99; /* Jaśniejsze tło przy najechaniu */
-    color: black; /* Kontrastujący tekst */
-  }
-`;
-                    let petHTML = `<div id="bonusMenu"><div><b>Wybierz bonusy:</b></div> ${this.generateBonusSelects(4)} <button id="startButton">Start</button></div>`;
+                        #bonusMenu {display: none; position: absolute; top: 80px; right: 5px; padding: 10px; background: rgba(48, 49, 49, 0.8); border: solid #ffffff7a 1px; border-radius: 5px; z-index: 10;}
+                        #bonusMenu div {color: #ffffff; font-size: 16px; font-weight: bold; margin-bottom: 10px; text-align: center; }
+                        #bonusMenu select {margin: 5px 0; background: #ffffff99; border: solid #6f6f6f 1px; border-radius: 5px; color: black; display: block; width: 100%;}
+                        #startButton {display: block; margin: 20px auto; color: white; background-color: #6f6f6f; border: none; border-radius: 8px; font-size: 18px; padding: 10px 20px; cursor: pointer; text-align: center;}
+                        #startButton:hover {background-color: #ffffff99; color: black;}`;
+                    let petHTML = `<div id="bonusMenu"><div><b>Wybierz bonusy:</b></div> ${this.generateBonusSelects(4)} <button id="startButton">Start</button><div><b>Wybierz ID Peta:</b></div><select id="petIdSelect">${this.generatePetOptions()}</select></div>`;
                     $("body").on("click", 'button[data-option="pet_bonch"]', function () {
                         if (!$("#bonusMenu").length) {
                             $("body").append(`<style>${petCSS}</style>${petHTML}`);
@@ -1220,7 +1188,9 @@ if (typeof GAME === 'undefined') { } else {
                             $("#bonusMenu").toggle();
                         }, 333);
                     });
-
+                    $("body").on("click", 'button[data-option="pet_bonch"]', function () {
+                        console.log(petID)
+                    });
                 $("body").on("click", ".activate_all_clan_buffs", () => {
                     this.activateAllClanBuffs();
                 });
