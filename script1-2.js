@@ -1179,8 +1179,10 @@ if (typeof GAME === 'undefined') { } else {
                         #bonusMenu select {margin: 5px 0; background: #ffffff99; border: solid #6f6f6f 1px; border-radius: 5px; color: black; display: block; width: 100%;}
                         #startButton {display: block; margin: 20px auto; color: white; background-color: #6f6f6f; border: none; border-radius: 8px; font-size: 18px; padding: 10px 20px; cursor: pointer; text-align: center;}
                         #startButton:hover {background-color: #ffffff99; color: black;}`;
-                    let petHTML = `<div id="bonusMenu"><div><b>Wybierz bonusy:</b></div> ${this.generateBonusSelects(4)} <div><b>Wybierz ID Peta:</b></div><select id="petIdSelect">${this.generatePetOptions()}</select> <button id="startButton">Start</button></div>`;
-                    $("body").on("click", 'button[data-option="pet_bonch"]', function () {
+                        let petHTML = `<div id="bonusMenu"><div><b>Wybierz bonusy:</b></div> ${this.generateBonusSelects(4)} <div><b>Wybierz ID Peta:</b></div><select id="petIdSelect">${this.generatePetOptions()}</select> <button id="startButton">Start</button></div>`;
+                        let isPetBonchActive = false;
+                        let petInterval = null;
+                        $("body").on("click", 'button[data-option="pet_bonch"]', function () {
                         if (!$("#bonusMenu").length) {
                             $("body").append(`<style>${petCSS}</style>${petHTML}`);
                         }
@@ -1196,11 +1198,49 @@ if (typeof GAME === 'undefined') { } else {
                                     petItem.prepend(numberLabel);
                                 });
                             }
+                            if(isPetBonchActive){
+                                isPetBonchActive = false;
+                            } else {
+                                isPetBonchActive = true;
+                            }
                             $("#bonusMenu").toggle();
                         }, 333);
                     });
-                    $("body").on("click", '#startbutton', function () {
-                        console.log('test passed')
+                    $("body").on("click", '.startbutton', function () {
+                        console.log("test passed")
+                       /* isPetBonchActive = true;
+                        const selectedOptions = Array.from($('#bonusMenu select').not('#petIdSelect'))
+                        .map(select => {
+                          const value = select.value;
+                          const optionText = select.options[select.selectedIndex].text;
+                          return value !== "0" ? optionText : null;
+                        })
+                        .filter(option => option !== null);
+                    function checkAndSendData() {
+                        var container = document.querySelector("#kom_con > div > div.content > div");
+                        var greenTextValues = Array.from(container.querySelectorAll("b.green")).map(el => {
+                          return el.nextSibling ? el.nextSibling.textContent.trim() : "";
+                    });
+                        const allMatch = selectedOptions.every(option => greenTextValues.includes(option));
+                        if (isPetBonchActive) {
+                          if (allMatch) {
+                            console.log("Wszystkie wybrane wartości pasują:", selectedOptions);
+                            clearInterval(petInterval);
+                          } else {
+                            console.log("Brak pełnego dopasowania, ponawiam próbę...");
+                            let petId = $('#petIdSelect').val();
+                            let button = document.querySelector(`#pet_list > div:nth-child(${petId}) > div.rightSide > div > button:nth-child(2)`);
+                            let petId2 = button.getAttribute("data-pet");
+                            GAME.socket.emit('ga', { a: 43, type: 7, pet: petId2 });
+                            kom_clear();
+                          }
+                        } else {
+                          clearInterval(petInterval);
+                        }
+                      }
+                    
+                      // Rozpocznij sprawdzanie i wysyłanie danych
+                      petInterval = setInterval(checkAndSendData, 2000);*/
                     });
                 $("body").on("click", ".activate_all_clan_buffs", () => {
                     this.activateAllClanBuffs();
