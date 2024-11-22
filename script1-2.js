@@ -1112,7 +1112,9 @@ if (typeof GAME === 'undefined') { } else {
                             }, 333);
                     });
                 });
-
+                $("body").on("click", '.otwieranie_kart', () => {
+                    console.log("test2 passed")
+                });
 
                 
                 $("body").on("click", ".activate_all_clan_buffs", () => {
