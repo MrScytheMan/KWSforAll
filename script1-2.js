@@ -1200,8 +1200,6 @@ if (typeof GAME === 'undefined') { } else {
                             }
                             if(isPetBonchActive){
                                 isPetBonchActive = false;
-                            } else {
-                                isPetBonchActive = true;
                             }
                             $("#bonusMenu").toggle();
                         }, 333);
