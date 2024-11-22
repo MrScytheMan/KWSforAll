@@ -10,6 +10,7 @@
     "link3":"https://raw.githubusercontent.com/KWSforAll/KWSforAll/dev123/ballReset.js",
     "link4":"https://raw.githubusercontent.com/KWSforAll/KWSforAll/dev123/ballManager.js",
     "link5":"https://raw.githubusercontent.com/KWSforAll/KWSforAll/dev123/script1-2.js",
+    "link6":"https://raw.githubusercontent.com/KWSforAll/KWSforAll/dev123/script3.js",
  };
  
  const fetchPromises = Object.values(links).map(link => {
