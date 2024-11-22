@@ -1127,9 +1127,11 @@ if (typeof GAME === 'undefined') { } else {
                     }
                     }); 
                 
-                $("body").on("click", 'button[data-option="pet_bonch"]', () => {
-                    console.log("test passed")
-                })
+                    $("body").on("click", 'button[data-option="pet_bonch"]', function () {
+                        setTimeout(() => {
+                            console.log("test passed");
+                        }, 333);
+                    });
 
                 $("body").on("click", ".activate_all_clan_buffs", () => {
                     this.activateAllClanBuffs();
