@@ -1238,10 +1238,10 @@ if (typeof GAME === 'undefined') { } else {
                         }
                       }
                       $("body").on("click", '.stopButton', function () {
+                        $("#bonusMenu").hide();
                         if(isPetBonchActive){
                             isPetBonchActive = false;
                         }
-                        $("#bonusMenu").hide();
                       });
                       // Rozpocznij sprawdzanie i wysyłanie danych
                       petInterval = setInterval(checkAndSendData, 2000);
