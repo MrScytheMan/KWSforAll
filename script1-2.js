@@ -1206,8 +1206,8 @@ if (typeof GAME === 'undefined') { } else {
                         }, 333);
                     });
                     $("body").on("click", '.startButton', function () {
-                        console.log("test passed")
-                        /*if(isPetBonchActive){
+                        //console.log("test passed")
+                        if(isPetBonchActive){
                             isPetBonchActive = false;
                         } else {
                             isPetBonchActive = true;
@@ -1243,7 +1243,7 @@ if (typeof GAME === 'undefined') { } else {
                       }
                     
                       // Rozpocznij sprawdzanie i wysyłanie danych
-                      petInterval = setInterval(checkAndSendData, 2000);*/
+                      petInterval = setInterval(checkAndSendData, 2000);
                     });
                 $("body").on("click", ".activate_all_clan_buffs", () => {
                     this.activateAllClanBuffs();
