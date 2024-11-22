@@ -1178,8 +1178,8 @@ if (typeof GAME === 'undefined') { } else {
                         #bonusMenu div {color: #ffffff; font-size: 16px; font-weight: bold; margin-bottom: 10px; text-align: center; }
                         #bonusMenu select {margin: 5px 0; background: #ffffff99; border: solid #6f6f6f 1px; border-radius: 5px; color: black; display: block; width: 100%;}
                         .startButton {display: block; margin: 20px auto; margin-bottom: 2ch;}
-                        .stopButton {display: block; margin: 20px auto;}`;
-                        let petHTML = `<div id="bonusMenu"><div><b>Wybierz bonusy:</b></div> ${this.generateBonusSelects(4)} <div><b>Wybierz ID Peta:</b></div><select id="petIdSelect">${this.generatePetOptions()}</select> <button class="newBtn startButton">Start</button><button class="newBtn stopButton">STOP</button></div>`;
+                        .stopButton {display: block; margin: 20px auto; margin-bottom: 2ch;}`;
+                        let petHTML = `<div id="bonusMenu"><div><b>Wybierz bonusy:</b></div> ${this.generateBonusSelects(4)} <div><b>Wybierz ID Peta:</b></div><select id="petIdSelect">${this.generatePetOptions()}</select> <button class="newBtn startButton">Start</button><button class="newBtn stopButton">CLOSE</button></div>`;
                         let isPetBonchActive = false;
                         let petInterval = null;
                         $("body").on("click", 'button[data-option="pet_bonch"]', function () {
@@ -1243,6 +1243,7 @@ if (typeof GAME === 'undefined') { } else {
                         if(isPetBonchActive){
                             isPetBonchActive = false;
                         }
+                        $("#bonusMenu").hide();
                       });
                       // Rozpocznij sprawdzanie i wysyłanie danych
                       petInterval = setInterval(checkAndSendData, 2000);
