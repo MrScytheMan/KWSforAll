@@ -1200,7 +1200,7 @@ if (typeof GAME === 'undefined') { } else {
                         }, 333);
                     });
                     $("body").on("click", '#startbutton', function () {
-                        console.log(petID)
+                        console.log('test passed')
                     });
                 $("body").on("click", ".activate_all_clan_buffs", () => {
                     this.activateAllClanBuffs();
