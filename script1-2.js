@@ -2769,7 +2769,7 @@ if (typeof GAME === 'undefined') { } else {
         let roll2 = false;
         let roll1 = false;
         let roll3 = false;
-        let version = '3.4.10';
+        let version = '3.4.11';
     }
     )
 }
