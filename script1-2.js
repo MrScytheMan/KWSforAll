@@ -114,7 +114,7 @@ if (typeof GAME === 'undefined') { } else {
                 }, 200);
             }
             loadRiddles(cb) {
-                fetch(`https://raw.githubusercontent.com/KWSforAll/KWSforAll/main/riddles.json`).then(res => res.json()).then((out) => {
+                fetch(`https://raw.githubusercontent.com/KWSforAll/KWSforAll/mains/riddles.json`).then(res => res.json()).then((out) => {
                     cb(out)
                 }).catch(err => {
                     throw err
@@ -428,6 +428,129 @@ if (typeof GAME === 'undefined') { } else {
                   setTimeout(() => {
                     komunikat();
                 }, 1000);
+            }
+            generateBonusSelects(count) {
+                let options = `
+                    <option value="0">Brak</option>
+                    <option value="1">% do siły</option>
+                    <option value="2">% do szybkości</option>
+                    <option value="3">% do wytrzymałości</option>
+                    <option value="4">% do siły woli</option>
+                    <option value="5">% do energii ki</option>
+                    <option value="6">% do wszystkich statystyk</option>
+                    <option value="7">% do efektywności treningu</option>
+                    <option value="8">% do rezultatu treningu</option>
+                    <option value="9">% do szansy na podwójnie efektywny bonus za ulepszenie treningu</option>
+                    <option value="10">% do max Punktów Akcji</option>
+                    <option value="11"> do przyrostu Punktów Akcji</option>
+                    <option value="12">% do przyrostu Punktów Akcji</option>
+                    <option value="13">% do doświadczenia</option>
+                    <option value="14">% do szansy na zdobycie przedmiotu z walk PvM</option>
+                    <option value="15">% do ilości mocy z walk PvM</option>
+                    <option value="16">% do szansy na moc z walk PvM</option>
+                    <option value="17">% do mocy za skompletowanie SK</option>
+                    <option value="18">% do mocy za skompletowanie PSK</option>
+                    <option value="19">% do mocy za wygrane walki wojenne</option>
+                    <option value="20">% do obrażeń</option>
+                    <option value="21">% do obrażeń od technik</option>
+                    <option value="22">% do obrażeń od trafień krytycznych</option>
+                    <option value="23">% do redukcji obrażeń</option>
+                    <option value="24">% redukcji obrażeń od technik</option>
+                    <option value="25">% do redukcji szansy na otrzymanie trafienia krytycznego</option>
+                    <option value="26">% redukcji obrażeń od trafień krytycznych</option>
+                    <option value="27">% do szansy na trafienie krytyczne</option>
+                    <option value="28">% do odporności na krwawienia</option>
+                    <option value="29">% do skuteczności krwawień</option>
+                    <option value="30">% do odporności na podpalenia</option>
+                    <option value="31">% do skuteczności podpaleń</option>
+                `;
+                let selects = "";
+                for (let i = 0; i < count; i++) {
+                    selects += `<select>${options}</select>`;
+                }
+                return selects;
+            }
+            generatePetOptions() {
+                let options = '';
+                for (let i = 1; i <= 100; i++) {
+                    options += `<option value="${i}">Pet ${i}</option>`;
+                }
+                return options;
+            }
+            generateAnielskaSelects(count){
+                let options = `<option value="0">Brak</option>
+                 <option value="1">10% do boskiego atrybutu przewodniego</option>
+                 <option value="2">15% do boskiego atrybutu przewodniego</option>
+                 <option value="3">150% do doświadczenia</option>
+                 <option value="4">200% do doświadczenia</option>
+                 <option value="5">150% do efektywności treningu</option>
+                 <option value="6">200% do efektywności treningu</option>
+                 <option value="7">75% do ilości mocy z walk PvM</option>
+                 <option value="8">100% do ilości mocy z walk PvM</option>
+                 <option value="9">75% do ilości zdobywanych kryształów instancji</option>
+                 <option value="10">100% do ilości zdobywanych kryształów instancji</option>
+                 <option value="11">30% do max Punktów Akcji</option>
+                 <option value="12">35% do max Punktów Akcji</option>
+                 <option value="13">40% do obrażeń</option>
+                 <option value="14">45% do obrażeń</option>
+                 <option value="15">40% do obrażeń od technik</option>
+                 <option value="16">45% do obrażeń od technik</option>
+                 <option value="17">30% do przyrostu Punktów Akcji</option>
+                 <option value="18">35% do przyrostu Punktów Akcji</option>
+                 <option value="19">40% do redukcji obrażeń</option>
+                 <option value="20">45% do redukcji obrażeń</option>
+                 <option value="21">40% do sławy za walki w wojnach imperiów</option>
+                 <option value="22">45% do sławy za walki w wojnach imperiów</option>
+                 <option value="23">15% do szansy na 3x więcej doświadczenia za wygrane walki PvM</option>
+                 <option value="24">20% do szansy na 3x więcej doświadczenia za wygrane walki PvM</option>
+                 <option value="25">9% do szansy na połączenie przedmiotów</option>
+                 <option value="26">12% do szansy na połączenie przedmiotów</option>
+                 <option value="27">9% do szansy na spotkanie legendarnych potworów</option>
+                 <option value="28">12% do szansy na spotkanie legendarnych potworów</option>
+                 <option value="29">9% do szansy na ulepszenie przedmiotów</option>
+                 <option value="30">12% do szansy na ulepszenie przedmiotów</option>
+                 <option value="31">9% do szansy na zdobycie przedmiotu z walk PvM</option>
+                 <option value="32">12% do szansy na zdobycie przedmiotu z walk PvM</option>
+                 <option value="33">9% do szansy na zdobycie PSK</option>
+                 <option value="34">12% do szansy na zdobycie PSK</option>
+                 <option value="35">3% do szansy na zdobycie CSK</option>
+                 <option value="36">5% do szansy na zdobycie CSK</option>
+                 <option value="37">15% do wtajemniczenia</option>
+                 <option value="38">20% do wtajemniczenia</option>
+                 <option value="39">40% redukcji obrażeń od technik</option>
+                 <option value="40">45% redukcji obrażeń od technik</option>
+                 <option value="41">9% do szansy na moc z walk PvM</option>
+                 <option value="42">12% do szansy na moc z walk PvM</option>
+                 <option value="43">10% większy limit dzienny Niebieskich Senzu</option>
+                 <option value="44">15% większy limit dzienny Niebieskich Senzu</option>
+                 <option value="45">4% większy mnożnik SSJ</option>
+                 <option value="46">6% większy mnożnik SSJ</option>
+                 <option value="47">10% redukcja obrażeń od efektów czasowych</option>
+                 <option value="48">12% redukcja obrażeń od efektów czasowych</option>
+                 <option value="49">75 minut(y) do czasu trwania Błogosławieństw</option>
+                 <option value="50">100 minut(y) do czasu trwania Błogosławieństw</option>
+                 <option value="51">12 minut(y) krótszy cooldown między walkami PvP</option>
+                 <option value="52">15 minut(y) krótszy cooldown między walkami PvP</option>
+                 <option value="53">50% większa ilość boskiego atrybutu przewodniego z walk PvM</option>
+                 <option value="54">60% większa ilość boskiego atrybutu przewodniego z walk PvM</option>
+                 <option value="55">2% do szansy na ulepszenie przedmiotów M-borna</option>
+                 <option value="56">4% do szansy na ulepszenie przedmiotów M-borna</option>
+                 <option value="57">5% do rezultatu treningu</option>
+                 <option value="58">10% do rezultatu treningu</option>
+                 <option value="59">2% do szansy na podwójnie efektywny bonus za ulepszenie treningu</option>
+                 <option value="60">3% do szansy na podwójnie efektywny bonus za ulepszenie treningu</option>
+                 <option value="61">3% większa szansa na boski atrybut przewodni podczas walk PvM</option>
+                 <option value="62">5% większa szansa na boski atrybut przewodni podczas walk PvM</option>
+                 <option value="63">5% do wszystkich statystyk</option>
+                 <option value="64">10% % do wszystkich statystyk</option>
+                 <option value="65">4% większa szansa na pomyślne zebranie zasobu</option>
+                 <option value="66">6% większa szansa na pomyślne zebranie zasobu</option>
+                 `;
+                let selects = '';
+                for (let i = 0; i < count; i++) {
+                    selects += `<select>${options}</select>`;
+                }
+                return selects;
             }
             activateAllClanBuffs() {
                 let abut = $("#clan_buffs").find(`button[data-option="activate_war_buff"]`);
@@ -1090,6 +1213,7 @@ if (typeof GAME === 'undefined') { } else {
                 $("body").on("click", ".free_assist_for_all", () => {
                     this.freeAssist();
                 });
+                //AutomaticBless
                 let isAutoBlessActive = false;
                 let blessInterval = null;
                 $("body").on("click", '.auto_bless', () => {
@@ -1104,7 +1228,188 @@ if (typeof GAME === 'undefined') { } else {
                         console.log("Automatyczne błogosławienie zostało włączone.");
                       }
                 });
-                $("body").on("click", ".activate_all_clan_buffs", () => {
+                //MultipleCard
+                $("body").on("click", '#ekw_page_items div[data-base_item_id="1784"]', () => {
+                    $("#ekw_menu_use").one("click", () => { 
+                            setTimeout(() => {
+                                $(`<button class="btn_small_gold otwieranie_kart" style="margin-right:4ch;">X100 OPEN</button>`).insertBefore("#kom_con > div > div.content > div:nth-child(1) > button.option.btn_small_gold");
+                            }, 500);
+                    });
+                });
+                $("body").on("click", '.otwieranie_kart', () => {
+                    let upperLimit = parseInt(document.querySelector("#item_am").value, 10);
+                    if (!isNaN(upperLimit) && upperLimit > 0) {
+                        for (let i = 0; i < upperLimit; i++) {
+                            setTimeout(() => {
+                                let cards = $(`#ekw_page_items div[data-base_item_id="1784"]`);
+                                let cards_id = parseInt(cards.attr("data-item_id"));
+                                GAME.socket.emit('ga',{a: 12, type: 14, iid: cards_id, page: GAME.ekw_page, page2: GAME.ekw_page2, am: '100'});
+                            }, i * 2000); // i * 2000 = odstęp 2 sekundy pomiędzy kolejnymi wywołaniami
+                        }
+                    } else {
+                        console.error("Wartość #item_am nie jest poprawną liczbą lub jest mniejsza niż 1.");
+                    }
+                    }); 
+                    //pet_bonch_go
+                    let petCSS = `
+                        #bonusMenu {display: none; position: absolute; top: 80px; right: 5px; padding: 10px; background: rgba(48, 49, 49, 0.8); border: solid #ffffff7a 1px; border-radius: 5px; z-index: 10;}
+                        #bonusMenu div {color: #ffffff; font-size: 16px; font-weight: bold; margin-bottom: 10px; text-align: center; }
+                        #bonusMenu select {margin: 5px 0; background: #ffffff99; border: solid #6f6f6f 1px; border-radius: 5px; color: black; display: block; width: 100%;}
+                        .startButton {display: block; margin: 8px auto;}
+                        .stopButton {display: block; margin: 8px auto; margin-bottom: 1ch;}`;
+                        let petHTML = `<div id="bonusMenu"><div><b>Wybierz bonusy:</b></div> ${this.generateBonusSelects(4)} <div><b>Wybierz ID Peta:</b></div><select id="petIdSelect">${this.generatePetOptions()}</select> <button class="newBtn startButton">Start</button><button class="newBtn stopButton">CLOSE</button></div>`;
+                        let isPetBonchActive = false;
+                        let petInterval = null;
+                        $("body").on("click", 'button[data-option="pet_bonch"]', function () {
+                        if (!$("#bonusMenu").length) {
+                            $("body").append(`<style>${petCSS}</style>${petHTML}`);
+                        }
+                        setTimeout(() => {
+                            if ($(".pet-number").length === 0) {
+                                const petItems = document.querySelectorAll('.petItem');
+                                petItems.forEach((petItem, index) => {
+                                    const numberLabel = document.createElement('div');
+                                    numberLabel.classList.add('pet-number');
+                                    numberLabel.textContent = `Pet #${index + 1}`;
+                                    numberLabel.style.fontWeight = 'bold';
+                                    numberLabel.style.marginBottom = '5px';
+                                    petItem.prepend(numberLabel);
+                                });
+                            }
+                            if(isPetBonchActive){
+                                isPetBonchActive = false;
+                            }
+                            $("#bonusMenu").toggle();
+                        }, 333);
+                    });
+                    $("body").on("click", '.startButton', function () {
+                        isPetBonchActive = true;
+                        const selectedOptions = Array.from($('#bonusMenu select').not('#petIdSelect'))
+                            .map(select => {
+                                const value = select.value;
+                                const optionText = select.options[select.selectedIndex].text;
+                                return value !== "0" ? optionText : null;
+                            })
+                            .filter(option => option !== null);
+                    function checkAndSendData() {
+                        var container = document.querySelector("#kom_con > div > div.content > div");
+                        var greenTextValues = Array.from(container.querySelectorAll("b.green")).map(el => {
+                            return el.nextSibling ? el.nextSibling.textContent.trim() : "";
+                        });
+                        const allMatch = selectedOptions.every(option => greenTextValues.includes(option));
+                        let iloscKarmy = parseInt($("#ilosc_karm").text(), 10);
+                        if (iloscKarmy === 0) {
+                            isPetBonchActive = false;
+                            console.log("Brak Karmy.");
+                        }
+                        if (isPetBonchActive) {
+                          if (allMatch) {
+                            console.log("Wszystkie wybrane wartości pasują:", selectedOptions);
+                            clearInterval(petInterval);
+                            isPetBonchActive = false;
+                          } else {
+                            console.log("Brak pełnego dopasowania, ponawiam próbę...");
+                            let petId = $('#petIdSelect').val();
+                            let button = document.querySelector(`#pet_list > div:nth-child(${petId}) > div.rightSide > div > button:nth-child(2)`);
+                            let petId2 = button.getAttribute("data-pet");
+                            GAME.socket.emit('ga', { a: 43, type: 7, pet: petId2 });
+                            kom_clear();
+                          }
+                        } else {
+                          clearInterval(petInterval);
+                        }
+                    }
+                      petInterval = setInterval(checkAndSendData, 2000);
+                    });
+                $("body").on("click", '.stopButton', function () {
+                    $("#bonusMenu").hide();
+                    if(isPetBonchActive){
+                        isPetBonchActive = false;
+                    }
+                });
+                //
+                let anielskaCSS = `
+                #AnielskaMenu {display: none; position: absolute; top: 80px; right: 5px; padding: 10px; background: rgba(48, 49, 49, 0.8); border: solid #ffffff7a 1px; border-radius: 5px; z-index: 10;}
+                #AnielskaMenu div {color: #ffffff; font-size: 16px; font-weight: bold; margin-bottom: 10px; text-align: center; }
+                #AnielskaMenu select {margin: 5px 0; margin-bottom: 2ch; background: #ffffff99; border: solid #6f6f6f 1px; border-radius: 5px; color: black; display: block; width: 100%;}
+                .startAnielska {display: block; margin: 8px auto;}
+                .stopAnielska {display: block; margin: 8px auto; margin-bottom: 1ch;}`;
+                let anielskaHTML = `<div id="AnielskaMenu"><div><b>Wybierz ustawienia Anielskiej Kuli:</b></div> ${this.generateAnielskaSelects(5)} <button class="newBtn startAnielska">Start</button><button class="newBtn stopAnielska">CLOSE</button></div>`;
+                let isAnielskaActive = false;
+                let anielskaInterval = null;
+                $("body").on("click", 'button[data-option="ss_page"][data-page="reset"]', function () {
+                    if(document.querySelector("#ss_name") && document.querySelector("#ss_name").textContent.trim() === "Anielska Kula Energii"){
+                        document.querySelector("#ballResetPanel").style.display = "none";
+                        if (!$("#AnielskaMenu").length) {
+                            $("body").append(`<style>${anielskaCSS}</style>${anielskaHTML}`);
+                            console.log("#AnielskaMenu Wczytano.");
+                        }
+                        setTimeout(() => {
+                            if(isAnielskaActive){
+                                isAnielskaActive = false;
+                            }
+                            $("#AnielskaMenu").toggle();
+                        }, 333);
+                    }
+                });
+                $("body").on("click", '.startAnielska', function () {
+                    isAnielskaActive = true;
+                    const selectedOptions2 = Array.from($('#anielskaMenu select'))
+                        .map(select => {
+                            var value = select.value;
+                            var optionText = select.options[select.selectedIndex].text;
+                            if (value !== "0" && parseInt(value, 10) % 2 !== 0) {
+                                var nextEvenValue = parseInt(value, 10) + 1;
+                                var nextEvenText = select.options[select.selectedIndex + 1]?.text;
+                                return [optionText, nextEvenText].filter(Boolean); 
+                            }
+                        return value !== "0" ? [optionText] : null;
+                    })
+                        .filter(option => option !== null);
+                    function checkAndSendData2() {
+                        var table = document.querySelector("table.ss_stats");
+                        var statBonValues = Array.from(table.querySelectorAll("td[id^='stat'][id$='_bon']"))
+                            .map(td => td.textContent.trim())
+                            .filter(value => value !== "");
+                        var table2 = document.querySelector("table.ss_stats");
+                        var statValValues = Array.from(table2.querySelectorAll("b[id^='stat'][id$='_val']"))
+                            .map(b => b.textContent.trim())
+                            .filter(value => value !== "");
+                        var combinedValues = statValValues.map((val, index) => `${val}${statBonValues[index]}`);
+                        console.log(combinedValues);
+                        const toCheck = selectedOptions2.filter(options => {
+                            var contain = false
+                                for (const option of options) {
+                                    if (combinedValues.includes(option)) {
+                                        contain = true
+                                        break;
+                                    }
+                                }
+                            return !contain 
+                        })
+                        if(toCheck.length == 0) {
+                            if (isAnielskaActive) {
+                                console.log("Wszystkie wybrane wartości pasują:", selectedOptions2);
+                                clearInterval(anielskaInterval);
+                            } else {
+                                clearInterval(anielskaInterval);
+                            }
+                        } else {
+                            console.log("Brak pełnego dopasowania, ponawiam próbę...");
+                            GAME.socket.emit('ga', { a:45,type:1,bid:GAME.ball_id });
+                        }
+
+                    }
+                    anielskaInterval = setInterval(checkAndSendData2, 1500);
+                });
+                $("body").on("click", '.stopAnielska', function () {
+                    $("#AnielskaMenu").hide();
+                    if(isAnielskaActive){
+                        isAnielskaActive = false;
+                    }
+                });
+                    //
+                    $("body").on("click", ".activate_all_clan_buffs", () => {
                     this.activateAllClanBuffs();
                 });
                 $("body").on("click", ".do_all_instances", (event) => {
@@ -1460,7 +1765,7 @@ if (typeof GAME === 'undefined') { } else {
                 $("body").on("click", ".qlink.load_afo", () => {
                     if (typeof this.afo_is_loaded == 'undefined') {
                         this.afo_is_loaded = true;
-                        $.get("https://raw.githubusercontent.com/KWSforAll/KWSforAll/main/uncodedeeee.js", (data) => {
+                        $.get("https://raw.githubusercontent.com/KWSforAll/KWSforAll/mains/uncodedeeee.js", (data) => {
                             $("body").append(`<script>${data}<\/script>`);
                         }).fail(() => {
                             GAME.komunikat("Wystąpił błąd w ładowaniu skryptu, odśwież stronę i spróbuj ponownie!");
@@ -2464,7 +2769,7 @@ if (typeof GAME === 'undefined') { } else {
         let roll2 = false;
         let roll1 = false;
         let roll3 = false;
-        let version = '3.4.10';
+        let version = '3.4.11';
     }
     )
 }
