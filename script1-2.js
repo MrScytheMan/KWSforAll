@@ -1330,7 +1330,7 @@ if (typeof GAME === 'undefined') { } else {
                 //
                 let anielskaCSS = `
                 #AnielskaMenu {display: none; position: absolute; top: 80px; right: 5px; padding: 10px; background: rgba(48, 49, 49, 0.8); border: solid #ffffff7a 1px; border-radius: 5px; z-index: 10;}
-                #AnielskaMenu div {color: #ffffff; font-size: 16px; font-weight: bold; margin-bottom: 10px; text-align: center; }
+                
                 #AnielskaMenu select {margin: 5px 0; margin-bottom: 2ch; background: #ffffff99; border: solid #6f6f6f 1px; border-radius: 5px; color: black; display: block; width: 100%;}
                 .startAnielska {display: block; margin: 8px auto;}
                 .stopAnielska {display: block; margin: 8px auto; margin-bottom: 1ch;}`;
