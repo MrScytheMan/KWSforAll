@@ -1339,8 +1339,12 @@ if (typeof GAME === 'undefined') { } else {
                 let anielskaInterval = null;
                 $("body").on("click", 'button[data-option="ss_page"][data-page="reset"]', function () {
                     if(document.querySelector("#ss_name") && document.querySelector("#ss_name").textContent.trim() === "Anielska Kula Energii"){
-                        document.querySelector("#ballResetPanel").style.display = "none";
-                        if (!$("#AnielskaMenu").length) {
+                        if($("#ballResetPanel").length) {
+                            setTimeout(() => {
+                                document.querySelector("#ballResetPanel").style.display = "none";
+                            }, 500);
+                        }
+                        if(!$("#AnielskaMenu").length) {
                             $("body").append(`<style>${anielskaCSS}</style>${anielskaHTML}`);
                             console.log("#AnielskaMenu Wczytano.");
                         }
