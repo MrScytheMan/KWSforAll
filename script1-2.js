@@ -1360,11 +1360,11 @@ if (typeof GAME === 'undefined') { } else {
                     isAnielskaActive = true;
                     const selectedOptions2 = Array.from($('#anielskaMenu select'))
                         .map(select => {
-                            var value = select.value;
-                            var optionText = select.options[select.selectedIndex].text;
+                            const value = select.value;
+                            const optionText = select.options[select.selectedIndex].text;
                             if (value !== "0" && parseInt(value, 10) % 2 !== 0) {
-                                var nextEvenValue = parseInt(value, 10) + 1;
-                                var nextEvenText = select.options[select.selectedIndex + 1]?.text;
+                                const nextEvenValue = parseInt(value, 10) + 1;
+                                const nextEvenText = select.options[select.selectedIndex + 1]?.text;
                                 return [optionText, nextEvenText].filter(Boolean); 
                             }
                         return value !== "0" ? [optionText] : null;

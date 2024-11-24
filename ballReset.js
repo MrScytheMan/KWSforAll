@@ -5,9 +5,8 @@ class ballReset {
         this.bonsCombinations = [];
         this.css = ` #ballResetPanel { position: absolute; top: 35px; right: 10px; z-index: 9999999; width: 445px; padding: 5px; background: #303131bd; border: solid #ffffff7a 1px; border-radius: 5px; display: none; user-select: none; } #ballResetPanel .controller { display: flex; flex-direction: column; align-items: stretch; margin-bottom: 2px; } #ballResetPanel .controller button { font-weight: bolder; border:solid black 1px; cursor: pointer; } #ballResetPanel .controller button.green { background: lime; color: black !important; } #ballResetPanel .controller button.red { background: red; color: black !important; } #ballResetPanel .controller button:first-child { border-bottom:none; background: #afd4f5; } #ballResetPanel .controller button:disabled { opacity: 1; background: gray; cursor: not-allowed; } #ballResetPanel .ballCombination { background: #dfdfdc5c; padding: 5px; margin-bottom: 2px; } #ballResetPanel .ballCombination .combinationID { text-align: center; background: black; color: white; font-weight: bolder; font-size: 16px; padding: 1px; margin-bottom: 2px; } #ballResetPanel .ballCombination select { margin-bottom: 2px; background: #ffffff99; border: solid #6f6f6f 1px; border-radius: 5px; color: black; } #ballResetPanel .ballCombination select:last-child { margin-bottom: 0px; } `;
         this.innerHTML = ` <div id="ballResetPanel"> <div class="controller"> <button class="addCombination">DODAJ NOWĄ KOMBINACJE</button> <button class="startSearching green">SZUKAJ</button> </div> <div class="combinations">${this.bonsCombination(1)}</div> </div> `;
-        if(document.querySelector("#ss_name") && document.querySelector("#ss_name").textContent.trim() != "Anielska Kula Energii"){
+        
         $("body").append(`<style>${this.css}</style>${this.innerHTML}`);
-        }
         $("body").on("click", "#ballResetPanel .addCombination", () => {
             let lastID = parseInt($(".ballCombination:last").attr("combination"));
             lastID++;
@@ -31,7 +30,9 @@ class ballReset {
                 }
                 delete GAME.progress;
             }
+            if(document.querySelector("#ss_name") && document.querySelector("#ss_name").textContent.trim() != "Anielska Kula Energii"){
             $("#ballResetPanel").show();
+        }
         });
         $("body").on("click", `button[data-option="ss_page"][data-page="upgrade"], #soulstone_interface .closeicon`, () => {
             if (this.hasStarted) {
