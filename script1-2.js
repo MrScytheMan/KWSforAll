@@ -1339,8 +1339,12 @@ if (typeof GAME === 'undefined') { } else {
                 let anielskaInterval = null;
                 $("body").on("click", 'button[data-option="ss_page"][data-page="reset"]', function () {
                     if(document.querySelector("#ss_name") && document.querySelector("#ss_name").textContent.trim() === "Anielska Kula Energii"){
-                        document.querySelector("#ballResetPanel").style.display = "none";
-                        if (!$("#AnielskaMenu").length) {
+                        if($("#ballResetPanel").length) {
+                            setTimeout(() => {
+                                document.querySelector("#ballResetPanel").style.display = "none";
+                            }, 500);
+                        }
+                        if(!$("#AnielskaMenu").length) {
                             $("body").append(`<style>${anielskaCSS}</style>${anielskaHTML}`);
                             console.log("#AnielskaMenu Wczytano.");
                         }
@@ -1354,18 +1358,19 @@ if (typeof GAME === 'undefined') { } else {
                 });
                 $("body").on("click", '.startAnielska', function () {
                     isAnielskaActive = true;
-                    const selectedOptions2 = Array.from($('#anielskaMenu select'))
+                    const selectedOptions2 = Array.from($('#AnielskaMenu select'))
                         .map(select => {
-                            var value = select.value;
-                            var optionText = select.options[select.selectedIndex].text;
+                            const value = select.value;
+                            const optionText = select.options[select.selectedIndex].text;
                             if (value !== "0" && parseInt(value, 10) % 2 !== 0) {
-                                var nextEvenValue = parseInt(value, 10) + 1;
-                                var nextEvenText = select.options[select.selectedIndex + 1]?.text;
+                                const nextEvenValue = parseInt(value, 10) + 1;
+                                const nextEvenText = select.options[select.selectedIndex + 1]?.text;
                                 return [optionText, nextEvenText].filter(Boolean); 
                             }
                         return value !== "0" ? [optionText] : null;
                     })
                         .filter(option => option !== null);
+                        
                     function checkAndSendData2() {
                         var table = document.querySelector("table.ss_stats");
                         var statBonValues = Array.from(table.querySelectorAll("td[id^='stat'][id$='_bon']"))
@@ -1377,6 +1382,7 @@ if (typeof GAME === 'undefined') { } else {
                             .filter(value => value !== "");
                         var combinedValues = statValValues.map((val, index) => `${val}${statBonValues[index]}`);
                         console.log(combinedValues);
+                        console.log(selectedOptions2)
                         const toCheck = selectedOptions2.filter(options => {
                             var contain = false
                                 for (const option of options) {
