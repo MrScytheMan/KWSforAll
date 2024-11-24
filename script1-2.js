@@ -1358,7 +1358,7 @@ if (typeof GAME === 'undefined') { } else {
                 });
                 $("body").on("click", '.startAnielska', function () {
                     isAnielskaActive = true;
-                    const selectedOptions2 = Array.from($('#anielskaMenu select'))
+                    const selectedOptions2 = Array.from($('#AnielskaMenu select'))
                         .map(select => {
                             const value = select.value;
                             const optionText = select.options[select.selectedIndex].text;
