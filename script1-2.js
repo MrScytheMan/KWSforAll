@@ -1370,6 +1370,7 @@ if (typeof GAME === 'undefined') { } else {
                         return value !== "0" ? [optionText] : null;
                     })
                         .filter(option => option !== null);
+                        
                     function checkAndSendData2() {
                         var table = document.querySelector("table.ss_stats");
                         var statBonValues = Array.from(table.querySelectorAll("td[id^='stat'][id$='_bon']"))
@@ -1381,6 +1382,7 @@ if (typeof GAME === 'undefined') { } else {
                             .filter(value => value !== "");
                         var combinedValues = statValValues.map((val, index) => `${val}${statBonValues[index]}`);
                         console.log(combinedValues);
+                        console.log(selectedOptions2)
                         const toCheck = selectedOptions2.filter(options => {
                             var contain = false
                                 for (const option of options) {
