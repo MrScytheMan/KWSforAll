@@ -91,9 +91,8 @@ class calculatePA{
         ];
     
         for (let page of pages) {
-            await  GAME.socket.emit('ga', { a: 12, page: page.page, page2: page.page2, used: 1 });
-    
             await new Promise(resolve => setTimeout(resolve, 500));
+            await  GAME.socket.emit('ga', { a: 12, page: page.page, page2: page.page2, used: 1 });
 
             const itemElement = document.querySelector(`#ekw_page_items [data-base_item_id="${itemId}"]`);
             if (itemElement) {
@@ -125,8 +124,7 @@ class calculatePA{
             paDiv.style.borderRadius = '5px';
             paDiv.style.fontWeight = 'bold';
     
-            paDiv.style.top - '30'
-            //paDiv.style.top = `${titleDiv.offsetTop + titleDiv.offsetHeight + 30}px`;
+            paDiv.style.top = `${titleDiv.offsetTop + titleDiv.offsetHeight + 30}px`;
             paDiv.style.left = '50%';
             paDiv.style.transform = 'translateX(-50%)'; 
             paDiv.style.textAlign = 'center';
