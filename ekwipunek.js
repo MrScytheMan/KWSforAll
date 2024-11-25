@@ -125,7 +125,8 @@ class calculatePA{
             paDiv.style.borderRadius = '5px';
             paDiv.style.fontWeight = 'bold';
     
-            paDiv.style.top = `${titleDiv.offsetTop + titleDiv.offsetHeight + 30}px`;
+            paDiv.style.top - '30'
+            //paDiv.style.top = `${titleDiv.offsetTop + titleDiv.offsetHeight + 30}px`;
             paDiv.style.left = '50%';
             paDiv.style.transform = 'translateX(-50%)'; 
             paDiv.style.textAlign = 'center';
