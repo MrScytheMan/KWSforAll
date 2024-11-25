@@ -1118,7 +1118,7 @@ if (typeof GAME === 'undefined') { } else {
                     buttonMBorn.textContent = 'Wiedza MBorn';
                     buttonMBorn.setAttribute('data-option', 'mborn');
 
-                    let komunikatElement = document.querySelector('.game-komunikat');
+                    let komunikatElement = document.querySelector('#kom_con .kom');
                     komunikatElement.appendChild(buttonGohan);
                     komunikatElement.appendChild(buttonMBorn);
                 });
