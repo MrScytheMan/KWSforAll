@@ -77,10 +77,12 @@ class calculatePA{
     
     async getItemStacks(itemIds, initialPA) {
         const stacks = {};
-        await new Promise(resolve => setTimeout(resolve, 500));
         for (let itemId of itemIds) {
             const stack = await this.getStackFromPages(itemId);
             stacks[itemId] = stack;
+    
+            // Opóźnienie o 1 sekundę
+            await new Promise(resolve => setTimeout(resolve, 1000));
         }
         console.log(stacks);
         return stacks;
