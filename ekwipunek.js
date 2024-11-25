@@ -30,12 +30,10 @@ class ekwipunekMenager {
             paDiv.innerText = `POSIADANE PA: OBLICZ`;
 
             // Stylizacja elementu
+            paDiv.style.display = "inline-block";
             paDiv.style.color = "lightblue";
             paDiv.style.fontSize = "16px";
-            paDiv.style.padding = "5px";
-            paDiv.style.borderRadius = "5px";
             paDiv.style.fontWeight = "bold";
-            paDiv.style.textAlign = "center";
             paDiv.style.cursor = "pointer";
 
             // Dodanie elementu do tytułu
