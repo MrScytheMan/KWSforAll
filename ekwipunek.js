@@ -1,7 +1,7 @@
 class ekwipunekMenager {
     constructor() {
-        const otwieranieKart = new cardOpen(); // Ta klasa działa od razu
-        this.setupCalculatePA(); // Konfigurujemy uruchamianie calculatePA
+        const otwieranieKart = new cardOpen();
+        this.setupCalculatePA();
     }
 
     setupCalculatePA() {
@@ -10,7 +10,7 @@ class ekwipunekMenager {
         if (ekwipunekButton) {
             ekwipunekButton.addEventListener('click', () => {
                 console.log("Przycisk Ekwipunek kliknięty.");
-                this.createOrUpdatePADisplay(); // Tworzymy lub aktualizujemy element PA
+                this.createOrUpdatePADisplay();
             });
         } else {
             console.error("Nie znaleziono przycisku Ekwipunek!");
@@ -24,12 +24,9 @@ class ekwipunekMenager {
         let paDiv = document.getElementById("pa_display");
 
         if (!paDiv) {
-            // Tworzymy nowy element z tekstem "OBLICZ"
             paDiv = document.createElement("div");
             paDiv.id = "pa_display";
             paDiv.innerText = `POSIADANE PA: OBLICZ`;
-
-            // Stylizacja elementu
             paDiv.style.display = "inline-block";
             paDiv.style.color = "lightblue";
             paDiv.style.fontSize = "16px";
@@ -37,11 +34,7 @@ class ekwipunekMenager {
             paDiv.style.cursor = "pointer";
             paDiv.style.position = "relative";
             paDiv.style.left = "40%";
-
-            // Dodanie elementu do tytułu
             titleDiv.appendChild(paDiv);
-
-            // Dodanie obsługi kliknięcia do obliczeń
             paDiv.addEventListener("click", () => {
                 console.log("Obliczanie PA rozpoczęte...");
                 new calculatePA();
@@ -67,7 +60,7 @@ class cardOpen {
                         let cards = $(`#ekw_page_items div[data-base_item_id="1784"]`);
                         let cards_id = parseInt(cards.attr("data-item_id"));
                         GAME.socket.emit('ga',{a: 12, type: 14, iid: cards_id, page: GAME.ekw_page, page2: GAME.ekw_page2, am: '100'});
-                    }, i * 2000); // i * 2000 = odstęp 2 sekundy pomiędzy kolejnymi wywołaniami
+                    }, i * 2000);
                 }
             } else {
                 console.error("Wartość #item_am nie jest poprawną liczbą lub jest mniejsza niż 1.");
@@ -85,7 +78,7 @@ class calculatePA {
 
     async calculateFinalNumber() {
         //const initialPA = parseInt(GAME.bindings.pr[0].c.innerText.replace(/\s+/g, ''), 10);
-        const initialPA = document.querySelector("#char_pa_max").innerText.replace(/\s+/g, '')
+        const initialPA = parseInt(document.querySelector("#char_pa_max").innerText.replace(/\s+/g, ''), 10)
         let finalNumber = initialPA;
 
         const itemStacks = await this.getItemStacks([1244, 1242, 1259, 1473, 1260, 1472, 1243, 1471], initialPA);
