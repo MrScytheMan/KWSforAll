@@ -80,6 +80,7 @@ if (typeof GAME === 'undefined') { } else {
                 $("#clan_inner_planets h3").eq(0).append(`<button id="poka_telep" style="margin-left:5px;" class="newBtn">pokaż / ukryj salę telep</button>`);
                 $(`<button class="newBtn free_assist_for_all" style="margin-right:5px;">Asystuj wszystkim za darmo</button>`).insertBefore(`button[data-option="clan_assist_all"]`);
                 $(`<button class="gold_button auto_bless">AUTOMAT</button>`).insertBefore(`button[data-option="grant_buff"]`);
+                $(`<button class="gold_button auto_know">AUTOMATY</button>`).after('button[data-option="show_know2"]');
                 $("#clan_inner_wars h3").eq(0).append(` <button class="newBtn activate_all_clan_buffs">Aktywuj wszystkie buffy</button>`);
                 $(`#minimap_con`).append(`<div id="kws_locInfo"><div class="sekcja">INFORMACJE O LOKACJI</div><div class="content"></div></div>`);
                 $("#sett_page_local div").eq(0).prepend(`<b class="green">Zmień tło strony </b><div class="game_input"><input id="new_website_bg" style="width:370px;" type="text"></div><button class="option newBtn kws_change_website_bg" style="margin-left:5px;">Zmień</button><button class="option newBtn kws_reset_website_bg" style="margin-left:5px;">Reset</button><br><br>`);
@@ -1228,28 +1229,22 @@ if (typeof GAME === 'undefined') { } else {
                         console.log("Automatyczne błogosławienie zostało włączone.");
                       }
                 });
-                /*//MultipleCard
-                $("body").on("click", '#ekw_page_items div[data-base_item_id="1784"]', () => {
-                    $("#ekw_menu_use").one("click", () => { 
-                            setTimeout(() => {
-                                $(`<button class="btn_small_gold otwieranie_kart" style="margin-right:4ch;">X100 OPEN</button>`).insertBefore("#kom_con > div > div.content > div:nth-child(1) > button.option.btn_small_gold");
-                            }, 500);
-                    });
+                $("body").on("click", '.auto_know', () => {
+                    GAME.komunikat("Której wiedzy chcesz sie uczyć?");
+                    let buttonGohan = document.createElement('button');
+                    buttonGohan.classList.add('gold_button');
+                    buttonGohan.textContent = 'Wiedza Gohan';
+                    buttonGohan.setAttribute('data-option', 'gohan');
+
+                    let buttonMBorn = document.createElement('button');
+                    buttonMBorn.classList.add('gold_button');
+                    buttonMBorn.textContent = 'Wiedza MBorn';
+                    buttonMBorn.setAttribute('data-option', 'mborn');
+
+                    let komunikatElement = document.querySelector('.game-komunikat');
+                    komunikatElement.appendChild(buttonGohan);
+                    komunikatElement.appendChild(buttonMBorn);
                 });
-                $("body").on("click", '.otwieranie_kart', () => {
-                    let upperLimit = parseInt(document.querySelector("#item_am").value, 10);
-                    if (!isNaN(upperLimit) && upperLimit > 0) {
-                        for (let i = 0; i < upperLimit; i++) {
-                            setTimeout(() => {
-                                let cards = $(`#ekw_page_items div[data-base_item_id="1784"]`);
-                                let cards_id = parseInt(cards.attr("data-item_id"));
-                                GAME.socket.emit('ga',{a: 12, type: 14, iid: cards_id, page: GAME.ekw_page, page2: GAME.ekw_page2, am: '100'});
-                            }, i * 2000); // i * 2000 = odstęp 2 sekundy pomiędzy kolejnymi wywołaniami
-                        }
-                    } else {
-                        console.error("Wartość #item_am nie jest poprawną liczbą lub jest mniejsza niż 1.");
-                    }
-                    }); */
                     //pet_bonch_go
                     let petCSS = `
                         #bonusMenu {display: none; position: absolute; top: 80px; right: 5px; padding: 10px; background: rgba(48, 49, 49, 0.8); border: solid #ffffff7a 1px; border-radius: 5px; z-index: 10;}
