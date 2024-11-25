@@ -1228,7 +1228,7 @@ if (typeof GAME === 'undefined') { } else {
                         console.log("Automatyczne błogosławienie zostało włączone.");
                       }
                 });
-                //MultipleCard
+                /*//MultipleCard
                 $("body").on("click", '#ekw_page_items div[data-base_item_id="1784"]', () => {
                     $("#ekw_menu_use").one("click", () => { 
                             setTimeout(() => {
@@ -1249,7 +1249,7 @@ if (typeof GAME === 'undefined') { } else {
                     } else {
                         console.error("Wartość #item_am nie jest poprawną liczbą lub jest mniejsza niż 1.");
                     }
-                    }); 
+                    }); */
                     //pet_bonch_go
                     let petCSS = `
                         #bonusMenu {display: none; position: absolute; top: 80px; right: 5px; padding: 10px; background: rgba(48, 49, 49, 0.8); border: solid #ffffff7a 1px; border-radius: 5px; z-index: 10;}
@@ -2769,6 +2769,7 @@ if (typeof GAME === 'undefined') { } else {
             $('#available_servers option[value=' + this.server + ']').prop('selected', true);
         };
         const kulka = new ballManager();
+        const ekwipunek = new ekwipunekMenager();
         let adimp = false;
         let arena_count = 0;
         let pvp_count = 0;
