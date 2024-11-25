@@ -284,3 +284,161 @@ class ballReset {
         }];
     }
 }
+
+class pet_bonch {
+    constructor() {
+        this.petCSS = `
+            #bonusMenu {display: none; position: absolute; top: 80px; right: 5px; padding: 10px; background: rgba(48, 49, 49, 0.8); border: solid #ffffff7a 1px; border-radius: 5px; z-index: 10;}
+            #bonusMenu div {color: #ffffff; font-size: 16px; font-weight: bold; margin-bottom: 10px; text-align: center; }
+            #bonusMenu select {margin: 5px 0; background: #ffffff99; border: solid #6f6f6f 1px; border-radius: 5px; color: black; display: block; width: 100%;}
+            .startButton {display: block; margin: 8px auto;}
+            .stopButton {display: block; margin: 8px auto; margin-bottom: 1ch;}`;
+        this.petHTML = `
+            <div id="bonusMenu">
+                <div><b>Wybierz bonusy:</b></div>
+                ${this.generateBonusSelects(4)}
+                <div><b>Wybierz ID Peta:</b></div>
+                <select id="petIdSelect">${this.generatePetOptions()}</select>
+                <button class="newBtn startButton">Start</button>
+                <button class="newBtn stopButton">CLOSE</button>
+            </div>`;
+        this.isPetBonchActive = false;
+        this.petInterval = null;
+
+        this.initialize();
+    }
+
+    initialize() {
+        this.attachButtonEvent();
+        this.attachStartEvent();
+        this.attachStopEvent();
+    }
+
+    generateBonusSelects(count) {
+        let options = `
+            <option value="0">Brak</option>
+            <option value="1">% do siły</option>
+            <option value="2">% do szybkości</option>
+            <option value="3">% do wytrzymałości</option>
+            <option value="4">% do siły woli</option>
+            <option value="5">% do energii ki</option>
+            <option value="6">% do wszystkich statystyk</option>
+            <option value="7">% do efektywności treningu</option>
+            <option value="8">% do rezultatu treningu</option>
+            <option value="9">% do szansy na podwójnie efektywny bonus za ulepszenie treningu</option>
+            <option value="10">% do max Punktów Akcji</option>
+            <option value="11"> do przyrostu Punktów Akcji</option>
+            <option value="12">% do przyrostu Punktów Akcji</option>
+            <option value="13">% do doświadczenia</option>
+            <option value="14">% do szansy na zdobycie przedmiotu z walk PvM</option>
+            <option value="15">% do ilości mocy z walk PvM</option>
+            <option value="16">% do szansy na moc z walk PvM</option>
+            <option value="17">% do mocy za skompletowanie SK</option>
+            <option value="18">% do mocy za skompletowanie PSK</option>
+            <option value="19">% do mocy za wygrane walki wojenne</option>
+            <option value="20">% do obrażeń</option>
+            <option value="21">% do obrażeń od technik</option>
+            <option value="22">% do obrażeń od trafień krytycznych</option>
+            <option value="23">% do redukcji obrażeń</option>
+            <option value="24">% redukcji obrażeń od technik</option>
+            <option value="25">% do redukcji szansy na otrzymanie trafienia krytycznego</option>
+            <option value="26">% redukcji obrażeń od trafień krytycznych</option>
+            <option value="27">% do szansy na trafienie krytyczne</option>
+            <option value="28">% do odporności na krwawienia</option>
+            <option value="29">% do skuteczności krwawień</option>
+            <option value="30">% do odporności na podpalenia</option>
+            <option value="31">% do skuteczności podpaleń</option>
+        `;
+        let selects = "";
+        for (let i = 0; i < count; i++) {
+            selects += `<select>${options}</select>`;
+        }
+        return selects;
+    }
+
+    generatePetOptions() {
+        let options = '';
+        for (let i = 1; i <= 100; i++) {
+            options += `<option value="${i}">Pet ${i}</option>`;
+        }
+        return options;
+    }
+
+    attachButtonEvent() {
+        $("body").on("click", 'button[data-option="pet_bonch"]', () => {
+            if (!$("#bonusMenu").length) {
+                $("body").append(`<style>${this.petCSS}</style>${this.petHTML}`);
+            }
+
+            setTimeout(() => {
+                if ($(".pet-number").length === 0) {
+                    const petItems = document.querySelectorAll('.petItem');
+                    petItems.forEach((petItem, index) => {
+                        const numberLabel = document.createElement('div');
+                        numberLabel.classList.add('pet-number');
+                        numberLabel.textContent = `Pet #${index + 1}`;
+                        numberLabel.style.fontWeight = 'bold';
+                        numberLabel.style.marginBottom = '5px';
+                        petItem.prepend(numberLabel);
+                    });
+                }
+                this.isPetBonchActive = false;
+                $("#bonusMenu").toggle();
+            }, 333);
+        });
+    }
+
+    attachStartEvent() {
+        $("body").on("click", '.startButton', () => {
+            this.isPetBonchActive = true;
+            const selectedOptions = Array.from($('#bonusMenu select').not('#petIdSelect'))
+                .map(select => {
+                    const value = select.value;
+                    const optionText = select.options[select.selectedIndex].text;
+                    return value !== "0" ? optionText : null;
+                })
+                .filter(option => option !== null);
+
+            const checkAndSendData = () => {
+                const container = document.querySelector("#kom_con > div > div.content > div");
+                const greenTextValues = Array.from(container.querySelectorAll("b.green")).map(el => {
+                    return el.nextSibling ? el.nextSibling.textContent.trim() : "";
+                });
+
+                const allMatch = selectedOptions.every(option => greenTextValues.includes(option));
+                const iloscKarmy = parseInt($("#ilosc_karm").text(), 10);
+
+                if (iloscKarmy === 0) {
+                    this.isPetBonchActive = false;
+                    console.log("Brak Karmy.");
+                }
+
+                if (this.isPetBonchActive) {
+                    if (allMatch) {
+                        console.log("Wszystkie wybrane wartości pasują:", selectedOptions);
+                        clearInterval(this.petInterval);
+                        this.isPetBonchActive = false;
+                    } else {
+                        console.log("Brak pełnego dopasowania, ponawiam próbę...");
+                        const petId = $('#petIdSelect').val();
+                        const button = document.querySelector(`#pet_list > div:nth-child(${petId}) > div.rightSide > div > button:nth-child(2)`);
+                        const petId2 = button.getAttribute("data-pet");
+                        GAME.socket.emit('ga', { a: 43, type: 7, pet: petId2 });
+                        kom_clear();
+                    }
+                } else {
+                    clearInterval(this.petInterval);
+                }
+            };
+
+            this.petInterval = setInterval(checkAndSendData, 2000);
+        });
+    }
+
+    attachStopEvent() {
+        $("body").on("click", '.stopButton', () => {
+            $("#bonusMenu").hide();
+            this.isPetBonchActive = false;
+        });
+    }
+}

@@ -430,7 +430,7 @@ if (typeof GAME === 'undefined') { } else {
                     komunikat();
                 }, 1000);
             }
-            generateBonusSelects(count) {
+          /*  generateBonusSelects(count) {
                 let options = `
                     <option value="0">Brak</option>
                     <option value="1">% do siły</option>
@@ -477,7 +477,7 @@ if (typeof GAME === 'undefined') { } else {
                     options += `<option value="${i}">Pet ${i}</option>`;
                 }
                 return options;
-            }
+            }*/
             generateAnielskaSelects(count){
                 let options = `<option value="0">Brak</option>
                  <option value="1">10% do boskiego atrybutu przewodniego</option>
@@ -1246,7 +1246,7 @@ if (typeof GAME === 'undefined') { } else {
                     komunikatElement.appendChild(buttonMBorn);
                 });
                     //pet_bonch_go
-                    let petCSS = `
+               /*     let petCSS = `
                         #bonusMenu {display: none; position: absolute; top: 80px; right: 5px; padding: 10px; background: rgba(48, 49, 49, 0.8); border: solid #ffffff7a 1px; border-radius: 5px; z-index: 10;}
                         #bonusMenu div {color: #ffffff; font-size: 16px; font-weight: bold; margin-bottom: 10px; text-align: center; }
                         #bonusMenu select {margin: 5px 0; background: #ffffff99; border: solid #6f6f6f 1px; border-radius: 5px; color: black; display: block; width: 100%;}
@@ -1321,7 +1321,7 @@ if (typeof GAME === 'undefined') { } else {
                     if(isPetBonchActive){
                         isPetBonchActive = false;
                     }
-                });
+                });*/
                 //
                 let anielskaCSS = `
                 #AnielskaMenu {display: none; position: absolute; top: 80px; right: 5px; padding: 10px; background: rgba(48, 49, 49, 0.8); border: solid #ffffff7a 1px; border-radius: 5px; z-index: 10;}
