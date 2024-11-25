@@ -95,12 +95,13 @@ class calculatePA{
         ];
     
         for (let page of pages) {
-            
+            await new Promise(resolve => setTimeout(resolve, 1000));
             await  GAME.socket.emit('ga', { a: 12, page: page.page, page2: page.page2, used: 1 });
-            await new Promise(resolve => setTimeout(resolve, 500));
+            await new Promise(resolve => setTimeout(resolve, 1000));
 
             const itemElement = document.querySelector(`#ekw_page_items [data-base_item_id="${itemId}"]`);
             if (itemElement) {
+                await new Promise(resolve => setTimeout(resolve, 1000));
                 return parseInt(itemElement.getAttribute('data-stack'), 10);
             }
         }
