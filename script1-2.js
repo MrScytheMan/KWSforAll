@@ -1106,21 +1106,26 @@ if (typeof GAME === 'undefined') { } else {
                         console.log("Automatyczne błogosławienie zostało włączone.");
                       }
                 });
+                //AutomaticKnowladge 
+                let knowStatus = false;
                 $("body").on("click", '.auto_know', () => {
+                    if(!knowStatus){
                     GAME.komunikat("Której wiedzy chcesz sie uczyć?");
                     let buttonGohan = document.createElement('button');
-                    buttonGohan.classList.add('gold_button');
+                    buttonGohan.classList.add('newBtn gohan');
                     buttonGohan.textContent = 'Wiedza Gohan';
-                    buttonGohan.setAttribute('data-option', 'gohan');
 
                     let buttonMBorn = document.createElement('button');
-                    buttonMBorn.classList.add('gold_button');
+                    buttonMBorn.classList.add('newBtn mborn');
                     buttonMBorn.textContent = 'Wiedza MBorn';
-                    buttonMBorn.setAttribute('data-option', 'mborn');
 
                     let komunikatElement = document.querySelector('#kom_con .kom');
                     komunikatElement.appendChild(buttonGohan);
                     komunikatElement.appendChild(buttonMBorn);
+                    } else {
+                        knowStatus = false;
+                        GAME.komunikat("Zaprzestałeś robienia Wiedzy.");
+                    }
                 });
                     $("body").on("click", ".activate_all_clan_buffs", () => {
                     this.activateAllClanBuffs();
