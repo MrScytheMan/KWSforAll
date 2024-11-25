@@ -1,11 +1,11 @@
 ### Hi there 👋
-1111
 Darmowe narzedzie do gry kosmiczni.pl
 
 Po aktualizacje, instrukcje, porady, spolecznosc jak i wklad w to w jakim kierunku zmierza bot, zapraszam tutaj:
 
-https://discord.gg/AEu869GEW6
-
+https://discord.gg/FCsgB6EQw9
+https://patronite.pl/kwa
+https://buycoffee.to/kw-assistant
 <!--
 **KWSforAll/KWSforAll** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
