@@ -158,11 +158,11 @@ if (typeof GAME === 'undefined') {} else {
                     if (PVP.code) {
                         $(".pvp_Code .pvp_status").removeClass("green").addClass("red").html("Off");
                         PVP.code = false;
-                        $(".pvpCODE_konto .pvp_status").hide();
+                        $("#pvp_Panel .pvpCODE_konto").hide();
                     } else {
                         $(".pvp_Code .pvp_status").removeClass("red").addClass("green").html("On");
                         PVP.code = true;
-                        $(".pvpCODE_konto .pvp_status").show();
+                        $("#pvp_Panel .pvpCODE_konto").show();
                     }
                 });
                 $('#pvp_Panel .pvpCODE_konto').click(() => {
