@@ -10,7 +10,9 @@ class ekwipunekMenager {
         if (ekwipunekButton) {
             ekwipunekButton.addEventListener('click', () => {
                 console.log("Przycisk Ekwipunek kliknięty. Rozpoczynam obliczanie PA...");
+                setTimeout(() => {
                 new calculatePA(); // Inicjalizacja calculatePA po kliknięciu
+                }, 1000);
             });
         } else {
             console.error("Nie znaleziono przycisku Ekwipunek!");
@@ -91,9 +93,10 @@ class calculatePA{
         ];
     
         for (let page of pages) {
-            await new Promise(resolve => setTimeout(resolve, 500));
+            
             await  GAME.socket.emit('ga', { a: 12, page: page.page, page2: page.page2, used: 1 });
-
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
             const itemElement = document.querySelector(`#ekw_page_items [data-base_item_id="${itemId}"]`);
             if (itemElement) {
                 return parseInt(itemElement.getAttribute('data-stack'), 10);
