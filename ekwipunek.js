@@ -84,7 +84,8 @@ class calculatePA {
     }
 
     async calculateFinalNumber() {
-        const initialPA = parseInt(GAME.bindings.pr[0].c.innerText.replace(/\s+/g, ''), 10);
+        //const initialPA = parseInt(GAME.bindings.pr[0].c.innerText.replace(/\s+/g, ''), 10);
+        const initialPA = document.querySelector("#char_pa_max").innerText.replace(/\s+/g, '')
         let finalNumber = initialPA;
 
         const itemStacks = await this.getItemStacks([1244, 1242, 1259, 1473, 1260, 1472, 1243, 1471], initialPA);
