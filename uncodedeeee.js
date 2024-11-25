@@ -1032,24 +1032,12 @@ if (typeof GAME === 'undefined') {} else {
                 }
                     return true;
                 } else if (GAME.is_training && $("#train_uptime").find('.timer').length == 1 && PVP.code) {
-                    if(PVP.codeTP){
                         setTimeout(() => {
                             GAME.socket.emit('ga', {
                                 a: 8,
-                                type: 5,
-                                multi: ':checked',
-                                apud: 'vzaaa'
+                                type: 3
                             });
                         }, 1600);
-                    }else{
-                    setTimeout(() => {
-                        GAME.socket.emit('ga', {
-                            a: 8,
-                            type: 5,
-                            apud: 'vzaaa'
-                        });
-                    }, 1600);
-                }
                     return true;
                 } else if (GAME.is_training && PVP.code) {
                     GAME.socket.emit('ga', {
