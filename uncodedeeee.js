@@ -1043,7 +1043,7 @@ if (typeof GAME === 'undefined') {} else {
                     setTimeout(() => {
                         GAME.socket.emit('ga', {
                             a: 8,
-                            type: 5,
+                            type: 3,
                             apud: 'vzaaa'
                         });
                     }, 1600);
