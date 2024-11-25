@@ -35,7 +35,7 @@ class cardOpen {
 
 class calculatePA{
     constructor(){
-        calculateFinalNumber().catch(error => {
+        this.calculateFinalNumber().catch(error => {
             console.error("Błąd podczas obliczania PA:", error);
                 });
     }
