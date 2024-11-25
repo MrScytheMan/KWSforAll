@@ -1,7 +1,7 @@
 class ekwipunekMenager {
     constructor() {
         const otwieranieKart = new cardOpen();
-        //const sumowanie = new calculatePA();
+        const sumowanie = new calculatePA();
     }
 }
 
@@ -31,4 +31,92 @@ class cardOpen {
 
 
     }
+}
+
+class calculatePA{
+    constructor(){
+        calculateFinalNumber().catch(error => {
+            console.error("Błąd podczas obliczania PA:", error);
+                });
+    }
+
+    async calculateFinalNumber() {
+        const initialPA = parseInt(GAME.bindings.pr[0].c.innerText.replace(/\s+/g, ''), 10);
+        let finalNumber = initialPA;
+    
+        const itemStacks = await getItemStacks([1244, 1242, 1259, 1473, 1260, 1472, 1243, 1471], initialPA);
+    
+        finalNumber += itemStacks[1244] * 100;
+        finalNumber += itemStacks[1242] * 2000;
+        finalNumber += itemStacks[1259] * 5000 + (initialPA * 0.03);
+        finalNumber += itemStacks[1473] * 5000 + (initialPA * 0.03);
+        finalNumber += itemStacks[1260] * 10000 + (initialPA * 0.15);
+        finalNumber += itemStacks[1472] * 10000 + (initialPA * 0.15);
+        finalNumber += itemStacks[1243] * initialPA;
+        finalNumber += itemStacks[1471] * initialPA;
+    
+        updatePA(GAME.dots(finalNumber));
+    }
+    
+    async getItemStacks(itemIds, initialPA) {
+        const stacks = {};
+    
+        for (let itemId of itemIds) {
+            const stack = await getStackFromPages(itemId);
+            stacks[itemId] = stack;
+        }
+    
+        return stacks;
+    }
+    
+    async getStackFromPages(itemId) {
+        const pages = [
+            { page: 0, page2: 0 },
+            { page: 0, page2: 1 }
+        ];
+    
+        for (let page of pages) {
+            await action({ a: 12, page: page.page, page2: page.page2, used: 1 });
+    
+            await sleep(500); 
+    
+            const itemElement = document.querySelector(`#ekw_page_items [data-base_item_id="${itemId}"]`);
+            if (itemElement) {
+                return parseInt(itemElement.getAttribute('data-stack'), 10);
+            }
+        }
+    
+        return 0;
+    }
+    async updatePA(finalNumber) {
+        const pageGameEkwDiv = document.getElementById('page_game_ekw');
+        const titleDiv = pageGameEkwDiv.querySelector('.title');
+    
+        if (!titleDiv) return;
+    
+        let paDiv = document.getElementById('pa_display');
+    
+        if (paDiv) {
+            paDiv.innerText = `POSIADANE PA: ${finalNumber}`;
+        } else {
+            paDiv = document.createElement('div');
+            paDiv.id = 'pa_display';
+            paDiv.innerText = `POSIADANE PA: ${finalNumber}`;
+    
+            paDiv.style.position = 'absolute';
+            paDiv.style.color = 'lightblue';
+            paDiv.style.fontSize = '16px';
+            paDiv.style.padding = '5px';
+            paDiv.style.borderRadius = '5px';
+            paDiv.style.fontWeight = 'bold';
+    
+            paDiv.style.top = `${titleDiv.offsetTop + titleDiv.offsetHeight + 30}px`;
+            paDiv.style.left = '50%';
+            paDiv.style.transform = 'translateX(-50%)'; 
+            paDiv.style.textAlign = 'center';
+    
+            pageGameEkwDiv.appendChild(paDiv);
+        }
+    }
+
 }
