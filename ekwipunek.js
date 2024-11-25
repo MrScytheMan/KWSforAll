@@ -1,7 +1,7 @@
 class ekwipunekMenager {
     constructor() {
         const otwieranieKart = new cardOpen();
-        const sumowanie = new calculatePA();
+        //const sumowanie = new calculatePA();
     }
 }
 
