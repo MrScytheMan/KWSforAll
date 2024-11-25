@@ -1,7 +1,20 @@
 class ekwipunekMenager {
     constructor() {
-        const otwieranieKart = new cardOpen();
-        const sumowanie = new calculatePA();
+        const otwieranieKart = new cardOpen(); // Ta klasa działa od razu
+        this.setupCalculatePA(); // Konfigurujemy uruchamianie calculatePA
+    }
+
+    setupCalculatePA() {
+        const ekwipunekButton = document.querySelector('button.select_page[data-page="game_ekw"]');
+
+        if (ekwipunekButton) {
+            ekwipunekButton.addEventListener('click', () => {
+                console.log("Przycisk Ekwipunek kliknięty. Rozpoczynam obliczanie PA...");
+                new calculatePA(); // Inicjalizacja calculatePA po kliknięciu
+            });
+        } else {
+            console.error("Nie znaleziono przycisku Ekwipunek!");
+        }
     }
 }
 
