@@ -93,6 +93,7 @@ class calculatePA {
         finalNumber += itemStacks[1471] * initialPA;
 
         this.updatePA(GAME.dots(finalNumber));
+        console.log("MAX PA:"+initialPA+" Łączna ilość:"+finalNumber);
     }
 
     async getItemStacks(itemIds, initialPA) {
@@ -101,6 +102,7 @@ class calculatePA {
             const stack = await this.getStackFromPages(itemId);
             stacks[itemId] = stack;
         }
+        console.log(stacks);
         return stacks;
     }
 
