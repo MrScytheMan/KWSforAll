@@ -35,6 +35,8 @@ class ekwipunekMenager {
             paDiv.style.fontSize = "16px";
             paDiv.style.fontWeight = "bold";
             paDiv.style.cursor = "pointer";
+            paDiv.style.position = "relative";
+            paDiv.style.left = "40%";
 
             // Dodanie elementu do tytułu
             titleDiv.appendChild(paDiv);
