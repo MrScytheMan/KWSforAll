@@ -76,7 +76,7 @@ class calculatePA{
         ];
     
         for (let page of pages) {
-            await action({ a: 12, page: page.page, page2: page.page2, used: 1 });
+            await  GAME.socket.emit('ga', { a: 12, page: page.page, page2: page.page2, used: 1 });
     
             await sleep(500); 
     
