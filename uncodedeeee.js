@@ -158,9 +158,11 @@ if (typeof GAME === 'undefined') {} else {
                     if (PVP.code) {
                         $(".pvp_Code .pvp_status").removeClass("green").addClass("red").html("Off");
                         PVP.code = false;
+                        $("#pvp_Panel .pvpCODE_konto").hide();
                     } else {
                         $(".pvp_Code .pvp_status").removeClass("red").addClass("green").html("On");
                         PVP.code = true;
+                        $("#pvp_Panel .pvpCODE_konto").show();
                     }
                 });
                 $('#pvp_Panel .pvpCODE_konto').click(() => {
@@ -1030,24 +1032,12 @@ if (typeof GAME === 'undefined') {} else {
                 }
                     return true;
                 } else if (GAME.is_training && $("#train_uptime").find('.timer').length == 1 && PVP.code) {
-                    if(PVP.codeTP){
                         setTimeout(() => {
                             GAME.socket.emit('ga', {
                                 a: 8,
-                                type: 5,
-                                multi: ':checked',
-                                apud: 'vzaaa'
+                                type: 3
                             });
                         }, 1600);
-                    }else{
-                    setTimeout(() => {
-                        GAME.socket.emit('ga', {
-                            a: 8,
-                            type: 3,
-                            apud: 'vzaaa'
-                        });
-                    }, 1600);
-                }
                     return true;
                 } else if (GAME.is_training && PVP.code) {
                     GAME.socket.emit('ga', {
