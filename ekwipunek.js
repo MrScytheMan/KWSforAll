@@ -78,14 +78,15 @@ class calculatePA{
         for (let page of pages) {
             await  GAME.socket.emit('ga', { a: 12, page: page.page, page2: page.page2, used: 1 });
     
-            await sleep(500); 
+            setTimeout(() => { 
     
             const itemElement = document.querySelector(`#ekw_page_items [data-base_item_id="${itemId}"]`);
             if (itemElement) {
                 return parseInt(itemElement.getAttribute('data-stack'), 10);
             }
+            }, 500);
         }
-    
+
         return 0;
     }
     async updatePA(finalNumber) {
