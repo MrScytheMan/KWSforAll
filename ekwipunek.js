@@ -56,6 +56,8 @@ class calculatePA{
         finalNumber += itemStacks[1471] * initialPA;
     
         this.updatePA(GAME.dots(finalNumber));
+        console.log(initialPA)
+        console.log(finalNumber)
     }
     
     async getItemStacks(itemIds, initialPA) {
