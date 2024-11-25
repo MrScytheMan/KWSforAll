@@ -44,7 +44,7 @@ class calculatePA{
         const initialPA = parseInt(GAME.bindings.pr[0].c.innerText.replace(/\s+/g, ''), 10);
         let finalNumber = initialPA;
     
-        const itemStacks = await getItemStacks([1244, 1242, 1259, 1473, 1260, 1472, 1243, 1471], initialPA);
+        const itemStacks = await this.getItemStacks([1244, 1242, 1259, 1473, 1260, 1472, 1243, 1471], initialPA);
     
         finalNumber += itemStacks[1244] * 100;
         finalNumber += itemStacks[1242] * 2000;
@@ -55,14 +55,14 @@ class calculatePA{
         finalNumber += itemStacks[1243] * initialPA;
         finalNumber += itemStacks[1471] * initialPA;
     
-        updatePA(GAME.dots(finalNumber));
+        this.updatePA(GAME.dots(finalNumber));
     }
     
     async getItemStacks(itemIds, initialPA) {
         const stacks = {};
     
         for (let itemId of itemIds) {
-            const stack = await getStackFromPages(itemId);
+            const stack = await this.getStackFromPages(itemId);
             stacks[itemId] = stack;
         }
     
