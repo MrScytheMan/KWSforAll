@@ -82,7 +82,7 @@ class calculatePA{
             stacks[itemId] = stack;
     
             // Opóźnienie o 1 sekundę
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            //await new Promise(resolve => setTimeout(resolve, 1000));
         }
         console.log(stacks);
         return stacks;
@@ -96,11 +96,11 @@ class calculatePA{
     
         for (let page of pages) {
             await  GAME.socket.emit('ga', { a: 12, page: page.page, page2: page.page2, used: 1 });
-            await new Promise(resolve => setTimeout(resolve, 500));
+            await new Promise(resolve => setTimeout(resolve, 2000));
 
             const itemElement = document.querySelector(`#ekw_page_items [data-base_item_id="${itemId}"]`);
             if (itemElement) {
-                await new Promise(resolve => setTimeout(resolve, 500));
+                //await new Promise(resolve => setTimeout(resolve, 500));
                 return parseInt(itemElement.getAttribute('data-stack'), 10);
             }
         }
@@ -108,33 +108,29 @@ class calculatePA{
         return 0;
     }
     async updatePA(finalNumber) {
-        const pageGameEkwDiv = document.getElementById('page_game_ekw');
-        const titleDiv = pageGameEkwDiv.querySelector('.title');
+        const titleDiv = document.querySelector("#page_game_ekw > div.title");
     
         if (!titleDiv) return;
     
-        let paDiv = document.getElementById('pa_display');
+        let paDiv = document.getElementById("pa_display");
     
         if (paDiv) {
             paDiv.innerText = `POSIADANE PA: ${finalNumber}`;
         } else {
-            paDiv = document.createElement('div');
-            paDiv.id = 'pa_display';
+            paDiv = document.createElement("div");
+            paDiv.id = "pa_display";
             paDiv.innerText = `POSIADANE PA: ${finalNumber}`;
     
-            paDiv.style.position = 'absolute';
-            paDiv.style.color = 'lightblue';
-            paDiv.style.fontSize = '16px';
-            paDiv.style.padding = '5px';
-            paDiv.style.borderRadius = '5px';
-            paDiv.style.fontWeight = 'bold';
+            // Stylizacja elementu
+            paDiv.style.color = "lightblue";
+            paDiv.style.fontSize = "16px";
+            paDiv.style.padding = "5px";
+            paDiv.style.borderRadius = "5px";
+            paDiv.style.fontWeight = "bold";
+            paDiv.style.textAlign = "center";
     
-            paDiv.style.top = `${titleDiv.offsetTop + titleDiv.offsetHeight + 30}px`;
-            paDiv.style.left = '50%';
-            paDiv.style.transform = 'translateX(-50%)'; 
-            paDiv.style.textAlign = 'center';
-    
-            pageGameEkwDiv.appendChild(paDiv);
+            // Dodanie elementu do tytułu
+            titleDiv.appendChild(paDiv);
         }
     }
 
