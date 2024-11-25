@@ -100,6 +100,7 @@ class calculatePA{
 
             const itemElement = document.querySelector(`#ekw_page_items [data-base_item_id="${itemId}"]`);
             if (itemElement) {
+                await new Promise(resolve => setTimeout(resolve, 2000));
                 return parseInt(itemElement.getAttribute('data-stack'), 10);
             }
         }
