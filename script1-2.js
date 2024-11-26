@@ -1139,24 +1139,30 @@ if (typeof GAME === 'undefined') { } else {
                 $("body").on("click", '.mborn', () => {
                     knowStatus = true;
                     GAME.socket.emit('ga',{a:9,type:3,nid:382});
-                    mbornInterval = setInterval(wiedza_M, 10000);
+                    mbornInterval = setInterval(wiedza_M, 60000);
                     function wiedza_M(){
                         if(knowStatus) {
-                            GAME.socket.emit('ga', {a: 9, type: 3, nid:382});
+                            if (GAME.char_tables.timed_actions[0] == undefined || GAME.char_tables.timed_actions[1] == undefined && GAME.char_data.bonus16 > GAME.getTime()) {
+                                GAME.socket.emit('ga', {a: 9, type: 3, nid:382});
+                                kom_clear();
+                            }
                         } else {
-                            window.setTimeout(wiedza_M, 10000);
+                            window.setTimeout(wiedza_M, 60000);
                             }
                     }
                 });
                 $("body").on("click", '.gohan', () => {
                     knowStatus = true;
                     GAME.socket.emit('ga',{a:9,type:3,nid:288});
-                    gohanInterval = setInterval(wiedza_gohan, 60500);
+                    gohanInterval = setInterval(wiedza_gohan, 60000);
                     function wiedza_gohan(){
                         if(knowStatus) {
-                            GAME.socket.emit('ga', {a: 9, type: 3, nid:288});
+                            if (GAME.char_tables.timed_actions[0] == undefined || GAME.char_tables.timed_actions[1] == undefined && GAME.char_data.bonus16 > GAME.getTime()) {
+                                GAME.socket.emit('ga', {a: 9, type: 3, nid:288});
+                                kom_clear();
+                            }
                         } else {
-                            window.setTimeout(wiedza_gohan, 60500);
+                            window.setTimeout(wiedza_gohan, 60000);
                             }
                     }
                 });
