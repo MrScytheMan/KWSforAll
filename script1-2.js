@@ -1122,7 +1122,7 @@ if (typeof GAME === 'undefined') { } else {
                 let knowInterval = null;
                 $("body").on("click", '.auto_know', () => {
                     if(!knowStatus){
-                        GAME.komunikat("Której wiedzy chcesz sie uczyć?");
+                        GAME.komunikat2("Której wiedzy chcesz sie uczyć?");
                         let komunikatElement = document.querySelector('#kom_con .kom');
                         if (komunikatElement) {
                             komunikatElement.innerHTML += `
