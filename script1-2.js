@@ -1129,7 +1129,7 @@ if (typeof GAME === 'undefined') { } else {
                       }
                 });
                 //AutomaticKnowladge 
-                let knowStatus = false;
+                const knowStatus = false;
                 let mbornInterval = null;
                 $("body").on("click", '.auto_know', () => {
                     if(!knowStatus){
@@ -1152,12 +1152,12 @@ if (typeof GAME === 'undefined') { } else {
                 $("body").on("click", '.mborn', () => {
                     knowStatus = true;
                     GAME.socket.emit('ga',{a:9,type:3,nid:382});
-                    mbornInterval = setInterval(this.wiedza_M, 30000);
+                    mbornInterval = setInterval(this.wiedza_M, 30500);
                 });
                 $("body").on("click", '.gohan', () => {
                     knowStatus = true;
                     GAME.socket.emit('ga',{a:9,type:3,nid:288});
-                    gohanInterval = setInterval(this.wiedza_gohan, 30000);
+                    gohanInterval = setInterval(this.wiedza_gohan, 30500);
                 });
                 //
                     $("body").on("click", ".activate_all_clan_buffs", () => {
