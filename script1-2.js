@@ -1132,17 +1132,15 @@ if (typeof GAME === 'undefined') { } else {
                 });
                 $("body").on("click", '.mborn', () => {
                     knowStatus = true;
-                    GAME.socket.emit('ga',{a:9,type:3,nid:382});
-                    mbornInterval = setInterval(wiedza_M(), 30500);
+                    console.log("test passed")
+                    //GAME.socket.emit('ga',{a:9,type:3,nid:382});
+                    mbornInterval = setInterval(wiedza_M(), 10000);
                     function wiedza_M(){
                         if(knowStatus) {
-                            GAME.socket.emit('ga', {
-                                a: 9,
-                                type: 3,
-                                nid:382
-                              });
+                            console.log("test passed")
+                            //GAME.socket.emit('ga', {a: 9, type: 3, nid:382});
                         } else {
-                            window.setTimeout(wiedza_M(), 30000);
+                            window.setTimeout(wiedza_M(), 10000);
                             }
                     }
                 });
