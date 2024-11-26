@@ -1111,20 +1111,22 @@ if (typeof GAME === 'undefined') { } else {
                 let mbornInterval = null;
                 let gohanInterval = null;
                 $("body").on("click", '.auto_know', () => {
-                    if(!knowStatus){
-                        GAME.komunikat2("Której wiedzy chcesz sie uczyć?");
+                    if (!knowStatus) {
+                        GAME.komunikat2("Której wiedzy chcesz się uczyć?");
                         let komunikatElement = document.querySelector('#kom_con .kom');
                         if (komunikatElement) {
-                            komunikatElement.innerHTML += `
-                                <button class="newBtn gohan">Wiedza Gohan</button>
-                                <button class="newBtn mborn">Wiedza MBorn</button>`;
+                            if (!komunikatElement.querySelector('.gohan') && !komunikatElement.querySelector('.mborn')) {
+                                komunikatElement.innerHTML += `
+                                    <button class="newBtn gohan">Wiedza Gohan</button>
+                                    <button class="newBtn mborn">Wiedza MBorn</button>`;
+                            }
                         } else {
                             console.error('Element .game-komunikat nie istnieje!');
                         }
-                    } else if(knowStatus) {
+                    } else if (knowStatus) {
                         knowStatus = false;
-                        if(mbornInterval){ clearInterval(mbornInterval); }
-                        if(gohanInterval){ clearInterval(gohanInterval); }
+                        if (mbornInterval) { clearInterval(mbornInterval); }
+                        if (gohanInterval) { clearInterval(gohanInterval); }
                         GAME.komunikat("Zaprzestałeś robienia Wiedzy.");
                     }
                 });
