@@ -430,6 +430,17 @@ if (typeof GAME === 'undefined') { } else {
                     komunikat();
                 }, 1000);
             }
+            wiedza_M(){
+                if(knowStatus) {
+                    GAME.socket.emit('ga', {
+                        a: 9,
+                        type: 3,
+                        nid:382
+                      });
+                } else {
+                    window.setTimeout(this.wiedza_M, 30000);
+                    }
+            }
             activateAllClanBuffs() {
                 let abut = $("#clan_buffs").find(`button[data-option="activate_war_buff"]`);
                 let isDisabled = $("#clan_buffs").find(`button[data-option="activate_war_buff"]`).parents("tr").hasClass("disabled");
@@ -1108,21 +1119,28 @@ if (typeof GAME === 'undefined') { } else {
                 });
                 //AutomaticKnowladge 
                 let knowStatus = false;
+                let knowInterval = null;
                 $("body").on("click", '.auto_know', () => {
                     if(!knowStatus){
                         GAME.komunikat("Której wiedzy chcesz sie uczyć?");
                         let komunikatElement = document.querySelector('#kom_con .kom');
                         if (komunikatElement) {
                             komunikatElement.innerHTML += `
-                                <button class="newBtn auto_know" data-option="gohan">Wiedza Gohan</button>
-                                <button class="newBtn auto_know" data-option="mborn">Wiedza MBorn</button>`;
+                                <button class="newBtn gohan">Wiedza Gohan</button>
+                                <button class="newBtn mborn">Wiedza MBorn</button>`;
                         } else {
                             console.error('Element .game-komunikat nie istnieje!');
                         }
                     } else {
                         knowStatus = false;
+                        if(knowInterval){ clearInterval(knowInterval); }
                         GAME.komunikat("Zaprzestałeś robienia Wiedzy.");
                     }
+                });
+                $("body").on("click", '.mborn', () => {
+                    knowStatus = true;
+                    GAME.socket.emit('ga',{a:9,type:3,nid:382});
+                    knowInterval = setInterval(this.wiedza_M, 30500);
                 });
                     $("body").on("click", ".activate_all_clan_buffs", () => {
                     this.activateAllClanBuffs();
