@@ -1119,7 +1119,7 @@ if (typeof GAME === 'undefined') { } else {
                 });
                 //AutomaticKnowladge 
                 let knowStatus = false;
-                let knowInterval = null;
+                let mbornInterval = null;
                 $("body").on("click", '.auto_know', () => {
                     if(!knowStatus){
                         GAME.komunikat2("Której wiedzy chcesz sie uczyć?");
@@ -1131,16 +1131,22 @@ if (typeof GAME === 'undefined') { } else {
                         } else {
                             console.error('Element .game-komunikat nie istnieje!');
                         }
-                    } else {
+                    } else if(knowStatus) {
                         knowStatus = false;
-                        if(knowInterval){ clearInterval(knowInterval); }
+                        if(mbornInterval){ clearInterval(mbornInterval); }
+                        if(gohanInterval){ clearInterval(gohanInterval); }
                         GAME.komunikat("Zaprzestałeś robienia Wiedzy.");
                     }
                 });
                 $("body").on("click", '.mborn', () => {
                     knowStatus = true;
                     GAME.socket.emit('ga',{a:9,type:3,nid:382});
-                    knowInterval = setInterval(this.wiedza_M, 30000);
+                    mbornInterval = setInterval(this.wiedza_M, 30000);
+                });
+                $("body").on("click", '.gohan', () => {
+                    knowStatus = true;
+                    GAME.socket.emit('ga',{a:9,type:3,nid:288});
+                    gohanInterval = setInterval(this.wiedza_M, 30000);
                 });
                 //
                     $("body").on("click", ".activate_all_clan_buffs", () => {
