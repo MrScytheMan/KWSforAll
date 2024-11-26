@@ -1051,7 +1051,7 @@ if (typeof GAME === 'undefined') { } else {
                 return `<b class="orange">[~${lvls_gained} lvl'i]</b>`;
             }
             handleSockets(res) {
-                console.log("KWA_HANDLE_SOCKETS: res.a == %s", res.a);
+                //console.log("KWA_HANDLE_SOCKETS: res.a == %s", res.a);
                 switch (res.a) {
                     case 7: //?? PvP fight result?
                         if (!this.stopped) {
@@ -1138,7 +1138,8 @@ if (typeof GAME === 'undefined') { } else {
                 
                 $("body").on("click", '.mborn', () => {
                     knowStatus = true;
-                    GAME.socket.emit('ga',{a:9,type:3,nid:382});
+                    console.log("test passed")
+                    //GAME.socket.emit('ga',{a:9,type:3,nid:382});
                     mbornInterval = setInterval(wiedza_M, 60000);
                     function wiedza_M(){
                         if(knowStatus) {
@@ -1695,27 +1696,27 @@ if (typeof GAME === 'undefined') { } else {
                 }
             }
             checkTournamentsSigning() {
-                if(this.isCheckingTournaments) { console.log("KWA_TOURNAMENTS: currently handling tournaments sign"); return; }
+                if(this.isCheckingTournaments) { /*console.log("KWA_TOURNAMENTS: currently handling tournaments sign");*/ return; }
                 this.isCheckingTournaments = true;
                 var currentServerTime = new Date(GAME.getTime()*1000);
                 var currentServerHour = currentServerTime.getHours();
                 var currentServerMinute = currentServerTime.getMinutes();
-                console.log("KWA_TOURNAMENTS: Check tournaments sign");
+                //console.log("KWA_TOURNAMENTS: Check tournaments sign");
                 if(currentServerHour > 20 || currentServerHour < 18) {
-                    console.log("KWA_TOURNAMENTS: Wrong hours, reset values");
+                    //console.log("KWA_TOURNAMENTS: Wrong hours, reset values");
                     this.tourSigned = false;
                     this.tournamentCategory = undefined;
                     this.newTournamentID = undefined;
                     this.isCheckingTournaments = false;
                 } else if (!this.tourSigned) {
-                    console.log("KWA_TOURNAMENTS: not signed");
+                    //console.log("KWA_TOURNAMENTS: not signed");
                     if ((currentServerHour == 18 && currentServerMinute > 9) || (currentServerHour > 18 && currentServerHour < 21)) {
-                        console.log("KWA_TOURNAMENTS: correct time");
+                        //console.log("KWA_TOURNAMENTS: correct time");
                         this.tourSigned = true;
                         this.findTournamentCategory();
-                        console.log("KWA_TOURNAMENTS: tournament category fetched");
+                        //console.log("KWA_TOURNAMENTS: tournament category fetched");
                         setTimeout(() => {
-                            console.log("KWA_TOURNAMENTS: fetch tournaments IDs");
+                            //console.log("KWA_TOURNAMENTS: fetch tournaments IDs");
                             if (this.tournamentCategory <= 54) {
                                 GAME.emitOrder({a: 57, type: 0, type2: 0, page: 1});
                             } else {
@@ -1732,7 +1733,7 @@ if (typeof GAME === 'undefined') { } else {
                 }
             }
             setTimerForTournamentsReset() {
-                console.log("KWA_TOURNAMENTS: reset isCheckingTournaments flag");
+               //console.log("KWA_TOURNAMENTS: reset isCheckingTournaments flag");
                 this.isCheckingTournaments = false;
             }
             createAlternativePilot() {
