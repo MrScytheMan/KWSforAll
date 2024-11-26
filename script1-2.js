@@ -1138,14 +1138,15 @@ if (typeof GAME === 'undefined') { } else {
                 
                 $("body").on("click", '.mborn', () => {
                     knowStatus = true;
-                    console.log("test passed")
+                    const currentTime = new Date();
+                    console.log("test passed "+currentTime.toLocaleTimeString())
                     //GAME.socket.emit('ga',{a:9,type:3,nid:382});
                     mbornInterval = setInterval(wiedza_M, 60000);
                     function wiedza_M(){
                         if(knowStatus) {
                             if (GAME.char_tables.timed_actions[0] == undefined || GAME.char_tables.timed_actions[1] == undefined) {
                                 //GAME.socket.emit('ga', {a: 9, type: 3, nid:382});
-                                console.log("test passed")
+                                console.log("test passed "+currentTime.toLocaleTimeString())
                                 kom_clear();
                             } else{
                                 console.log("Yasoen: wiedza trwa.")
