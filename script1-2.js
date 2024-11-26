@@ -1123,9 +1123,7 @@ if (typeof GAME === 'undefined') { } else {
                             let closeKomElement = document.querySelector("#kom_con > div > div.close_kom");
                             if (closeKomElement && !closeKomElement.hasAttribute("data-close-handler")) {
                                 closeKomElement.setAttribute("data-close-handler", "true");
-                                closeKomElement.addEventListener("click", () => {
-                                    kom_clear();
-                                });
+                                closeKomElement.addEventListener("click", () => {kom_clear();});
                             }
                         } else {
                             console.error('Element .game-komunikat nie istnieje!');
