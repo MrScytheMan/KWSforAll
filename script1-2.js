@@ -1142,15 +1142,14 @@ if (typeof GAME === 'undefined') { } else {
                     mbornInterval = setInterval(wiedza_M, 60000);
                     function wiedza_M(){
                         if(knowStatus) {
-                            if (GAME.char_tables.timed_actions[0] == undefined || GAME.char_tables.timed_actions[1] == undefined && GAME.char_data.bonus16 > GAME.getTime()) {
-                                GAME.socket.emit('ga', {a: 9, type: 3, nid:382});
+                            if (GAME.char_tables.timed_actions[0] == undefined || GAME.char_tables.timed_actions[1] == undefined) {
+                                //GAME.socket.emit('ga', {a: 9, type: 3, nid:382});
+                                console.log("test passed")
                                 kom_clear();
                             } else{
                                 console.log("Yasoen: wiedza trwa.")
                             }
-                        } else {
-                            window.setTimeout(wiedza_M, 60000);
-                            }
+                        }
                     }
                 });
                 $("body").on("click", '.gohan', () => {
@@ -1159,9 +1158,11 @@ if (typeof GAME === 'undefined') { } else {
                     gohanInterval = setInterval(wiedza_gohan, 60000);
                     function wiedza_gohan(){
                         if(knowStatus) {
-                            if (GAME.char_tables.timed_actions[0] == undefined || GAME.char_tables.timed_actions[1] == undefined && GAME.char_data.bonus16 > GAME.getTime()) {
+                            if (GAME.char_tables.timed_actions[0] == undefined || GAME.char_tables.timed_actions[1] == undefined) {
                                 GAME.socket.emit('ga', {a: 9, type: 3, nid:288});
                                 kom_clear();
+                            } else{
+                                console.log("Yasoen: wiedza trwa.")
                             }
                         } else {
                             window.setTimeout(wiedza_gohan, 60000);
