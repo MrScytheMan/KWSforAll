@@ -430,28 +430,6 @@ if (typeof GAME === 'undefined') { } else {
                     komunikat();
                 }, 1000);
             }
-            wiedza_M(){
-                if(knowStatus) {
-                    GAME.socket.emit('ga', {
-                        a: 9,
-                        type: 3,
-                        nid:382
-                      });
-                } else {
-                    window.setTimeout(this.wiedza_M, 30000);
-                    }
-            }
-            wiedza_gohan(){
-                if(knowStatus) {
-                    GAME.socket.emit('ga', {
-                        a: 9,
-                        type: 3,
-                        nid:288
-                      });
-                } else {
-                    window.setTimeout(this.wiedza_gohan, 30000);
-                    }
-            }
             activateAllClanBuffs() {
                 let abut = $("#clan_buffs").find(`button[data-option="activate_war_buff"]`);
                 let isDisabled = $("#clan_buffs").find(`button[data-option="activate_war_buff"]`).parents("tr").hasClass("disabled");
@@ -1129,7 +1107,7 @@ if (typeof GAME === 'undefined') { } else {
                       }
                 });
                 //AutomaticKnowladge 
-                const knowStatus = false;
+                let knowStatus = false;
                 let mbornInterval = null;
                 let gohanInterval = null;
                 $("body").on("click", '.auto_know', () => {
@@ -1153,12 +1131,34 @@ if (typeof GAME === 'undefined') { } else {
                 $("body").on("click", '.mborn', () => {
                     knowStatus = true;
                     GAME.socket.emit('ga',{a:9,type:3,nid:382});
-                    mbornInterval = setInterval(this.wiedza_M, 30500);
+                    mbornInterval = setInterval(wiedza_M(), 30500);
+                    function wiedza_M(){
+                        if(knowStatus) {
+                            GAME.socket.emit('ga', {
+                                a: 9,
+                                type: 3,
+                                nid:382
+                              });
+                        } else {
+                            window.setTimeout(wiedza_M(), 30000);
+                            }
+                    }
                 });
                 $("body").on("click", '.gohan', () => {
                     knowStatus = true;
                     GAME.socket.emit('ga',{a:9,type:3,nid:288});
-                    gohanInterval = setInterval(this.wiedza_gohan, 30500);
+                    gohanInterval = setInterval(wiedza_gohan, 30500);
+                    function wiedza_gohan(){
+                        if(knowStatus) {
+                            GAME.socket.emit('ga', {
+                                a: 9,
+                                type: 3,
+                                nid:288
+                              });
+                        } else {
+                            window.setTimeout(wiedza_gohan, 30000);
+                            }
+                    }
                 });
                 //
                     $("body").on("click", ".activate_all_clan_buffs", () => {
