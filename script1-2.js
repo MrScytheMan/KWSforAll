@@ -1120,6 +1120,13 @@ if (typeof GAME === 'undefined') { } else {
                                     <button class="newBtn gohan">Wiedza Gohan</button>
                                     <button class="newBtn mborn">Wiedza MBorn</button>`;
                             }
+                            let closeKomElement = document.querySelector("#kom_con > div > div.close_kom");
+                            if (closeKomElement && !closeKomElement.hasAttribute("data-close-handler")) {
+                                closeKomElement.setAttribute("data-close-handler", "true");
+                                closeKomElement.addEventListener("click", () => {
+                                    kom_close();
+                                });
+                            }
                         } else {
                             console.error('Element .game-komunikat nie istnieje!');
                         }
@@ -1130,6 +1137,7 @@ if (typeof GAME === 'undefined') { } else {
                         GAME.komunikat("Zaprzestałeś robienia Wiedzy.");
                     }
                 });
+                
                 $("body").on("click", '.mborn', () => {
                     knowStatus = true;
                     //GAME.socket.emit('ga',{a:9,type:3,nid:382});
