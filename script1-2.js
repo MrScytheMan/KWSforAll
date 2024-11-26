@@ -1124,7 +1124,7 @@ if (typeof GAME === 'undefined') { } else {
                             if (closeKomElement && !closeKomElement.hasAttribute("data-close-handler")) {
                                 closeKomElement.setAttribute("data-close-handler", "true");
                                 closeKomElement.addEventListener("click", () => {
-                                    kom_close();
+                                    kom_clear();
                                 });
                             }
                         } else {
