@@ -1140,8 +1140,9 @@ if (typeof GAME === 'undefined') { } else {
                 $("body").on("click", '.mborn', () => {
                     knowStatus = true;
                     GAME.socket.emit('ga',{a:9,type:3,nid:382});
-                    knowInterval = setInterval(this.wiedza_M, 30500);
+                    knowInterval = setInterval(this.wiedza_M, 30000);
                 });
+                //
                     $("body").on("click", ".activate_all_clan_buffs", () => {
                     this.activateAllClanBuffs();
                 });
@@ -2503,7 +2504,7 @@ if (typeof GAME === 'undefined') { } else {
         let roll2 = false;
         let roll1 = false;
         let roll3 = false;
-        let version = '3.4.11';
+        let version = '3.4.12';
     }
     )
 }
