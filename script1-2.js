@@ -1131,6 +1131,7 @@ if (typeof GAME === 'undefined') { } else {
                 //AutomaticKnowladge 
                 const knowStatus = false;
                 let mbornInterval = null;
+                let gohanInterval = null;
                 $("body").on("click", '.auto_know', () => {
                     if(!knowStatus){
                         GAME.komunikat2("Której wiedzy chcesz sie uczyć?");
