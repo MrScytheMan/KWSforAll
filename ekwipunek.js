@@ -138,10 +138,8 @@ class calculatePA {
 
 class locationWrapper {
     constructor() {
-        this.locationsGathered = false;  // Flaga, aby sprawdzić, czy lokalizacje zostały już zebrane
-
+        this.locationsGathered = false;
         $("body").on("click", '#map_link_btn', () => {
-            // Sprawdzamy, czy locationWrapper już istnieje
             if ($("#changeLocationWrapper").length === 0) {
                 let locationWrapperCSS = `
                 #changeLocationWrapper {
@@ -179,7 +177,6 @@ class locationWrapper {
                     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
                     white-space: nowrap; /* Zapobiega zawijaniu tekstu */
                 }`;
-
                 let locationWrapperHTML = `
                 <div id="changeLocationWrapper">
                     <button id="leftArrow" class="arrow">← </button>
@@ -189,19 +186,14 @@ class locationWrapper {
 
                 $('#map_y').after(`<style>${locationWrapperCSS}</style>${locationWrapperHTML}`);
             }
-
-            // Zbieranie lokalizacji tylko raz
             if (!this.locationsGathered) {
-                this.locationsGathered = true;  // Ustawiamy flagę, że lokalizacje zostały już zebrane
-                
-                // Opóźnienie przed wysłaniem rozkazu, aby serwer zdążył się załadować (np. 2 sekundy)
+                this.locationsGathered = true;
                 setTimeout(() => {
-                    GAME.emitOrder({a: 19, type: 1});  // Wysyłanie rozkazu tylko raz
-                    
+                    GAME.emitOrder({a: 19, type: 1});
+                    setTimeout(() => {document.querySelector("#map_link_btn").click();}, 1000);
                     setTimeout(() => {
                         const dataLocArray = [];
                         const list = document.querySelector('#tp_list');
-                        
                         if (list) {
                             const items = list.querySelectorAll("[data-loc]");
                             items.forEach(item => {
@@ -214,8 +206,6 @@ class locationWrapper {
                         } else {
                             console.error("Element o ID #tp_list nie został znaleziony.");
                         }
-
-                        // Obsługa kliknięć na strzałkach
                         $('#rightArrow').on('click', function() {
                             const currentLoc = String(GAME.char_data.loc);
                             const currentIndex = dataLocArray.indexOf(currentLoc);
@@ -226,7 +216,6 @@ class locationWrapper {
                                 GAME.emitOrder({a: 12, type: 18, loc: previousLoc});
                             }
                         });
-
                         $('#leftArrow').on('click', function() {
                             const currentLoc = String(GAME.char_data.loc);
                             const currentIndex = dataLocArray.indexOf(currentLoc);
@@ -237,10 +226,8 @@ class locationWrapper {
                                 GAME.emitOrder({a: 12, type: 18, loc: nextLoc});
                             }
                         });
-
-                    }, 1000);  // Opóźnienie przed zebraniem danych
-
-                }, 2000);  // Opóźnienie przed wysłaniem rozkazu (np. 2 sekundy)
+                    }, 1000);
+                }, 2000);
             }
         });
     }
