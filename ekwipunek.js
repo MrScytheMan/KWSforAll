@@ -138,8 +138,10 @@ class calculatePA {
 
 class locationWrapper {
     constructor() {
+        this.locationsGathered = false;  // Flaga, aby sprawdzić, czy lokalizacje zostały już zebrane
+
         $("body").on("click", '#map_link_btn', () => {
-            // Sprawdzanie, czy element locationWrapper już istnieje
+            // Sprawdzamy, czy locationWrapper już istnieje
             if ($("#changeLocationWrapper").length === 0) {
                 let locationWrapperCSS = `
                 #changeLocationWrapper {
@@ -181,51 +183,56 @@ class locationWrapper {
                 </div>`;
 
                 $('#map_y').after(`<style>${locationWrapperCSS}</style>${locationWrapperHTML}`);
-                GAME.emitOrder({a: 19, type: 1});
             }
 
-            // Nowe dodane funkcje
-            
-            setTimeout(() => {
-                const dataLocArray = [];
-                const list = document.querySelector('#tp_list');
+            // Zbieranie lokalizacji tylko raz
+            if (!this.locationsGathered) {
+                this.locationsGathered = true;  // Ustawiamy flagę, że lokalizacje zostały już zebrane
                 
-                if (list) {
-                    const items = list.querySelectorAll("[data-loc]");
-                    items.forEach(item => {
-                        const dataLocValue = item.getAttribute("data-loc");
-                        if (dataLocValue && /^\d{1,3}$/.test(dataLocValue)) {
-                            dataLocArray.push(dataLocValue);
+                GAME.emitOrder({a: 19, type: 1});  // Wysyłanie rozkazu tylko raz
+                
+                setTimeout(() => {
+                    const dataLocArray = [];
+                    const list = document.querySelector('#tp_list');
+                    
+                    if (list) {
+                        const items = list.querySelectorAll("[data-loc]");
+                        items.forEach(item => {
+                            const dataLocValue = item.getAttribute("data-loc");
+                            if (dataLocValue && /^\d{1,3}$/.test(dataLocValue)) {
+                                dataLocArray.push(dataLocValue);
+                            }
+                        });
+                        console.log("Zebrane lokalizacje:", dataLocArray);
+                    } else {
+                        console.error("Element o ID #tp_list nie został znaleziony.");
+                    }
+
+                    // Obsługa kliknięć na strzałkach
+                    $('#rightArrow').on('click', function() {
+                        const currentLoc = String(GAME.char_data.loc);
+                        const currentIndex = dataLocArray.indexOf(currentLoc);
+                        if (currentIndex === -1) {
+                            console.error("BRAK");
+                        } else if (currentIndex > 0) {
+                            const previousLoc = dataLocArray[currentIndex - 1];
+                            GAME.emitOrder({a: 12, type: 18, loc: previousLoc});
                         }
                     });
-                    console.log("Zebrane lokalizacje:", dataLocArray);
-                } else {
-                    console.error("Element o ID #tp_list nie został znaleziony.");
-                }
 
-                $('#rightArrow').on('click', function() {
-                    const currentLoc = String(GAME.char_data.loc);
-                    const currentIndex = dataLocArray.indexOf(currentLoc);
-                    if (currentIndex === -1) {
-                        console.error("BRAK");
-                    } else if (currentIndex > 0) {
-                        const previousLoc = dataLocArray[currentIndex - 1];
-                        GAME.emitOrder({a: 12, type: 18, loc: previousLoc});
-                    }
-                });
+                    $('#leftArrow').on('click', function() {
+                        const currentLoc = String(GAME.char_data.loc);
+                        const currentIndex = dataLocArray.indexOf(currentLoc);
+                        if (currentIndex === -1) {
+                            console.error("BRAK");
+                        } else if (currentIndex < dataLocArray.length - 1) {
+                            const nextLoc = dataLocArray[currentIndex + 1];
+                            GAME.emitOrder({a: 12, type: 18, loc: nextLoc});
+                        }
+                    });
 
-                $('#leftArrow').on('click', function() {
-                    const currentLoc = String(GAME.char_data.loc);
-                    const currentIndex = dataLocArray.indexOf(currentLoc);
-                    if (currentIndex === -1) {
-                        console.error("BRAK");
-                    } else if (currentIndex < dataLocArray.length - 1) {
-                        const nextLoc = dataLocArray[currentIndex + 1];
-                        GAME.emitOrder({a: 12, type: 18, loc: nextLoc});
-                    }
-                });
-
-            }, 1000);
+                }, 1000);  // Opóźnienie przed zebraniem danych
+            }
         });
     }
 }
