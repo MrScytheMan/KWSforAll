@@ -1,6 +1,7 @@
 class ekwipunekMenager {
     constructor() {
         const otwieranieKart = new cardOpen();
+        const mapWrapper = new locationWrapper();
         this.setupCalculatePA();
     }
 
@@ -132,5 +133,99 @@ class calculatePA {
         if (paDiv) {
             paDiv.innerText = `POSIADANE PA: ${finalNumber}`;
         }
+    }
+}
+
+class locationWrapper {
+    constructor() {
+        $("body").on("click", '#map_link_btn', () => {
+            // Sprawdzanie, czy element locationWrapper już istnieje
+            if ($("#changeLocationWrapper").length === 0) {
+                let locationWrapperCSS = `
+                #changeLocationWrapper {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 15px;
+                    margin-top: 20px;
+                }
+                #changeLocationWrapper .arrow {
+                    width: 50px;
+                    height: 50px;
+                    background: linear-gradient(135deg, #4caf50, #2e7d32);
+                    color: white;
+                    font-size: 20px;
+                    font-weight: bold;
+                    border: none;
+                    border-radius: 50%;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+                    cursor: pointer;
+                    transition: transform 0.2s, box-shadow 0.2s;
+                }
+                #changeLocationWrapper .arrow:hover {
+                    transform: scale(1.1);
+                    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+                }
+                #changeLocationText {
+                    font-size: 18px;
+                    color: #4caf50;
+                    font-weight: bold;
+                    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+                }`;
+
+                let locationWrapperHTML = `
+                <div id="changeLocationWrapper">
+                <button id="leftArrow" class="arrow">← </button>
+                <span id="changeLocationText" class="green"> ZMIEŃ LOKACJĘ </span>
+                <button id="rightArrow" class="arrow"> →</button>
+                </div>`;
+
+                $('#map_y').after(`<style>${locationWrapperCSS}</style>${locationWrapperHTML}`);
+            }
+
+            // Nowe dodane funkcje
+            GAME.emitOrder({a: 19, type: 1});
+            
+            setTimeout(() => {
+                const dataLocArray = [];
+                const list = document.querySelector('#tp_list');
+                
+                if (list) {
+                    const items = list.querySelectorAll("[data-loc]");
+                    items.forEach(item => {
+                        const dataLocValue = item.getAttribute("data-loc");
+                        if (dataLocValue && /^\d{1,3}$/.test(dataLocValue)) {
+                            dataLocArray.push(dataLocValue);
+                        }
+                    });
+                    console.log("Zebrane lokalizacje:", dataLocArray);
+                } else {
+                    console.error("Element o ID #tp_list nie został znaleziony.");
+                }
+
+                $('#rightArrow').on('click', function() {
+                    const currentLoc = String(GAME.char_data.loc);
+                    const currentIndex = dataLocArray.indexOf(currentLoc);
+                    if (currentIndex === -1) {
+                        console.error("BRAK");
+                    } else if (currentIndex > 0) {
+                        const previousLoc = dataLocArray[currentIndex - 1];
+                        GAME.emitOrder({a: 12, type: 18, loc: previousLoc});
+                    }
+                });
+
+                $('#leftArrow').on('click', function() {
+                    const currentLoc = String(GAME.char_data.loc);
+                    const currentIndex = dataLocArray.indexOf(currentLoc);
+                    if (currentIndex === -1) {
+                        console.error("BRAK");
+                    } else if (currentIndex < dataLocArray.length - 1) {
+                        const nextLoc = dataLocArray[currentIndex + 1];
+                        GAME.emitOrder({a: 12, type: 18, loc: nextLoc});
+                    }
+                });
+
+            }, 1000);
+        });
     }
 }
