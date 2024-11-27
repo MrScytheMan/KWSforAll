@@ -126,7 +126,7 @@ if (typeof GAME === 'undefined') { } else {
                 if (riddle) {
                     $("input[id=quest_riddle]").val(riddle.answer);
                 } else {
-                    console.log('riddle id: ', r_id)
+                    //console.log('riddle id: ', r_id)
 		}
             }
             getSettings() {
@@ -1051,7 +1051,7 @@ if (typeof GAME === 'undefined') { } else {
                 return `<b class="orange">[~${lvls_gained} lvl'i]</b>`;
             }
             handleSockets(res) {
-                console.log("KWA_HANDLE_SOCKETS: res.a == %s", res.a);
+                //console.log("KWA_HANDLE_SOCKETS: res.a == %s", res.a);
                 switch (res.a) {
                     case 7: //?? PvP fight result?
                         if (!this.stopped) {
@@ -1077,7 +1077,7 @@ if (typeof GAME === 'undefined') { } else {
                             break;
                         }
                     default:
-                        console.log("KWA_HANDLE_SOCKETS: unhandeled response");
+                        //console.log("KWA_HANDLE_SOCKETS: unhandeled response");
                         break;
                 }
             }
@@ -2100,7 +2100,7 @@ if (typeof GAME === 'undefined') { } else {
                 }
             }
             resetAFO() {
-                console.log("KWA_RESET_AFO: reset AFO values");
+                //console.log("KWA_RESET_AFO: reset AFO values");
                 if ($("#resp_Panel .resp_status").eq(0).hasClass("green")) {
                     $("#resp_Panel .resp_button.resp_resp").click();
                 }
