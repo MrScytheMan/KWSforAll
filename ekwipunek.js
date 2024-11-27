@@ -109,7 +109,8 @@ class calculatePA {
         itemIds.forEach(id => stacks[id] = 0);
         const pages = [
             { page: 0, page2: 0 },
-            { page: 0, page2: 1 }
+            { page: 0, page2: 1 },
+            { page: 0, page2: 2 }
         ];
         for (let page of pages) {
             await GAME.socket.emit('ga', { a: 12, page: page.page, page2: page.page2, used: 1 });
