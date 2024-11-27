@@ -4,13 +4,13 @@
      scr.innerHTML = `const LoadScript = (url, cb) => { fetch(url).then(res => res.json()).then((out) => { cb(out) }).catch(err => { throw err }); }
  
  const links = {
-    "link0":"https://raw.githubusercontent.com/KWSforAll/KWSforAll/dev123/charactersManager.js",
-    "link1":"https://raw.githubusercontent.com/KWSforAll/KWSforAll/dev123/ballExp.js",
-    "link2":"https://raw.githubusercontent.com/KWSforAll/KWSforAll/dev123/ballUpgrade.js",
-    "link3":"https://raw.githubusercontent.com/KWSforAll/KWSforAll/dev123/ballReset.js",
-    "link4":"https://raw.githubusercontent.com/KWSforAll/KWSforAll/dev123/ballManager.js",
-    "link5":"https://raw.githubusercontent.com/KWSforAll/KWSforAll/dev123/script1-2.js",
-    "link6":"https://raw.githubusercontent.com/KWSforAll/KWSforAll/dev123/ekwipunek.js",
+    "link0":"https://raw.githubusercontent.com/KWSforAll/KWSforAll/mains/charactersManager.js",
+    "link1":"https://raw.githubusercontent.com/KWSforAll/KWSforAll/mains/ballExp.js",
+    "link2":"https://raw.githubusercontent.com/KWSforAll/KWSforAll/mains/ballUpgrade.js",
+    "link3":"https://raw.githubusercontent.com/KWSforAll/KWSforAll/mains/ballReset.js",
+    "link4":"https://raw.githubusercontent.com/KWSforAll/KWSforAll/mains/ballManager.js",
+    "link5":"https://raw.githubusercontent.com/KWSforAll/KWSforAll/mains/script1-2.js",
+    "link6":"https://raw.githubusercontent.com/KWSforAll/KWSforAll/mains/ekwipunek.js",
  };
  
  const fetchPromises = Object.values(links).map(link => {
