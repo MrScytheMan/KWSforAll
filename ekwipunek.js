@@ -198,7 +198,7 @@ class locationWrapper {
                             const items = list.querySelectorAll("[data-loc]");
                             items.forEach(item => {
                                 const dataLocValue = item.getAttribute("data-loc");
-                                if (dataLocValue && /^\d{1,3}$/.test(dataLocValue)) {
+                                if (dataLocValue && /^\d{1,4}$/.test(dataLocValue)) {
                                     dataLocArray.push(dataLocValue);
                                 }
                             });
