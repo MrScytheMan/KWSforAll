@@ -80,7 +80,7 @@ class calculatePA {
         const initialPA = parseInt(document.querySelector("#char_pa_max").innerText.replace(/\s+/g, ''), 10);
         let finalNumber = initialPA;
 
-        const itemStacks = await this.getItemStacks([1244, 1242, 1259, 1473, 1260, 1472, 1243, 1471, 1494, 1493, 1492, 1489, 1485, 1484, 1483], initialPA);
+        const itemStacks = await this.getItemStacks([1244, 1242, 1259, 1473, 1260, 1472, 1243, 1471, 1494, 1493, 1492, 1489, 1485, 1484, 1483]);
 
         finalNumber += itemStacks[1244] * 100;
         finalNumber += itemStacks[1242] * 2000;
@@ -104,37 +104,34 @@ class calculatePA {
         console.log("MAX PA:" + initialPA + " Łączna ilość:" + finalNumber);
     }
 
-    async getItemStacks(itemIds, initialPA) {
+    async getItemStacks(itemIds) {
         const stacks = {};
 
-        // Dla każdej strony zaczytaj dane jednocześnie dla wszystkich elementów
-        for (let itemId of itemIds) {
-            stacks[itemId] = await this.getStackFromAllPages(itemId);
-        }
+        // Zainicjalizuj stosy dla każdego ID jako 0
+        itemIds.forEach(id => stacks[id] = 0);
 
-        console.log(stacks);
-        return stacks;
-    }
-
-    async getStackFromAllPages(itemId) {
+        // Przeglądaj strony i zbieraj dane dla wszystkich ID
         const pages = [
             { page: 0, page2: 0 },
             { page: 0, page2: 1 }
         ];
 
-        let totalStack = 0;
-
         for (let page of pages) {
             await GAME.socket.emit('ga', { a: 12, page: page.page, page2: page.page2, used: 1 });
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            await new Promise(resolve => setTimeout(resolve, 1500)); // Czekaj na załadowanie strony
 
-            const itemElement = document.querySelector(`#ekw_page_items [data-base_item_id="${itemId}"]`);
-            if (itemElement) {
-                totalStack += parseInt(itemElement.getAttribute('data-stack'), 10) || 0;
-            }
+            // Przeglądaj elementy na stronie
+            itemIds.forEach(itemId => {
+                const itemElement = document.querySelector(`#ekw_page_items [data-base_item_id="${itemId}"]`);
+                if (itemElement) {
+                    const stack = parseInt(itemElement.getAttribute('data-stack'), 10) || 0;
+                    stacks[itemId] += stack;
+                }
+            });
         }
 
-        return totalStack;
+        console.log(stacks);
+        return stacks;
     }
 
     updatePA(finalNumber) {
