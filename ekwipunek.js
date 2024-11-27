@@ -167,23 +167,22 @@ class locationWrapper {
                 #changeLocationWrapper .arrow:hover {
                     transform: scale(1.1);
                     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+                }
+                #changeLocationText {
+                    font-size: 18px;
+                    color: #4caf50;
+                    font-weight: bold;
+                    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
                 }`;
 
                 let locationWrapperHTML = `
                 <div id="changeLocationWrapper">
                 <button id="leftArrow" class="arrow">← </button>
+                <span id="changeLocationText" class="green"> ZMIEŃ LOKACJĘ </span>
                 <button id="rightArrow" class="arrow"> →</button>
                 </div>`;
 
-                // Wstawiamy strzałki przed map_name i po map_y
-                const mapTitleElement = document.querySelector("#page_game_map > div.title > h1");
-                if (mapTitleElement) {
-                    mapTitleElement.insertAdjacentHTML("afterbegin", locationWrapperHTML); // Dodajemy strzałkę w lewo przed map_name
-                    const mapYElement = document.querySelector("#map_y");
-                    if (mapYElement) {
-                        mapTitleElement.insertAdjacentHTML("beforeend", locationWrapperHTML); // Dodajemy strzałkę w prawo po map_y
-                    }
-                }
+                $('#map_y').after(`<style>${locationWrapperCSS}</style>${locationWrapperHTML}`);
             }
 
             // Zbieranie lokalizacji tylko raz
@@ -241,4 +240,5 @@ class locationWrapper {
         });
     }
 }
+
 
