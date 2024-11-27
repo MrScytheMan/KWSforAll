@@ -149,14 +149,14 @@ class locationWrapper {
                     align-items: center;
                     justify-content: center;
                     gap: 15px;
-                    margin-top: 20px;
+                    margin-top: -50px;
                     position: relative; /* Pozycjonowanie względne */
                     z-index: 10; /* Wyższy z-index, aby kontener był nad innymi elementami */
                 }
                 #changeLocationWrapper .arrow {
                     width: 50px;
                     height: 50px;
-                    background: linear-gradient(135deg, #4caf50, #2e7d32);
+                    background: linear-gradient(135deg, rgb(36 210 210 / 80%), rgb(46 215 215 / 10%));
                     color: white;
                     font-size: 20px;
                     font-weight: bold;
@@ -174,7 +174,7 @@ class locationWrapper {
                 }
                 #changeLocationText {
                     font-size: 18px;
-                    color: #4caf50;
+                    color: rgb(36 210 210 / 80%);
                     font-weight: bold;
                     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
                     white-space: nowrap; /* Zapobiega zawijaniu tekstu */
