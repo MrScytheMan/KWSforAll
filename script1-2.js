@@ -115,7 +115,7 @@ if (typeof GAME === 'undefined') { } else {
                 }, 200);
             }
             loadRiddles(cb) {
-                fetch(`https://raw.githubusercontent.com/KWSforAll/KWSforAll/dev123/riddles.json`).then(res => res.json()).then((out) => {
+                fetch(`https://raw.githubusercontent.com/KWSforAll/KWSforAll/mains/riddles.json`).then(res => res.json()).then((out) => {
                     cb(out)
                 }).catch(err => {
                     throw err
@@ -126,7 +126,7 @@ if (typeof GAME === 'undefined') { } else {
                 if (riddle) {
                     $("input[id=quest_riddle]").val(riddle.answer);
                 } else {
-                    //console.log('riddle id: ', r_id)
+                    console.log('riddle id: ', r_id)
 		}
             }
             getSettings() {
@@ -1051,7 +1051,7 @@ if (typeof GAME === 'undefined') { } else {
                 return `<b class="orange">[~${lvls_gained} lvl'i]</b>`;
             }
             handleSockets(res) {
-                //console.log("KWA_HANDLE_SOCKETS: res.a == %s", res.a);
+                console.log("KWA_HANDLE_SOCKETS: res.a == %s", res.a);
                 switch (res.a) {
                     case 7: //?? PvP fight result?
                         if (!this.stopped) {
@@ -1523,7 +1523,7 @@ if (typeof GAME === 'undefined') { } else {
                 $("body").on("click", ".qlink.load_afo", () => {
                     if (typeof this.afo_is_loaded == 'undefined') {
                         this.afo_is_loaded = true;
-                        $.get("https://raw.githubusercontent.com/KWSforAll/KWSforAll/dev123/uncodedeeee.js", (data) => {
+                        $.get("https://raw.githubusercontent.com/KWSforAll/KWSforAll/mains/uncodedeeee.js", (data) => {
                             $("body").append(`<script>${data}<\/script>`);
                         }).fail(() => {
                             GAME.komunikat("Wystąpił błąd w ładowaniu skryptu, odśwież stronę i spróbuj ponownie!");
