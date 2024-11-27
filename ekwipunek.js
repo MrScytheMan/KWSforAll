@@ -106,21 +106,14 @@ class calculatePA {
 
     async getItemStacks(itemIds) {
         const stacks = {};
-
-        // Zainicjalizuj stosy dla każdego ID jako 0
         itemIds.forEach(id => stacks[id] = 0);
-
-        // Przeglądaj strony i zbieraj dane dla wszystkich ID
         const pages = [
             { page: 0, page2: 0 },
             { page: 0, page2: 1 }
         ];
-
         for (let page of pages) {
             await GAME.socket.emit('ga', { a: 12, page: page.page, page2: page.page2, used: 1 });
-            await new Promise(resolve => setTimeout(resolve, 1500)); // Czekaj na załadowanie strony
-
-            // Przeglądaj elementy na stronie
+            await new Promise(resolve => setTimeout(resolve, 1500));
             itemIds.forEach(itemId => {
                 const itemElement = document.querySelector(`#ekw_page_items [data-base_item_id="${itemId}"]`);
                 if (itemElement) {
@@ -129,7 +122,6 @@ class calculatePA {
                 }
             });
         }
-
         console.log(stacks);
         return stacks;
     }
