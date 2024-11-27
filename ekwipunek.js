@@ -181,10 +181,10 @@ class locationWrapper {
                 </div>`;
 
                 $('#map_y').after(`<style>${locationWrapperCSS}</style>${locationWrapperHTML}`);
+                GAME.emitOrder({a: 19, type: 1});
             }
 
             // Nowe dodane funkcje
-            GAME.emitOrder({a: 19, type: 1});
             
             setTimeout(() => {
                 const dataLocArray = [];
