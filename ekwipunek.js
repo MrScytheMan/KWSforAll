@@ -77,11 +77,10 @@ class calculatePA {
     }
 
     async calculateFinalNumber() {
-        //const initialPA = parseInt(GAME.bindings.pr[0].c.innerText.replace(/\s+/g, ''), 10);
-        const initialPA = parseInt(document.querySelector("#char_pa_max").innerText.replace(/\s+/g, ''), 10)
+        const initialPA = parseInt(document.querySelector("#char_pa_max").innerText.replace(/\s+/g, ''), 10);
         let finalNumber = initialPA;
 
-        const itemStacks = await this.getItemStacks([1244, 1242, 1259, 1473, 1260, 1472, 1243, 1471], initialPA);
+        const itemStacks = await this.getItemStacks([1244, 1242, 1259, 1473, 1260, 1472, 1243, 1471, 1494, 1493, 1492, 1489, 1485, 1484, 1483], initialPA);
 
         finalNumber += itemStacks[1244] * 100;
         finalNumber += itemStacks[1242] * 2000;
@@ -91,26 +90,39 @@ class calculatePA {
         finalNumber += itemStacks[1472] * 10000 + (initialPA * 0.15);
         finalNumber += itemStacks[1243] * initialPA;
         finalNumber += itemStacks[1471] * initialPA;
+        finalNumber += (itemStacks[1489] * 5000 + (initialPA * 0.03)) * 20;
+        finalNumber += (itemStacks[1489] * 10000 + (initialPA * 0.15)) * 3;
+        finalNumber += (itemStacks[1494] * 10000 + (initialPA * 0.15)) * 3;
+        finalNumber += (itemStacks[1493] * 10000 + (initialPA * 0.15)) * 3;
+        finalNumber += (itemStacks[1492] * 10000 + (initialPA * 0.15)) * 3;
+        finalNumber += (itemStacks[1485] * 10000 + (initialPA * 0.15)) * 3;
+        finalNumber += (itemStacks[1483] * 10000 + (initialPA * 0.15)) * 3;
+        finalNumber += (itemStacks[1484] * 10000 + (initialPA * 0.15)) * 3;
+        finalNumber += (itemStacks[1484] * initialPA) * 4;
 
         this.updatePA(GAME.dots(finalNumber));
-        console.log("MAX PA:"+initialPA+" Łączna ilość:"+finalNumber);
+        console.log("MAX PA:" + initialPA + " Łączna ilość:" + finalNumber);
     }
 
     async getItemStacks(itemIds, initialPA) {
         const stacks = {};
+
+        // Dla każdej strony zaczytaj dane jednocześnie dla wszystkich elementów
         for (let itemId of itemIds) {
-            const stack = await this.getStackFromPages(itemId);
-            stacks[itemId] = stack;
+            stacks[itemId] = await this.getStackFromAllPages(itemId);
         }
+
         console.log(stacks);
         return stacks;
     }
 
-    async getStackFromPages(itemId) {
+    async getStackFromAllPages(itemId) {
         const pages = [
             { page: 0, page2: 0 },
             { page: 0, page2: 1 }
         ];
+
+        let totalStack = 0;
 
         for (let page of pages) {
             await GAME.socket.emit('ga', { a: 12, page: page.page, page2: page.page2, used: 1 });
@@ -118,11 +130,11 @@ class calculatePA {
 
             const itemElement = document.querySelector(`#ekw_page_items [data-base_item_id="${itemId}"]`);
             if (itemElement) {
-                return parseInt(itemElement.getAttribute('data-stack'), 10);
+                totalStack += parseInt(itemElement.getAttribute('data-stack'), 10) || 0;
             }
         }
 
-        return 0;
+        return totalStack;
     }
 
     updatePA(finalNumber) {
