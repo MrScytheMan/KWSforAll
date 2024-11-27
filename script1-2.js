@@ -126,7 +126,7 @@ if (typeof GAME === 'undefined') { } else {
                 if (riddle) {
                     $("input[id=quest_riddle]").val(riddle.answer);
                 } else {
-                    console.log('riddle id: ', r_id)
+                    //console.log('riddle id: ', r_id)
 		}
             }
             getSettings() {
@@ -1051,7 +1051,7 @@ if (typeof GAME === 'undefined') { } else {
                 return `<b class="orange">[~${lvls_gained} lvl'i]</b>`;
             }
             handleSockets(res) {
-                console.log("KWA_HANDLE_SOCKETS: res.a == %s", res.a);
+                //console.log("KWA_HANDLE_SOCKETS: res.a == %s", res.a);
                 switch (res.a) {
                     case 7: //?? PvP fight result?
                         if (!this.stopped) {
@@ -1077,7 +1077,7 @@ if (typeof GAME === 'undefined') { } else {
                             break;
                         }
                     default:
-                        console.log("KWA_HANDLE_SOCKETS: unhandeled response");
+                        //console.log("KWA_HANDLE_SOCKETS: unhandeled response");
                         break;
                 }
             }
@@ -1692,36 +1692,36 @@ if (typeof GAME === 'undefined') { } else {
                 }
             }
             checkTournamentsSigning() {
-                if(this.isCheckingTournaments) { console.log("KWA_TOURNAMENTS: currently handling tournaments sign"); return; }
+                if(this.isCheckingTournaments) { /*console.log("KWA_TOURNAMENTS: currently handling tournaments sign");*/ return; }
                 this.isCheckingTournaments = true;
                 var currentServerTime = new Date(GAME.getTime()*1000);
                 var currentServerHour = currentServerTime.getHours();
                 var currentServerMinute = currentServerTime.getMinutes();
-                console.log("KWA_TOURNAMENTS: Check tournaments sign");
+                //console.log("KWA_TOURNAMENTS: Check tournaments sign");
                 if(currentServerHour > 20 || currentServerHour < 18) {
-                    console.log("KWA_TOURNAMENTS: Wrong hours, reset values");
+                    //console.log("KWA_TOURNAMENTS: Wrong hours, reset values");
                     this.tourSigned = false;
                     this.tournamentCategory = undefined;
                     this.newTournamentID = undefined;
                     this.isCheckingTournaments = false;
                 } else if (!this.tourSigned) {
-                    console.log("KWA_TOURNAMENTS: not signed");
+                    //console.log("KWA_TOURNAMENTS: not signed");
                     if ((currentServerHour == 18 && currentServerMinute > 9) || (currentServerHour > 18 && currentServerHour < 21)) {
-                        console.log("KWA_TOURNAMENTS: correct time");
+                        //console.log("KWA_TOURNAMENTS: correct time");
                         this.tourSigned = true;
                         this.findTournamentCategory();
-                        console.log("KWA_TOURNAMENTS: tournament category fetched");
+                        //console.log("KWA_TOURNAMENTS: tournament category fetched");
                         setTimeout(() => {
-                            console.log("KWA_TOURNAMENTS: fetch tournaments IDs");
+                            //console.log("KWA_TOURNAMENTS: fetch tournaments IDs");
                             if (this.tournamentCategory <= 54) {
                                 GAME.emitOrder({a: 57, type: 0, type2: 0, page: 1});
                             } else {
                                 GAME.emitOrder({a: 57, type: 0, type2: 0, page: 2});
                             }
                         }, 500);
-                        setTimeout(() => { console.log("KWA_TOURNAMENTS: sign in player");GAME.emitOrder({a: 57, type: 1, tid: this.newTournamentID}); }, 1000);
-                        setTimeout(() => { console.log("KWA_TOURNAMENTS: sign in all pets");GAME.emitOrder({a: 57, type: 4}); }, 1500);
-                        setTimeout(() => { console.log("KWA_TOURNAMENTS: clear popups");kom_clear(); }, 2000);
+                        setTimeout(() => { /*console.log("KWA_TOURNAMENTS: sign in player");*/GAME.emitOrder({a: 57, type: 1, tid: this.newTournamentID}); }, 1000);
+                        setTimeout(() => { /*console.log("KWA_TOURNAMENTS: sign in all pets");*/GAME.emitOrder({a: 57, type: 4}); }, 1500);
+                        setTimeout(() => { /*console.log("KWA_TOURNAMENTS: clear popups");*/kom_clear(); }, 2000);
                         setTimeout(() => { this.setTimerForTournamentsReset(); }, 5000);
                     } else {
                         this.isCheckingTournaments = false;
@@ -1729,7 +1729,7 @@ if (typeof GAME === 'undefined') { } else {
                 }
             }
             setTimerForTournamentsReset() {
-               console.log("KWA_TOURNAMENTS: reset isCheckingTournaments flag");
+               //console.log("KWA_TOURNAMENTS: reset isCheckingTournaments flag");
                 this.isCheckingTournaments = false;
             }
             createAlternativePilot() {
@@ -2100,7 +2100,7 @@ if (typeof GAME === 'undefined') { } else {
                 }
             }
             resetAFO() {
-                console.log("KWA_RESET_AFO: reset AFO values");
+                //console.log("KWA_RESET_AFO: reset AFO values");
                 if ($("#resp_Panel .resp_status").eq(0).hasClass("green")) {
                     $("#resp_Panel .resp_button.resp_resp").click();
                 }
@@ -2117,7 +2117,7 @@ if (typeof GAME === 'undefined') { } else {
                     $(".manage_autoExpeditions").click();
                 }
                 setTimeout(() => {
-                    console.log("KWA_RESET_AFO: reset tournaments values");
+                    //console.log("KWA_RESET_AFO: reset tournaments values");
                     this.tourSigned = false;
                     this.tournamentCategory = undefined;
                     this.newTournamentID = undefined;
@@ -2528,7 +2528,7 @@ if (typeof GAME === 'undefined') { } else {
         let roll2 = false;
         let roll1 = false;
         let roll3 = false;
-        let version = '3.5';
+        let version = '3.5.1';
     }
     )
 }

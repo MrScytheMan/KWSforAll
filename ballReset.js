@@ -443,8 +443,6 @@ class pet_bonch {
     }
 }
 
-class anielskaReset{
-    constructor(){
         class anielskaReset {
             constructor() {
                 this.anielskaCSS = `
@@ -627,5 +625,3 @@ class anielskaReset{
                 });
             }
         }
-    }
-}
