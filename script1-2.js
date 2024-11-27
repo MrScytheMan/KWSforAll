@@ -1077,7 +1077,7 @@ if (typeof GAME === 'undefined') { } else {
                             break;
                         }
                     default:
-                        //("KWA_HANDLE_SOCKETS: unhandeled response");
+                        console.log("KWA_HANDLE_SOCKETS: unhandeled response");
                         break;
                 }
             }
