@@ -147,9 +147,11 @@ class locationWrapper {
                 #changeLocationWrapper {
                     display: flex;
                     align-items: center;
-                    justify-content: center;
+                    justify-content: space-between;
                     gap: 15px;
                     margin-top: 20px;
+                    position: relative;  /* Ustawiamy pozycjonowanie kontenera */
+                    z-index: 10;  /* Ustawiamy z-index, aby strzałki były na wierzchu */
                 }
                 #changeLocationWrapper .arrow {
                     width: 50px;
@@ -163,26 +165,29 @@ class locationWrapper {
                     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
                     cursor: pointer;
                     transition: transform 0.2s, box-shadow 0.2s;
+                    position: relative;  /* Ustawiamy pozycjonowanie dla strzałek */
+                    z-index: 20;  /* Zwiększamy z-index strzałek, aby były nad innymi elementami */
                 }
                 #changeLocationWrapper .arrow:hover {
                     transform: scale(1.1);
                     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
-                }
-                #changeLocationText {
-                    font-size: 18px;
-                    color: #4caf50;
-                    font-weight: bold;
-                    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
                 }`;
 
                 let locationWrapperHTML = `
                 <div id="changeLocationWrapper">
                 <button id="leftArrow" class="arrow">← </button>
-                <span id="changeLocationText" class="green"> ZMIEŃ LOKACJĘ </span>
                 <button id="rightArrow" class="arrow"> →</button>
                 </div>`;
 
-                $('#map_y').after(`<style>${locationWrapperCSS}</style>${locationWrapperHTML}`);
+                // Dodajemy strzałki do odpowiednich miejsc w nagłówku mapy
+                const mapTitleElement = document.querySelector("#page_game_map > div.title > h1");
+                if (mapTitleElement) {
+                    mapTitleElement.insertAdjacentHTML("afterbegin", locationWrapperHTML);  // Strzałka w lewo przed map_name
+                    const mapYElement = document.querySelector("#map_y");
+                    if (mapYElement) {
+                        mapTitleElement.insertAdjacentHTML("beforeend", locationWrapperHTML);  // Strzałka w prawo po map_y
+                    }
+                }
             }
 
             // Zbieranie lokalizacji tylko raz
@@ -240,5 +245,6 @@ class locationWrapper {
         });
     }
 }
+
 
 
