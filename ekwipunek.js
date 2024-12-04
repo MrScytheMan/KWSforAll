@@ -12,7 +12,6 @@ class ekwipunekMenager {
 
         if (ekwipunekButton) {
             ekwipunekButton.addEventListener('click', () => {
-                console.log("Przycisk Ekwipunek kliknięty.");
                 this.createOrUpdatePADisplay();
             });
         } else {
@@ -39,7 +38,6 @@ class ekwipunekMenager {
             paDiv.style.left = "40%";
             titleDiv.appendChild(paDiv);
             paDiv.addEventListener("click", () => {
-                console.log("Obliczanie PA rozpoczęte...");
                 new calculatePA();
             });
         }
@@ -234,7 +232,7 @@ class calculatePA {
         finalNumber += (itemStacks[1484] * initialPA) * 4;
 
         this.updatePA(GAME.dots(finalNumber));
-        console.log("MAX PA:" + initialPA + " Łączna ilość:" + finalNumber);
+        //console.log("MAX PA:" + initialPA + " Łączna ilość:" + finalNumber);
     }
 
     async getItemStacks(itemIds) {
