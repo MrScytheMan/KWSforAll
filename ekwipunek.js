@@ -165,6 +165,7 @@ class lv12all {
             }
             if (stack <= 1) {
                 GAME.komunikat2('Stack is 1 or less. Stopping upgrade process.');
+                console.log("test1")
                 this.stopUpgrading = false;
                 setTimeout(() => { kom_clear(); }, 2000);
             }
