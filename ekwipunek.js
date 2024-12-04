@@ -130,7 +130,7 @@ class lv12all {
         const button = document.createElement('button');
         button.className = 'option btn_small_gold';
         button.setAttribute('data-option', 'map_cards');
-        button.textContent = 'Tablica (Start/Stop)';
+        button.textContent = 'lv12ALL';
         button.addEventListener("click", async () => {
             this.stopUpgrading = !this.stopUpgrading; // Toggle the state
             if (!this.stopUpgrading) {
