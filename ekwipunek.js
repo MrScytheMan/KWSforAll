@@ -147,7 +147,7 @@ class lv12all {
                 GAME.komunikat2('Card upgrading stopped.');
                 return;
             }
-
+            const stack = parseInt(selected_card.find('i').eq(0).text())
             const selected_card = $(`div[data-card_id="${GAME.selected_card}"]`);
             const cardType = selected_card.find('img').attr('src');
             let continueUpgrading = true;
@@ -155,7 +155,7 @@ class lv12all {
                 // Upgrade cards to level 12 until there are no more cards to upgrade or the process is stopped
                 continueUpgrading = this.upgrader(cardType, 12, true);
                 await this.delay(1000);
-            } while (continueUpgrading && this.stopUpgrading);
+            } while (continueUpgrading && this.stopUpgrading && stack > 1);
 
             if (this.stopUpgrading) {
                 GAME.komunikat2('All cards used');
