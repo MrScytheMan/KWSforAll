@@ -162,6 +162,7 @@ class lv12all {
             if (this.stopUpgrading) {
                 GAME.komunikat2('All cards used');
                 this.stopUpgrading = false;
+                setTimeout(() => {kom_clear();}, 2000);
             }
         });
 
