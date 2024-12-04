@@ -148,7 +148,7 @@ class lv12all {
             } while (continueUpgrading && this.stopUpgrading);
 
             if (this.stopUpgrading) {
-                GAME.komunikat2('All cards upgraded to level 12');
+                GAME.komunikat2('All cards used');
             }
         });
 
