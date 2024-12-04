@@ -147,8 +147,9 @@ class lv12all {
                 GAME.komunikat2('Card upgrading stopped.');
                 return;
             }
-            const stack = parseInt(selected_card.find('i').eq(0).text())
             const selected_card = $(`div[data-card_id="${GAME.selected_card}"]`);
+            const level = parseInt(selected_card.find('span').eq(0).text());
+            const stack = parseInt(selected_card.find('i').eq(0).text());
             const cardType = selected_card.find('img').attr('src');
             let continueUpgrading = true;
             do {
