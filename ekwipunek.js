@@ -89,6 +89,7 @@ class lv12all {
             }
             $("body").on("click", '.stop', () => {
                 this.stopUpgrading = false;
+                kom_clear();
             });
     }
 
