@@ -108,7 +108,7 @@ class lv12all {
         }
 
         // return false if there is no level 1
-        if (cards.filter(card => card.level === 1).length <= 1) {
+        if (cards.filter(card => card.level === 1).length === 0) {
             return false;
         }
 
@@ -129,6 +129,12 @@ class lv12all {
         }
 
         if (cardToUpgrade) {
+            if (cardToUpgrade.stack <= 1) {
+                GAME.komunikat2('Stack is 1 or less. Stopping upgrade process.');
+                this.stopUpgrading = false;
+                setTimeout(() => { kom_clear(); }, 2000);
+                return false;
+            }
             this.upgradeCard(cardToUpgrade.cardId);
             return true;
         }
