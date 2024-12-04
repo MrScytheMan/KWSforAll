@@ -80,6 +80,16 @@ class lv12all {
         GAME[functionName]({a: 58, type: 3, card: cardId});
         kom_clear();
         GAME.komunikat2(`Upgrading card...`);
+        let komunikatElement = document.querySelector('#kom_con .kom');
+            if (komunikatElement) {
+                if (!komunikatElement.querySelector('.stop')) {
+                    komunikatElement.innerHTML += `
+                    <button class="newBtn stop">STOP ULEPSZANIA</button>`;
+                }
+            }
+            $("body").on("click", '.stop', () => {
+                this.stopUpgrading = false;
+            });
     }
 
     /**
