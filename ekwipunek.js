@@ -167,7 +167,6 @@ class lv12all {
                 GAME.komunikat2('Stack is 1 or less. Stopping upgrade process.');
                 this.stopUpgrading = false;
                 setTimeout(() => { kom_clear(); }, 2000);
-                return false;
             }
         });
 
