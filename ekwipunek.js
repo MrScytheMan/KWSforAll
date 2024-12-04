@@ -133,7 +133,6 @@ class lv12all {
                 GAME.komunikat2('Card level is 1 and stack is 1. Stopping upgrade process.');
                 this.stopUpgrading = false;
                 setTimeout(() => { kom_clear(); }, 2000);
-                console.log("testtest")
                 return false;
             }
             this.upgradeCard(cardToUpgrade.cardId);
