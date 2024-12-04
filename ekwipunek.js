@@ -157,7 +157,7 @@ class lv12all {
                 await this.delay(1000);
             } while (continueUpgrading && this.stopUpgrading);
 
-            if (this.stopUpgrading) {
+            if (this.stopUpgrading || stack <= 1) {
                 GAME.komunikat2('All cards used');
                 this.stopUpgrading = false;
                 setTimeout(() => {kom_clear();}, 2000);
