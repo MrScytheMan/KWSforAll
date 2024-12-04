@@ -3,6 +3,8 @@ class ekwipunekMenager {
         const otwieranieKart = new cardOpen();
         const mapWrapper = new locationWrapper();
         this.setupCalculatePA();
+        const lvl12all = new lv12all();
+        lvl12all.initialize();
     }
 
     setupCalculatePA() {
@@ -40,6 +42,122 @@ class ekwipunekMenager {
                 console.log("Obliczanie PA rozpoczęte...");
                 new calculatePA();
             });
+        }
+    }
+}
+
+class lv12all {
+    constructor() {
+        this.stopUpgrading = false; // Global variable to control the loop
+    }
+
+    delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    getAllCardsByType(cardType) {
+        const sc_upgrades = document.getElementById("sc_upgrades");
+        const cardsSameType = Array.from(sc_upgrades.querySelectorAll('div')).filter(function(div) {
+            const img = div.querySelector('img');
+            return img && img.src.includes(cardType);
+        });
+
+        return cardsSameType.map(function(div) {
+            const level = div.querySelector('span') ? div.querySelector('span').textContent : null;
+            const stack = div.querySelector('i') ? div.querySelector('i').textContent : null;
+            const cardId = div.getAttribute('data-card_id');
+
+            return {
+                level: parseInt(level),
+                stack: parseInt(stack),
+                cardId: cardId
+            };
+        });
+    }
+
+    upgradeCard(cardId) {
+        const functionName = Object.keys(GAME).filter(key => key.startsWith('xxx') && key.endsWith('Order'))[0];
+        GAME[functionName]({a: 58, type: 3, card: cardId});
+        GAME.komunikat2(`Upgrading card...`);
+    }
+
+    /**
+     * Upgrade card to max level
+     * @param {string} cardType - card type to upgrade
+     * @param {number} maxLevel - max level to upgrade
+     * @param {boolean} useExistingWeakerCard - if true, upgrade weaker card first, closest to max level
+     * @param {number} forceUpgradeCardLevel - if provided, upgrade card with this level
+     * @returns {boolean} - true if card was upgraded, false otherwise
+     */
+    upgrader(cardType, maxLevel, useExistingWeakerCard = false, forceUpgradeCardLevel = undefined) {
+        const cards = this.getAllCardsByType(cardType);
+
+        // no cards to upgrade
+        if (cards.length === 0) {
+            return false;
+        }
+
+        // return false if there is no level 1
+        if (cards.filter(card => card.level === 1).length === 0) {
+            return false;
+        }
+
+        let cardToUpgrade;
+
+        // upgrade card with provided level
+        if (forceUpgradeCardLevel) {
+            cardToUpgrade = cards
+                .filter(card => card.level === forceUpgradeCardLevel)
+                .sort((a, b) => a.stack - b.stack)
+                .shift();
+        }
+        else if (useExistingWeakerCard) {
+            cardToUpgrade = cards
+                .filter(card => card.level < maxLevel)
+                .sort((a, b) => b.level - a.level)
+                .shift();
+        }
+
+        if (cardToUpgrade) {
+            this.upgradeCard(cardToUpgrade.cardId);
+            return true;
+        }
+
+        return false;
+    }
+
+    async startStopButton() {
+        const button = document.createElement('button');
+        button.className = 'option btn_small_gold';
+        button.setAttribute('data-option', 'map_cards');
+        button.textContent = 'Tablica (Start/Stop)';
+        button.addEventListener("click", async () => {
+            this.stopUpgrading = !this.stopUpgrading; // Toggle the state
+            if (!this.stopUpgrading) {
+                GAME.komunikat2('Card upgrading stopped.');
+                return;
+            }
+
+            const selected_card = $(`div[data-card_id="${GAME.selected_card}"]`);
+            const cardType = selected_card.find('img').attr('src');
+            let continueUpgrading = true;
+            do {
+                // Upgrade cards to level 12 until there are no more cards to upgrade or the process is stopped
+                continueUpgrading = this.upgrader(cardType, 12, true);
+                await this.delay(1000);
+            } while (continueUpgrading && this.stopUpgrading);
+
+            if (this.stopUpgrading) {
+                GAME.komunikat2('All cards upgraded to level 12');
+            }
+        });
+
+        document.getElementById("soulcard_menu").appendChild(button);
+    }
+
+    initialize() {
+        if (!document.getElementById("soulcard_menu").querySelector('button[data-option="map_cards"]')) {
+            this.startStopButton();
         }
     }
 }
