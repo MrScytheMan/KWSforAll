@@ -86,7 +86,6 @@ class ekwipunekMenager {
 
         inputField.addEventListener('input', filterQuests);
     }
-}
 
 }
 
