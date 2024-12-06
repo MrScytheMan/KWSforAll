@@ -73,6 +73,7 @@ if (typeof GAME === 'undefined') { } else {
                     border: 0px solid #973804;
                 }`);
                 this.addToCSS(`.kws_additional_top_bar{float:left !important; position: absolute; z-index: -1; display: none} .kws_additional_top_bar_section{color:white;padding:3px 5px 3px 5px;border-radius:5px;margin-right:8px;user-select:none;}`);
+                this.addToCSS(`.questfinder {position: absolute; top: 60px; right: 120px; background-size: 100% 100%; border: solid #6f6f6f 1px; color: black;}`);
                 $("#top_bar").append(`<div class="kws_top_bar"></div>`);
                 $("#top_bar").append(`<div class="kws_additional_top_bar"></div>`);
                 $("#bless_type_2").click();
@@ -81,6 +82,7 @@ if (typeof GAME === 'undefined') { } else {
                 $(`<button class="newBtn free_assist_for_all" style="margin-right:5px;">Asystuj wszystkim za darmo</button>`).insertBefore(`button[data-option="clan_assist_all"]`);
                 $(`<button class="gold_button auto_bless">AUTOMAT</button>`).insertBefore(`button[data-option="grant_buff"]`);
                 $(`<button class="gold_button auto_know">AUTOMATY</button>`).insertBefore('button[data-option="show_know2"]');
+                $(`<input type="text" placeholder="Zawartość Misji.." class="questfinder" />`).insertBefore('button[data-option="mob_spawner"]');
                 $("#clan_inner_wars h3").eq(0).append(` <button class="newBtn activate_all_clan_buffs">Aktywuj wszystkie buffy</button>`);
                 $(`#minimap_con`).append(`<div id="kws_locInfo"><div class="sekcja">INFORMACJE O LOKACJI</div><div class="content"></div></div>`);
                 $("#sett_page_local div").eq(0).prepend(`<b class="green">Zmień tło strony </b><div class="game_input"><input id="new_website_bg" style="width:370px;" type="text"></div><button class="option newBtn kws_change_website_bg" style="margin-left:5px;">Zmień</button><button class="option newBtn kws_reset_website_bg" style="margin-left:5px;">Reset</button><br><br>`);
@@ -1194,6 +1196,9 @@ if (typeof GAME === 'undefined') { } else {
                 $("body").on("click", "#changeProfile", () => {
                     this.resetAFO();
                 });
+                $("body").on("click", "#map_link_btn", () => {
+                    this.createQuestFilter();
+                });
                 $("body").on("click", "#changeProfilePrev", () => {
                     this.goToPreviousChar();
                     this.resetCalculatedPower();
@@ -2123,6 +2128,35 @@ if (typeof GAME === 'undefined') { } else {
                     this.newTournamentID = undefined;
                     this.isCheckingTournaments = false;
                 }, 1000);
+            }
+            createQuestFilter() {
+                // Znajdujemy kontener z misjami
+                const questContainer = document.querySelector('#drag_con');
+            
+                // Tworzymy pole tekstowe
+                const inputField = document.createElement('input');
+                inputField.type = 'text';
+                inputField.placeholder = 'Zawartość Misji..';
+                inputField.classList.add('questfinder');
+                document.body.appendChild(inputField); // Dodajemy pole do DOM
+            
+                // Funkcja filtrowania misji
+                const filterQuests = () => {
+                    const searchText = inputField.value.toLowerCase(); // Pobieramy tekst z pola
+                    const quests = questContainer.querySelectorAll('.qtrack'); // Pobieramy wszystkie misje
+            
+                    quests.forEach(quest => {
+                        const questText = quest.textContent.toLowerCase(); // Pobieramy tekst z misji
+                        if (questText.includes(searchText)) {
+                            quest.style.display = ''; // Pokazujemy pasujące misje
+                        } else {
+                            quest.style.display = 'none'; // Ukrywamy niepasujące misje
+                        }
+                    });
+                };
+            
+                // Dodajemy nasłuchiwanie na wpisywany tekst
+                inputField.addEventListener('input', filterQuests);
             }
         }
         const kws = new kwsv3(kwsLocalCharacters);
