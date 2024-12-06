@@ -776,7 +776,6 @@ if (typeof GAME === 'undefined') { } else {
                         $(this).closest('.qtrack').remove();
                     }
                 });
-            
                 const currentLocation = String(GAME.char_data.loc).toLowerCase();
                 $('[id^="track_quest_"]').each(function () {
                     const questLoc = $(this).attr("data-loc").toLowerCase();
