@@ -764,18 +764,32 @@ if (typeof GAME === 'undefined') { } else {
             markDaily() {
                 let daily = ["ZADANIE PVM", "Zadanie PvP", "ROZWÓJ PLANETY ", "ZADANIE IMPERIUM", "ZADANIE KLANOWE", "NAJLEPSZY KUCHA...", "REPUTACJA", "SYMBOL WYMIARÓW", "WYMIANA CHI", "ERMITA", "Nuda", "DOSTAWCA", "BOSKA MOC", "ROZGRZEWKA", "BOSKI ULEPSZACZ", "CZAS PODRÓŻNIKÓ...", "STRAŻNIK PORZĄD...", "CODZIENNY INSTY...", "HIPER SCALACZ", "DZIWNY MEDYK"];
                 daily = daily.map(item => item.trim().toLowerCase());
+                
+                // Pobieramy obecną lokację gracza
                 let currentLocation = String(GAME.char_data.loc);
+                console.log("Obecna lokacja gracza: " + currentLocation);  // Dodano logowanie
+            
                 $('#quest_track_con .qtrack').each(function () {
-                    let missionLoc = $(this).data('loc');
+                    let missionLoc = $(this).data('loc');  // Pobieramy lokację misji
                     let zawartoscB = $(this).find('b').text().trim().toLowerCase();
+                    
+                    // Logowanie, aby sprawdzić wartości porównywane
+                    console.log("Lokacja misji: " + missionLoc);  // Dodano logowanie
+                    console.log("Porównanie: " + (missionLoc === currentLocation));  // Logowanie porównania
+            
+                    // Sprawdzamy, czy misja jest na tej samej lokacji co gracz
                     if (missionLoc === currentLocation) {
-                        $(this).css("background-color", "yellow");
+                        $(this).css("background-color", "yellow");  // Podświetlamy na żółto
+                        console.log("Misja jest w tej samej lokacji, podświetlam na żółto");  // Dodano logowanie
                     }
+            
+                    // Sprawdzamy, czy nazwa misji jest w liście codziennych zadań
                     if (daily.includes(zawartoscB)) {
                         $(this).find('b').css("color", "#63aaff");
                     }
                 });
             }
+            
             wojny2() {
                 var aimp = $("#e_admiral_player").find("[data-option=show_player]").attr("data-char_id");
                 var imp = $("#leader_player").find("[data-option=show_player]").attr("data-char_id");
