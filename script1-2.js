@@ -764,10 +764,19 @@ if (typeof GAME === 'undefined') { } else {
             markDaily() {
                 let daily = ["ZADANIE PVM", "Zadanie PvP", "ROZWÓJ PLANETY ", "ZADANIE IMPERIUM", "ZADANIE KLANOWE", "NAJLEPSZY KUCHA...", "REPUTACJA", "SYMBOL WYMIARÓW", "WYMIANA CHI", "ERMITA", "Nuda", "DOSTAWCA", "BOSKA MOC", "ROZGRZEWKA", "BOSKI ULEPSZACZ", "CZAS PODRÓŻNIKÓ...", "STRAŻNIK PORZĄD...", "CODZIENNY INSTY...", "HIPER SCALACZ", "DZIWNY MEDYK"];
                 daily = daily.map(item => item.trim().toLowerCase());
+                const lastSep3Element = $('.sep3').last().closest('.qtrack');
+                lastSep3Element.find('.qtrack').each(function () {
+                    const bElement = $(this).find('b');
+                    if (bElement.length > 0 && (bElement.css('color') === 'rgb(99, 170, 255)' || bElement.css('color') === 'rgb(255, 255, 0)')) {
+                        $(this).remove();
+                    }
+                });
                 $('#quest_track_con .qtrack b').each(function () {
                     let zawartoscB = $(this).text().trim().toLowerCase();
                     if (daily.includes(zawartoscB)) {
                         $(this).css("color", "#63aaff");
+                        lastSep3Element.append($(this).closest('.qtrack').clone());
+                        $(this).remove();
                     }
                 });
                 const currentLocation = String(GAME.char_data.loc).toLowerCase();
@@ -775,6 +784,8 @@ if (typeof GAME === 'undefined') { } else {
                     const questLoc = $(this).attr("data-loc").toLowerCase();
                     if (questLoc === currentLocation) {
                         $(this).find('b').css("color", "yellow");
+                        lastSep3Element.append($(this).closest('.qtrack').clone());
+                        $(this).remove();
                     }
                 });
             }
