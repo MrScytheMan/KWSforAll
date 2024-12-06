@@ -386,7 +386,7 @@ class filterQuest {
                 };
                 
                 // Dodanie HTML i CSS za pomocą jQuery
-                $('#map_y').after(questFilterHTML);
+                $('#rightArrow').after(questFilterHTML);
                 $("#quest-filter-input").css(questFilterCSS);
                 
                 // Dodanie nasłuchiwacza na pole tekstowe
