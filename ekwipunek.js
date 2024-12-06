@@ -368,5 +368,47 @@ class locationWrapper {
     }
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    // Tworzymy pole tekstowe
+    const inputField = document.createElement('input');
+    inputField.type = 'text';
+    inputField.placeholder = 'Wpisz coś...';
 
+    // Dodajemy style CSS
+    inputField.style.position = 'absolute';
+    inputField.style.top = '60px';
+    inputField.style.right = '120px';
+    inputField.style.backgroundSize = '100% 100%';
+    inputField.style.border = 'solid #6f6f6f 1px';
+    inputField.style.color = 'black';
+
+    // Znajdujemy przycisk na stronie
+    const button = document.querySelector('.option.ls.spawner[data-option="mob_spawner"]');
+
+    if (button) {
+        // Dodajemy pole tekstowe przed przyciskiem
+        button.parentNode.insertBefore(inputField, button);
+
+        // Znajdujemy kontener z misjami
+        const questContainer = document.querySelector('#drag_con');
+
+        // Funkcja filtrowania misji
+        const filterQuests = () => {
+            const searchText = inputField.value.toLowerCase(); // Pobieramy tekst z pola
+            const quests = questContainer.querySelectorAll('.qtrack'); // Pobieramy wszystkie misje
+
+            quests.forEach(quest => {
+                const questText = quest.textContent.toLowerCase(); // Pobieramy tekst z misji
+                if (questText.includes(searchText)) {
+                    quest.style.display = ''; // Pokazujemy pasujące misje
+                } else {
+                    quest.style.display = 'none'; // Ukrywamy niepasujące misje
+                }
+            });
+        };
+
+        // Dodajemy nasłuchiwanie na wpisywany tekst
+        inputField.addEventListener('input', filterQuests);
+    }
+});
 
