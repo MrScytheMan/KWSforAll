@@ -3,6 +3,7 @@ class ekwipunekMenager {
         const otwieranieKart = new cardOpen();
         const mapWrapper = new locationWrapper();
         this.setupCalculatePA();
+        this.setupQuestFilter();
         const lvl12all = new lv12all();
         lvl12all.initialize();
     }
@@ -42,6 +43,51 @@ class ekwipunekMenager {
             });
         }
     }
+
+    setupQuestFilter() {
+        const inputField = document.createElement('input');
+        inputField.type = 'text';
+        inputField.placeholder = 'Wpisz coś...';
+
+        inputField.style.position = 'absolute';
+        inputField.style.top = '60px';
+        inputField.style.right = '120px';
+        inputField.style.backgroundSize = '100% 100%';
+        inputField.style.border = 'solid #6f6f6f 1px';
+        inputField.style.color = 'black';
+
+        const button = document.querySelector('.option.ls.spawner[data-option="mob_spawner"]');
+        if (button) {
+            button.parentNode.insertBefore(inputField, button);
+        } else {
+            console.error("Nie znaleziono przycisku do osadzenia pola tekstowego!");
+            return;
+        }
+
+        const questContainer = document.querySelector('#drag_con');
+        if (!questContainer) {
+            console.error("Nie znaleziono kontenera z misjami!");
+            return;
+        }
+
+        const filterQuests = () => {
+            const searchText = inputField.value.toLowerCase();
+            const quests = questContainer.querySelectorAll('.qtrack');
+
+            quests.forEach(quest => {
+                const questText = quest.textContent.toLowerCase();
+                if (questText.includes(searchText)) {
+                    quest.style.display = '';
+                } else {
+                    quest.style.display = 'none';
+                }
+            });
+        };
+
+        inputField.addEventListener('input', filterQuests);
+    }
+}
+
 }
 
 class lv12all {
