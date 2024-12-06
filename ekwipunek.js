@@ -189,20 +189,25 @@ class cardOpen {
                 }, 500);
             });
         });
+
         $("body").on("click", '.otwieranie_kart', () => {
             let upperLimit = parseInt(document.querySelector("#item_am").value, 10);
             if (!isNaN(upperLimit) && upperLimit > 0) {
+                let stopOpening = false;
                 for (let i = 0; i < upperLimit; i++) {
                     setTimeout(() => {
+                        if (stopOpening) return;
                         let cards = $(`#ekw_page_items div[data-base_item_id="1784"]`);
                         if (cards.length === 0) {
                             GAME.komunikat("Karty się skończyły.");
+                            stopOpening = true;
                             return;
                         }
                         let cards_id = parseInt(cards.attr("data-item_id"));
                         let stack = parseInt(cards.attr('data-stack'), 10);
                         if (stack < 100) {
                             GAME.socket.emit('ga', { a: 12, type: 14, iid: cards_id, page: GAME.ekw_page, page2: GAME.ekw_page2, am: stack });
+                            stopOpening = true;
                             return;
                         }
                         GAME.socket.emit('ga', { a: 12, type: 14, iid: cards_id, page: GAME.ekw_page, page2: GAME.ekw_page2, am: '100' });
@@ -214,6 +219,7 @@ class cardOpen {
         });     
     }
 }
+
 
 
 class calculatePA {
