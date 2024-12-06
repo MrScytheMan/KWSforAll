@@ -195,17 +195,17 @@ class cardOpen {
                 for (let i = 0; i < upperLimit; i++) {
                     setTimeout(() => {
                         let cards = $(`#ekw_page_items div[data-base_item_id="1784"]`);
-                        let cards_id = parseInt(cards.attr("data-item_id"));
                         if (cards.length === 0) {
                             GAME.komunikat("Karty się skończyły.");
                             return;
                         }
+                        let cards_id = parseInt(cards.attr("data-item_id"));
                         let stack = parseInt(cards.attr('data-stack'), 10);
-                        if(stack < 100){
-                            GAME.socket.emit('ga',{a: 12, type: 14, iid: cards_id, page: GAME.ekw_page, page2: GAME.ekw_page2, am: stack});
+                        if (stack < 100) {
+                            GAME.socket.emit('ga', { a: 12, type: 14, iid: cards_id, page: GAME.ekw_page, page2: GAME.ekw_page2, am: stack });
                             return;
                         }
-                        GAME.socket.emit('ga',{a: 12, type: 14, iid: cards_id, page: GAME.ekw_page, page2: GAME.ekw_page2, am: '100'});
+                        GAME.socket.emit('ga', { a: 12, type: 14, iid: cards_id, page: GAME.ekw_page, page2: GAME.ekw_page2, am: '100' });
                     }, i * 2000);
                 }
             } else {
@@ -214,6 +214,7 @@ class cardOpen {
         });     
     }
 }
+
 
 class calculatePA {
     constructor() {
