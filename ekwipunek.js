@@ -189,23 +189,14 @@ class cardOpen {
                 }, 500);
             });
         });
-        
         $("body").on("click", '.otwieranie_kart', () => {
             let upperLimit = parseInt(document.querySelector("#item_am").value, 10);
             if (!isNaN(upperLimit) && upperLimit > 0) {
                 for (let i = 0; i < upperLimit; i++) {
                     setTimeout(() => {
-                        let cardElement = $('#ekw_page_items div[data-base_item_id="1784"]');
-                        let stack = parseInt(cardElement.attr('data-stack'), 10);
-                        
-                        // Sprawdzenie, czy stack jest mniejszy niż 100
-                        if (stack < 100) {
-                            GAME.komunikat("Stack jest mniejszy niż 100. Przerywam proces.");
-                            return; // Zatrzymanie dalszego wykonywania pętli
-                        }
-                        
-                        let cards_id = parseInt(cardElement.attr("data-item_id"));
-                        GAME.socket.emit('ga', {a: 12, type: 14, iid: cards_id, page: GAME.ekw_page, page2: GAME.ekw_page2, am: '100'});
+                        let cards = $(`#ekw_page_items div[data-base_item_id="1784"]`);
+                        let cards_id = parseInt(cards.attr("data-item_id"));
+                        GAME.socket.emit('ga',{a: 12, type: 14, iid: cards_id, page: GAME.ekw_page, page2: GAME.ekw_page2, am: '100'});
                     }, i * 2000);
                 }
             } else {
@@ -214,7 +205,6 @@ class cardOpen {
         });     
     }
 }
-
 
 class calculatePA {
     constructor() {
