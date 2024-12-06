@@ -73,7 +73,6 @@ if (typeof GAME === 'undefined') { } else {
                     border: 0px solid #973804;
                 }`);
                 this.addToCSS(`.kws_additional_top_bar{float:left !important; position: absolute; z-index: -1; display: none} .kws_additional_top_bar_section{color:white;padding:3px 5px 3px 5px;border-radius:5px;margin-right:8px;user-select:none;}`);
-                this.addToCSS(`.questfinder {position: absolute; top: 60px; right: 120px; background-size: 100% 100%; border: solid #6f6f6f 1px; color: black;}`);
                 $("#top_bar").append(`<div class="kws_top_bar"></div>`);
                 $("#top_bar").append(`<div class="kws_additional_top_bar"></div>`);
                 $("#bless_type_2").click();
@@ -2139,6 +2138,21 @@ if (typeof GAME === 'undefined') { } else {
             
                 // Znajdujemy kontener z misjami
                 const questContainer = document.querySelector('#drag_con');
+            
+                // Tworzymy pole tekstowe
+                const inputField = document.createElement('input');
+                inputField.type = 'text';
+                inputField.placeholder = 'Zawartość Misji..';
+                inputField.classList.add('questfinder');
+                document.body.appendChild(inputField); // Dodajemy pole do DOM
+            
+                // Dodajemy style CSS do pola tekstowego
+                inputField.style.position = 'absolute';
+                inputField.style.top = '60px';
+                inputField.style.right = '120px';
+                inputField.style.backgroundSize = '100% 100%';
+                inputField.style.border = 'solid #6f6f6f 1px';
+                inputField.style.color = 'black';
             
                 // Funkcja filtrowania misji
                 const filterQuests = () => {
