@@ -195,6 +195,9 @@ class cardOpen {
                 for (let i = 0; i < upperLimit; i++) {
                     setTimeout(() => {
                         let cards = $(`#ekw_page_items div[data-base_item_id="1784"]`);
+                        if (cardElement.length === 0) {
+                            return;
+                        }
                         let cards_id = parseInt(cards.attr("data-item_id"));
                         GAME.socket.emit('ga',{a: 12, type: 14, iid: cards_id, page: GAME.ekw_page, page2: GAME.ekw_page2, am: '100'});
                     }, i * 2000);
