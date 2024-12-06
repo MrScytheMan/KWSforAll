@@ -780,7 +780,7 @@ if (typeof GAME === 'undefined') { } else {
                 $('[id^="track_quest_"]').each(function () {
                     const questLoc = $(this).attr("data-loc").toLowerCase();
                     if (questLoc === currentLocation && !$(this).closest('.qtrack').hasClass('dep3')) {
-                        $(this).find('b').css("color", "yellow");
+                        $(this).find('b').first().css("color", "yellow");
                         lastSep3Element.append($(this).closest('.qtrack').clone());
                         $(this).remove();
                     }
