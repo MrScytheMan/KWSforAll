@@ -82,7 +82,9 @@ if (typeof GAME === 'undefined') { } else {
                 $(`<button class="newBtn free_assist_for_all" style="margin-right:5px;">Asystuj wszystkim za darmo</button>`).insertBefore(`button[data-option="clan_assist_all"]`);
                 $(`<button class="gold_button auto_bless">AUTOMAT</button>`).insertBefore(`button[data-option="grant_buff"]`);
                 $(`<button class="gold_button auto_know">AUTOMATY</button>`).insertBefore('button[data-option="show_know2"]');
-                $(`<input type="text" placeholder="Zawartość Misji.." class="questfinder" />`).insertBefore('button[data-option="mob_spawner"]');
+                $(document).ready(function() {
+                    $(`<input type="text" placeholder="Zawartość Misji.." class="questfinder" />`).insertBefore('button[data-option="mob_spawner"]');
+                });
                 $("#clan_inner_wars h3").eq(0).append(` <button class="newBtn activate_all_clan_buffs">Aktywuj wszystkie buffy</button>`);
                 $(`#minimap_con`).append(`<div id="kws_locInfo"><div class="sekcja">INFORMACJE O LOKACJI</div><div class="content"></div></div>`);
                 $("#sett_page_local div").eq(0).prepend(`<b class="green">Zmień tło strony </b><div class="game_input"><input id="new_website_bg" style="width:370px;" type="text"></div><button class="option newBtn kws_change_website_bg" style="margin-left:5px;">Zmień</button><button class="option newBtn kws_reset_website_bg" style="margin-left:5px;">Reset</button><br><br>`);
