@@ -196,7 +196,12 @@ class cardOpen {
                     setTimeout(() => {
                         let cards = $(`#ekw_page_items div[data-base_item_id="1784"]`);
                         if (cards.length === 0) {
-                            GAME.komunikat("Karty się skończyły.")
+                            GAME.komunikat("Karty się skończyły.");
+                            return;
+                        }
+                        let stack = parseInt(cards.attr('data-stack'), 10);
+                        if(stack < 100){
+                            GAME.komunikat("Liczba kart jest mniejsza, niż 100. Musisz resztę otworzyć ręcznie");
                             return;
                         }
                         let cards_id = parseInt(cards.attr("data-item_id"));
