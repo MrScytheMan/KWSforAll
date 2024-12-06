@@ -378,11 +378,13 @@ class filterQuest {
                 let questFilterHTML = `<input type="text" id="quest-filter-input" placeholder="Wpisz coś..." />`;
                 let questFilterCSS = { 
                     position: 'absolute', 
-                    top: '60px', 
+                    top: '45px', 
                     right: '120px', 
                     backgroundSize: '100% 100%', 
                     border: 'solid #6f6f6f 1px', 
-                    color: 'black' 
+                    color: 'black',
+                    width: '200px',
+                    height: '30px'
                 };
                 
                 // Dodanie HTML i CSS za pomocą jQuery
@@ -396,6 +398,13 @@ class filterQuest {
             // Wywołanie filtrowania przy każdym załadowaniu zapytań
             this.filterQuests();
         });
+
+        // MutationObserver dla zmian w DOM-ie (np. dodanie nowych misji)
+        const questContainer = document.querySelector('#drag_con');
+        const observer = new MutationObserver(this.filterQuests.bind(this));
+
+        // Obserwowanie dodawania nowych elementów
+        observer.observe(questContainer, { childList: true, subtree: true });
     }
 
     // Funkcja filtrowania misji
@@ -415,6 +424,7 @@ class filterQuest {
         });
     }
 }
+
 
 
 
