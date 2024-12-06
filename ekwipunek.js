@@ -371,14 +371,26 @@ class locationWrapper {
 
 class filterQuest {
     constructor() {
-        // Sprawdzenie, czy input już istnieje po załadowaniu strony
-        if ($("#quest-filter-input").length === 0) {
-            this.createQuestFilter();
-        }
+        // Upewnijmy się, że skrypt działa po pełnym załadowaniu DOM
+        document.addEventListener("DOMContentLoaded", () => {
+            // Sprawdzenie, czy input z filtrem już istnieje w DOM
+            if (!localStorage.getItem("questFilterDisplayed") && !$("#quest-filter-input").length) {
+                this.createQuestFilter();
+                localStorage.setItem("questFilterDisplayed", "true");
+            }
+
+            // Nasłuchiwacz na kliknięcie przycisku
+            $("body").on("click", '#map_link_btn', () => {
+                // Upewnijmy się, że filtr jest tylko raz dodany
+                if ($("#quest-filter-input").length === 0) {
+                    this.createQuestFilter();
+                }
+            });
+        });
     }
 
+    // Funkcja tworzenia filtra
     createQuestFilter() {
-        // HTML i CSS do wstawienia
         let questFilterHTML = `<input type="text" id="quest-filter-input" placeholder="Wpisz coś..." />`;
         let questFilterCSS = { 
             position: 'absolute', 
@@ -388,13 +400,13 @@ class filterQuest {
             border: 'solid #6f6f6f 1px', 
             color: 'black' 
         };
-        
+
         // Dodanie HTML i CSS za pomocą jQuery
         $(`.option.ls.spawner[data-option="mob_spawner"]`).after(questFilterHTML);
         $("#quest-filter-input").css(questFilterCSS);
-        
+
         // Dodanie nasłuchiwacza na pole tekstowe
-        $("#quest-filter-input").on("input", this.filterQuests);
+        $("#quest-filter-input").on("input", () => this.filterQuests());
     }
 
     // Funkcja filtrowania misji
