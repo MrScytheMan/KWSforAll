@@ -767,16 +767,13 @@ if (typeof GAME === 'undefined') { } else {
                 const lastSep3Element = $('.sep3').last().closest('.qtrack');
                 lastSep3Element.find('.qtrack').each(function () {
                     const bElement = $(this).find('b');
-                    if (bElement.length > 0 && (bElement.css('color') === 'rgb(99, 170, 255)' || bElement.css('color') === 'rgb(255, 255, 0)') && !$(this).hasClass('dep3')) {
-                        $(this).remove();
-                    }
                 });
                 $('#quest_track_con .qtrack b').each(function () {
                     let zawartoscB = $(this).text().trim().toLowerCase();
                     if (daily.includes(zawartoscB) && !$(this).closest('.qtrack').hasClass('dep3')) {
                         $(this).css("color", "#63aaff");
                         lastSep3Element.append($(this).closest('.qtrack').clone());
-                        $(this).remove();
+                        $(this).closest('.qtrack').remove();
                     }
                 });
             
