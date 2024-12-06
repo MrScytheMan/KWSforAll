@@ -2136,15 +2136,19 @@ if (typeof GAME === 'undefined') { } else {
                     return; // Jeśli istnieje, wychodzimy z funkcji, aby nie dodawać go ponownie
                 }
             
-                // Znajdujemy kontener z misjami
-                const questContainer = document.querySelector('#drag_con');
+                // Znajdujemy przycisk SPAWN
+                const spawnButton = document.querySelector('.option.ls.spawner[data-option="mob_spawner"]');
+            
+                // Jeśli przycisk nie istnieje, wychodzimy z funkcji
+                if (!spawnButton) {
+                    return;
+                }
             
                 // Tworzymy pole tekstowe
                 const inputField = document.createElement('input');
                 inputField.type = 'text';
                 inputField.placeholder = 'Zawartość Misji..';
                 inputField.classList.add('questfinder');
-                document.body.appendChild(inputField); // Dodajemy pole do DOM
             
                 // Dodajemy style CSS do pola tekstowego
                 inputField.style.position = 'absolute';
@@ -2153,6 +2157,12 @@ if (typeof GAME === 'undefined') { } else {
                 inputField.style.backgroundSize = '100% 100%';
                 inputField.style.border = 'solid #6f6f6f 1px';
                 inputField.style.color = 'black';
+            
+                // Dodajemy pole tekstowe bezpośrednio po przycisku SPAWN
+                spawnButton.insertAdjacentElement('afterend', inputField);
+            
+                // Znajdujemy kontener z misjami
+                const questContainer = document.querySelector('#drag_con');
             
                 // Funkcja filtrowania misji
                 const filterQuests = () => {
@@ -2172,6 +2182,7 @@ if (typeof GAME === 'undefined') { } else {
                 // Dodajemy nasłuchiwanie na wpisywany tekst
                 inputField.addEventListener('input', filterQuests);
             }
+            
         }
         const kws = new kwsv3(kwsLocalCharacters);
         GAME.komunikat2 = function (kom) {
