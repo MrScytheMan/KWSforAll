@@ -371,16 +371,19 @@ class locationWrapper {
 
 class filterQuest {
     constructor() {
-        // Upewnijmy się, że skrypt działa po pełnym załadowaniu DOM
         document.addEventListener("DOMContentLoaded", () => {
+            console.log('DOM załadowany'); // Log, by upewnić się, że DOM jest gotowy
+            
             // Sprawdzenie, czy input z filtrem już istnieje w DOM
             if (!localStorage.getItem("questFilterDisplayed") && !$("#quest-filter-input").length) {
+                console.log('Tworzymy filtr'); // Log dla debugowania
                 this.createQuestFilter();
                 localStorage.setItem("questFilterDisplayed", "true");
             }
 
             // Nasłuchiwacz na kliknięcie przycisku
             $("body").on("click", '#map_link_btn', () => {
+                console.log('Kliknięto map_link_btn'); // Log, by upewnić się, że kliknięcie działa
                 // Upewnijmy się, że filtr jest tylko raz dodany
                 if ($("#quest-filter-input").length === 0) {
                     this.createQuestFilter();
@@ -391,6 +394,7 @@ class filterQuest {
 
     // Funkcja tworzenia filtra
     createQuestFilter() {
+        console.log('Dodajemy pole filtracji'); // Log, by sprawdzić, czy ta funkcja jest wywoływana
         let questFilterHTML = `<input type="text" id="quest-filter-input" placeholder="Wpisz coś..." />`;
         let questFilterCSS = { 
             position: 'absolute', 
