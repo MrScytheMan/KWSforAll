@@ -381,12 +381,17 @@ class filterQuest {
                     top: '45px', 
                     right: '120px', 
                     backgroundSize: '100% 100%', 
-                    border: 'solid #6f6f6f 1px', 
-                    color: 'black',
+                    border: '1px solid rgb(42 173 173 / 44%)', 
+                    color: 'white',
                     width: '200px',
-                    height: '30px'
+                    height: '30px',
+                    background: 'rgb(249 249 249 / 10%)',
+                    textAlign: 'center',
+                    lineHeight: '40px',
+                    textTransform: 'uppercase',
                 };
-                
+
+
                 // Dodanie HTML i CSS za pomocą jQuery
                 $('#rightArrow').after(questFilterHTML);
                 $("#quest-filter-input").css(questFilterCSS);
