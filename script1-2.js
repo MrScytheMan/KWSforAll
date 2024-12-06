@@ -767,28 +767,29 @@ if (typeof GAME === 'undefined') { } else {
                 const lastSep3Element = $('.sep3').last().closest('.qtrack');
                 lastSep3Element.find('.qtrack').each(function () {
                     const bElement = $(this).find('b');
-                    if (bElement.length > 0 && (bElement.css('color') === 'rgb(99, 170, 255)' || bElement.css('color') === 'rgb(255, 255, 0)')) {
+                    if (bElement.length > 0 && (bElement.css('color') === 'rgb(99, 170, 255)' || bElement.css('color') === 'rgb(255, 255, 0)') && !$(this).hasClass('dep3')) {
                         $(this).remove();
                     }
                 });
                 $('#quest_track_con .qtrack b').each(function () {
                     let zawartoscB = $(this).text().trim().toLowerCase();
-                    if (daily.includes(zawartoscB)) {
+                    if (daily.includes(zawartoscB) && !$(this).closest('.qtrack').hasClass('dep3')) {
                         $(this).css("color", "#63aaff");
                         lastSep3Element.append($(this).closest('.qtrack').clone());
                         $(this).remove();
                     }
                 });
+            
                 const currentLocation = String(GAME.char_data.loc).toLowerCase();
                 $('[id^="track_quest_"]').each(function () {
                     const questLoc = $(this).attr("data-loc").toLowerCase();
-                    if (questLoc === currentLocation) {
+                    if (questLoc === currentLocation && !$(this).closest('.qtrack').hasClass('dep3')) {
                         $(this).find('b').css("color", "yellow");
                         lastSep3Element.append($(this).closest('.qtrack').clone());
                         $(this).remove();
                     }
                 });
-            }
+            }            
             wojny2() {
                 var aimp = $("#e_admiral_player").find("[data-option=show_player]").attr("data-char_id");
                 var imp = $("#leader_player").find("[data-option=show_player]").attr("data-char_id");
