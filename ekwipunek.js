@@ -371,30 +371,14 @@ class locationWrapper {
 
 class filterQuest {
     constructor() {
-        document.addEventListener("DOMContentLoaded", () => {
-            console.log('DOM załadowany'); // Log, by upewnić się, że DOM jest gotowy
-            
-            // Sprawdzenie, czy input z filtrem już istnieje w DOM
-            if (!localStorage.getItem("questFilterDisplayed") && !$("#quest-filter-input").length) {
-                console.log('Tworzymy filtr'); // Log dla debugowania
-                this.createQuestFilter();
-                localStorage.setItem("questFilterDisplayed", "true");
-            }
-
-            // Nasłuchiwacz na kliknięcie przycisku
-            $("body").on("click", '#map_link_btn', () => {
-                console.log('Kliknięto map_link_btn'); // Log, by upewnić się, że kliknięcie działa
-                // Upewnijmy się, że filtr jest tylko raz dodany
-                if ($("#quest-filter-input").length === 0) {
-                    this.createQuestFilter();
-                }
-            });
-        });
+        // Sprawdzenie, czy input już istnieje po załadowaniu strony
+        if ($("#quest-filter-input").length === 0) {
+            this.createQuestFilter();
+        }
     }
 
-    // Funkcja tworzenia filtra
     createQuestFilter() {
-        console.log('Dodajemy pole filtracji'); // Log, by sprawdzić, czy ta funkcja jest wywoływana
+        // HTML i CSS do wstawienia
         let questFilterHTML = `<input type="text" id="quest-filter-input" placeholder="Wpisz coś..." />`;
         let questFilterCSS = { 
             position: 'absolute', 
@@ -404,13 +388,13 @@ class filterQuest {
             border: 'solid #6f6f6f 1px', 
             color: 'black' 
         };
-
+        
         // Dodanie HTML i CSS za pomocą jQuery
         $(`.option.ls.spawner[data-option="mob_spawner"]`).after(questFilterHTML);
         $("#quest-filter-input").css(questFilterCSS);
-
+        
         // Dodanie nasłuchiwacza na pole tekstowe
-        $("#quest-filter-input").on("input", () => this.filterQuests());
+        $("#quest-filter-input").on("input", this.filterQuests);
     }
 
     // Funkcja filtrowania misji
