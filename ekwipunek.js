@@ -393,6 +393,45 @@ class filterQuest {
                 $("#quest-filter-input").on("input", this.filterQuests);
             }
         });
+
+        // Obserwator zmiany currentLoc
+        let _currentLoc = String(GAME.char_data.loc);
+        Object.defineProperty(GAME.char_data, 'loc', {
+            get: function() {
+                return _currentLoc;
+            },
+            set: function(newValue) {
+                if (_currentLoc !== newValue) {
+                    _currentLoc = String(newValue);
+                    // Wywołanie tej samej funkcji co po kliknięciu map_link_btn
+                    this.triggerMapLinkActions();
+                }
+            }
+        });
+    }
+
+    // Funkcja reagująca na zmianę currentLoc
+    triggerMapLinkActions() {
+        // Sprawdzenie, czy input z filtrem już istnieje
+        if ($("#quest-filter-input").length === 0) {
+            // HTML i CSS do wstawienia
+            let questFilterHTML = `<input type="text" id="quest-filter-input" placeholder="Wpisz coś..." />`;
+            let questFilterCSS = { 
+                position: 'absolute', 
+                top: '60px', 
+                right: '120px', 
+                backgroundSize: '100% 100%', 
+                border: 'solid #6f6f6f 1px', 
+                color: 'black' 
+            };
+
+            // Dodanie HTML i CSS za pomocą jQuery
+            $(`.option.ls.spawner[data-option="mob_spawner"]`).after(questFilterHTML);
+            $("#quest-filter-input").css(questFilterCSS);
+            
+            // Dodanie nasłuchiwacza na pole tekstowe
+            $("#quest-filter-input").on("input", this.filterQuests);
+        }
     }
 
     // Funkcja filtrowania misji
@@ -412,5 +451,6 @@ class filterQuest {
         });
     }
 }
+
 
 
