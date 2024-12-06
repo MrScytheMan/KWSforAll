@@ -392,6 +392,9 @@ class filterQuest {
                 // Dodanie nasłuchiwacza na pole tekstowe
                 $("#quest-filter-input").on("input", this.filterQuests);
             }
+
+            // Wywołanie filtrowania przy każdym załadowaniu zapytań
+            this.filterQuests();
         });
     }
 
@@ -412,5 +415,6 @@ class filterQuest {
         });
     }
 }
+
 
 
