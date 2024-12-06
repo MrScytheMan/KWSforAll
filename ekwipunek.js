@@ -371,28 +371,34 @@ class locationWrapper {
 
 class filterQuest {
     constructor() {
-        $("body").on("click", '#map_link_btn', () => {
-            // Sprawdzenie, czy input z filtrem już istnieje
-            if ($("#quest-filter-input").length === 0) {
-                // HTML i CSS do wstawienia
-                let questFilterHTML = `<input type="text" id="quest-filter-input" placeholder="Wpisz coś..." />`;
-                let questFilterCSS = { 
-                    position: 'absolute', 
-                    top: '60px', 
-                    right: '120px', 
-                    backgroundSize: '100% 100%', 
-                    border: 'solid #6f6f6f 1px', 
-                    color: 'black' 
-                };
-                
-                // Dodanie HTML i CSS za pomocą jQuery
-                $(`.option.ls.spawner[data-option="mob_spawner"]`).after(questFilterHTML);
-                $("#quest-filter-input").css(questFilterCSS);
-                
-                // Dodanie nasłuchiwacza na pole tekstowe
-                $("#quest-filter-input").on("input", this.filterQuests);
-            }
-        });
+        // Sprawdzenie przy załadowaniu strony, czy filtr ma być wyświetlony
+        if (!localStorage.getItem("questFilterDisplayed")) {
+            $("body").on("click", '#map_link_btn', () => {
+                // Sprawdzenie, czy input z filtrem już istnieje
+                if ($("#quest-filter-input").length === 0) {
+                    // HTML i CSS do wstawienia
+                    let questFilterHTML = `<input type="text" id="quest-filter-input" placeholder="Wpisz coś..." />`;
+                    let questFilterCSS = { 
+                        position: 'absolute', 
+                        top: '60px', 
+                        right: '120px', 
+                        backgroundSize: '100% 100%', 
+                        border: 'solid #6f6f6f 1px', 
+                        color: 'black' 
+                    };
+                    
+                    // Dodanie HTML i CSS za pomocą jQuery
+                    $(`.option.ls.spawner[data-option="mob_spawner"]`).after(questFilterHTML);
+                    $("#quest-filter-input").css(questFilterCSS);
+                    
+                    // Dodanie nasłuchiwacza na pole tekstowe
+                    $("#quest-filter-input").on("input", this.filterQuests);
+
+                    // Zapisanie stanu, że filtr został dodany
+                    localStorage.setItem("questFilterDisplayed", "true");
+                }
+            });
+        }
     }
 
     // Funkcja filtrowania misji
@@ -412,5 +418,6 @@ class filterQuest {
         });
     }
 }
+
 
 
