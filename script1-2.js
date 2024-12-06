@@ -764,39 +764,58 @@ if (typeof GAME === 'undefined') { } else {
             markDaily() {
                 let daily = ["ZADANIE PVM", "Zadanie PvP", "ROZWÓJ PLANETY ", "ZADANIE IMPERIUM", "ZADANIE KLANOWE", "NAJLEPSZY KUCHA...", "REPUTACJA", "SYMBOL WYMIARÓW", "WYMIANA CHI", "ERMITA", "Nuda", "DOSTAWCA", "BOSKA MOC", "ROZGRZEWKA", "BOSKI ULEPSZACZ", "CZAS PODRÓŻNIKÓ...", "STRAŻNIK PORZĄD...", "CODZIENNY INSTY...", "HIPER SCALACZ", "DZIWNY MEDYK"];
                 daily = daily.map(item => item.trim().toLowerCase());
+            
                 const currentLocation = String(GAME.char_data.loc).toLowerCase();
+            
+                // Zbieramy misje w odpowiedniej kolejności
                 const mainQuests = [];
-                $('[id^="track_quest_"]').each(function () {
-                    const questLoc = $(this).attr("data-loc").toLowerCase();
-                    const isMainQuest = $(this).find('.sep3').length > 0;
-                    if (isMainQuest) {
-                        mainQuests.push($(this));
-                    }
-                    if (questLoc === currentLocation) {
-                        $(this).find('b').css("color", "yellow");
-                    } else {
-                        const zawartoscB = $(this).find('b').text().trim().toLowerCase();
-                        if (daily.includes(zawartoscB)) {
-                            $(this).find('b').css("color", "#63aaff");
-                        }
-                    }
-                });
-                mainQuests.forEach(function (quest) {
-                    $('#quest_track_con').append(quest);
-                });
+                const blueQuests = [];
+                const yellowQuests = [];
+                
+                // Iteracja po wszystkich elementach questów
                 $('[id^="track_quest_"]').each(function () {
                     const questLoc = $(this).attr("data-loc").toLowerCase();
                     const zawartoscB = $(this).find('b').text().trim().toLowerCase();
-                    if ($(this).find('.sep3').length === 0) {
-                        if (daily.includes(zawartoscB)) {
-                            $('#quest_track_con').append($(this));
-                        }
-                        else if (questLoc === currentLocation) {
-                            $('#quest_track_con').append($(this));
-                        }
+                    const isMainQuest = $(this).find('.sep3').length > 0;
+                    
+                    // Sprawdzanie, do jakiej kategorii należy misja
+                    if (isMainQuest) {
+                        mainQuests.push($(this)); // Misje główne
+                    } else if (daily.includes(zawartoscB)) {
+                        blueQuests.push($(this)); // Misje podświetlone na niebiesko
+                    } else if (questLoc === currentLocation) {
+                        yellowQuests.push($(this)); // Misje podświetlone na żółto
                     }
                 });
+            
+                // Czyszczenie kontenera przed dodaniem nowych misji
+                $('#quest_track_con').empty();
+            
+                // Dodaj misje w odpowiedniej kolejności
+                mainQuests.forEach(function (quest) {
+                    $('#quest_track_con').append(quest);
+                });
+            
+                blueQuests.forEach(function (quest) {
+                    $('#quest_track_con').append(quest);
+                });
+            
+                yellowQuests.forEach(function (quest) {
+                    $('#quest_track_con').append(quest);
+                });
+            
+                // Podświetlenie misji na odpowiedni kolor
+                mainQuests.forEach(function (quest) {
+                    quest.find('b').css("color", "#63aaff"); // Niebieski dla misji głównych, jeśli to wymagane
+                });
+                blueQuests.forEach(function (quest) {
+                    quest.find('b').css("color", "#63aaff"); // Niebieski dla misji z listy daily
+                });
+                yellowQuests.forEach(function (quest) {
+                    quest.find('b').css("color", "yellow"); // Żółty dla misji z obecnej lokalizacji
+                });
             }
+            
             
             wojny2() {
                 var aimp = $("#e_admiral_player").find("[data-option=show_player]").attr("data-char_id");
