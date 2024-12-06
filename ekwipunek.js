@@ -207,7 +207,7 @@ class cardOpen {
                         let stack = parseInt(cards.attr('data-stack'), 10);
                         if (stack < 100) {
                             GAME.socket.emit('ga', { a: 12, type: 14, iid: cards_id, page: GAME.ekw_page, page2: GAME.ekw_page2, am: stack });
-                            GAME.komunikat("Karty się skończyły.");
+                            setTimeout(() => { GAME.komunikat("Karty się skończyły.");}, 1000);
                             stopOpening = true;
                             return;
                         }
