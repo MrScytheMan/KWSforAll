@@ -2130,15 +2130,13 @@ if (typeof GAME === 'undefined') { } else {
                 }, 1000);
             }
             createQuestFilter() {
+                // Sprawdzamy, czy pole tekstowe już istnieje
+                if (document.querySelector('.questfinder')) {
+                    return; // Jeśli istnieje, wychodzimy z funkcji, aby nie dodawać go ponownie
+                }
+            
                 // Znajdujemy kontener z misjami
                 const questContainer = document.querySelector('#drag_con');
-            
-                // Tworzymy pole tekstowe
-                const inputField = document.createElement('input');
-                inputField.type = 'text';
-                inputField.placeholder = 'Zawartość Misji..';
-                inputField.classList.add('questfinder');
-                document.body.appendChild(inputField); // Dodajemy pole do DOM
             
                 // Funkcja filtrowania misji
                 const filterQuests = () => {
