@@ -764,24 +764,20 @@ if (typeof GAME === 'undefined') { } else {
             markDaily() {
                 let daily = ["ZADANIE PVM", "Zadanie PvP", "ROZWÓJ PLANETY ", "ZADANIE IMPERIUM", "ZADANIE KLANOWE", "NAJLEPSZY KUCHA...", "REPUTACJA", "SYMBOL WYMIARÓW", "WYMIANA CHI", "ERMITA", "Nuda", "DOSTAWCA", "BOSKA MOC", "ROZGRZEWKA", "BOSKI ULEPSZACZ", "CZAS PODRÓŻNIKÓ...", "STRAŻNIK PORZĄD...", "CODZIENNY INSTY...", "HIPER SCALACZ", "DZIWNY MEDYK"];
                 daily = daily.map(item => item.trim().toLowerCase());
-            
-                // Podświetlanie na niebiesko, gdy tekst znajduje się w tablicy daily
+                const currentLocation = String(GAME.char_data.loc).toLowerCase();
                 $('#quest_track_con .qtrack b').each(function () {
                     let zawartoscB = $(this).text().trim().toLowerCase();
                     if (daily.includes(zawartoscB)) {
                         $(this).css("color", "#63aaff");
                     }
                 });
-            
-                // Sprawdzanie 'data-loc' i podświetlanie na żółto, jeśli pasuje do GAME.char_data.loc
-                $('#track_quest_con .qtrack').each(function () {
-                    let dataLoc = $(this).attr('data-loc');
-                    if (String(GAME.char_data.loc) === dataLoc) {
-                        $(this).css("color", "yellow");
+                $('[id^="track_quest_"]').each(function () {
+                    const questLoc = $(this).attr("data-loc").toLowerCase();
+                    if (questLoc === currentLocation) {
+                        $(this).find('b').css("color", "yellow");
                     }
                 });
             }
-            
             wojny2() {
                 var aimp = $("#e_admiral_player").find("[data-option=show_player]").attr("data-char_id");
                 var imp = $("#leader_player").find("[data-option=show_player]").attr("data-char_id");
