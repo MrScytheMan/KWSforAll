@@ -779,6 +779,8 @@ if (typeof GAME === 'undefined') { } else {
                             } else {
                                 $('#drag_tracker').after($(this).closest('.qtrack').clone());
                             }
+                            $(this).closest('.qtrack').remove();
+                            
                             markedQuests.push(zawartoscB);
                             console.log("1");
                         }
@@ -788,7 +790,6 @@ if (typeof GAME === 'undefined') { } else {
                 $('[id^="track_quest_"]').each(function () {
                     const questLoc = $(this).attr("data-loc").toLowerCase();
                     let zawartoscB = $(this).find('b').first().text().trim().toLowerCase();
-                    
                     if (questLoc === currentLocation && !$(this).find('.sep3').length) {
                         if (!markedQuests.includes(zawartoscB)) {
                             $(this).find('b').first().css("color", "yellow");
@@ -797,15 +798,12 @@ if (typeof GAME === 'undefined') { } else {
                             } else {
                                 $('#drag_tracker').after($(this).closest('.qtrack').clone());
                             }
+                            $(this).closest('.qtrack').remove();
                             markedQuests.push(zawartoscB);
-                            console.log("1");
                         }
                     }
                 });
             }
-            
-            
-            
             
             wojny2() {
                 var aimp = $("#e_admiral_player").find("[data-option=show_player]").attr("data-char_id");
