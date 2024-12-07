@@ -770,10 +770,9 @@ if (typeof GAME === 'undefined') { } else {
                     if ($(this).closest('.qtrack').hasClass('sep3')) {
                         return;
                     }
-            
                     if (daily.includes(zawartoscB)) {
-                        $(this).css("color", "#63aaff"); 
-                        $(this).closest('.qtrack').clone().insertAfter(lastSep3Element); 
+                        $(this).css("color", "#63aaff");
+                        $(this).closest('.qtrack').clone().insertAfter(lastSep3Element);
                         $(this).closest('.qtrack').addClass('processed').remove();
                     }
                 });
@@ -789,9 +788,8 @@ if (typeof GAME === 'undefined') { } else {
                         $(this).closest('.qtrack').addClass('processed').remove();
                     }
                 });
-                console.log('markDaily: Finished processing.222222');
-            }
-            
+                            console.log('markDaily: Finished.');
+            }            
             wojny2() {
                 var aimp = $("#e_admiral_player").find("[data-option=show_player]").attr("data-char_id");
                 var imp = $("#leader_player").find("[data-option=show_player]").attr("data-char_id");
