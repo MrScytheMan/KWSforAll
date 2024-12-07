@@ -42,7 +42,7 @@ if (typeof GAME === 'undefined') {} else {
                 const RESP_panel = ` <div id="resp_Panel"> <div class="sekcja resp_dragg">SPAWN MOBKóW</div> <div class="resp_button resp_resp">RESP<b class="resp_status red">Off</b></div> <div class="resp_button resp_code">Kody<b class="resp_status green">On</b></div> <div class="resp_button resp_konto">Konto<b class="resp_status green">On</b></div> <div class="resp_button resp_sub">Subka<b class="resp_status green">On</b></div> <div class="resp_button resp_ost">Jaka<b class="resp_status green">Ost</b></div> <div class="resp_button resp_multi">Multiwalka<b class="resp_status green">On</b></div> <div class="resp_button resp_ssj">SSJ<b class="resp_status green">On</b></div> <div class="resp_button resp_buff_imp">Bufki IMP<b class="resp_status red">Off</b></div> <div class="resp_button resp_buff_clan">Bufki KLAN<b class="resp_status red">Off</b></div> <div class="resp_button resp_blue">BLUE<b class="resp_status red">Off</b></div> <div class="resp_button resp_green">GREEN<b class="resp_status red">Off</b></div> <div class="resp_button resp_purple">PURPLE<b class="resp_status red">Off</b></div> <div class="resp_button resp_yellow">YELLOW<b class="resp_status red">Off</b></div> <div class="resp_button resp_red">RED<b class="resp_status red">Off</b></div> <div class="resp_button resp_magic">Wyciąg<b class="resp_status red">Off</b></div> <div class="resp_button resp_bless">BŁOGO<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh1">SMOK<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh2">5% EXP<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh3">5% MOC<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh4">150K MAX<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh5">5% MOC<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh6">5% PSK<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh7">200% EXP<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh8">500 LVL<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh9">500% EXP<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh10">25% MOC<b class="resp_status red">Off</b></div> <div class="resp_button resp_on">Włącz All<b class="resp_status green">On</b></div> <div class="resp_button resp_off">Wyłącz All<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh11">100% Limit<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh14">100% Limit<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh12">200% Przyrost<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh13">300% Przyrost<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh15">5% kod<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh16">5 Min cd pvp <b class="resp_status red">Off</b></div> <div class="resp_button resp_bh17">15% szybsze zbieranie<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh18">15% więcej szansy na zebranie<b class="resp_status red">Off</b></div> </div> `;
                 const CODE_panel = ` <div id="code_Panel"> <div class="sekcja code_dragg">Kody</div> <div class="code_button code_code">KODY<b class="code_status red">Off</b></div> <div class="code_button code_acc">Konto<b class="code_status red">Off</b></div> <div class="code_button code_zast">Zastępstwa<b class="code_status red">Off</b></div> <div class="code_button code_bh1">Błogo 250% tren<b class="code_status red">Off</b></div> <div class="code_button code_bh2">Błogo 5% kod<b class="code_status red">Off</b></div> <label class='select_input'><select id='bot_what_to_train'><option value='1'>Siła</option><option value='2'>Szybkość</option><option value='3'>Wytrzymałość</option><option value='4'>Siła Woli</option><option value='5'>Energia Ki</option><option value='6'>Wtajemniczenie</option></select></label> <label class='select_input'><select id='bot_what_to_traintime'><option value='1'>1 godz.</option><option value='2'>2 godz.</option><option value='3'>3 godz.</option><option value='4'>4 godz.</option><option value='5'>5 godz.</option><option value='6'>6 godz.</option><option value='7'>7 godz.</option><option value='8'>8 godz.</option><option value='9'>9 godz.</option><option value='10'>10 godz.</option><option value='11'>11 godz.</option><option value='12'>12 godz.</option></label> </div> `;
                 const RES_panel = ` <div id="res_Panel"> <div class="sekcja res_dragg">SUROWCE</div> <div class="res_button res_res">ZBIERAJ<b class="res_status red">Off</b></div> <div class="bt_cool" style="text-align:center; color:white;"></div> <ul></ul> </div> `;
-                const LPVM_panel = ` <div id="lpvm_Panel"> <div class="sekcja lpvm_dragg">LISTY GOŃCZE</div> <div class='pvm_killed'>Wykonane listy: <b>0</b></div> <div class="lpvm_button lpvm_lpvm">START<b class="lpvm_status red">Off</b></div> <div class="lpvm_button lpvm_g">G-Born<b class="lpvm_status red">Off</b></div> <div class="lpvm_button lpvm_u">U-Born<b class="lpvm_status red">Off</b></div> <div class="lpvm_button lpvm_s">S-Born<b class="lpvm_status red">Off</b></div> <div class="lpvm_button lpvm_h">H-Born<b class="lpvm_status red">Off</b></div> <div class="lpvm_button lpvm_limit">Limit<b class="lpvm_status red">Off</b></div> <div class='gamee_input'><input style='width:120px; margin-left:-2px; background:grey;text-align:center;font-size:16;' type='text' placeholder="Enter text" name='lpvm_capt' value='60' /></div> </div> `;
+                const LPVM_panel = ` <div id="lpvm_Panel"> <div class="sekcja lpvm_dragg">LISTY GOŃCZE</div> <div class='pvm_killed'>Wykonane listy: <b>0</b></div> <div class="lpvm_button lpvm_lpvm">START<b class="lpvm_status red">Off</b></div> <div class="lpvm_button lpvm_g">G-Born<b class="lpvm_status red">Off</b></div> <div class="lpvm_button lpvm_u">U-Born<b class="lpvm_status red">Off</b></div> <div class="lpvm_button lpvm_s">S-Born<b class="lpvm_status red">Off</b></div> <div class="lpvm_button lpvm_h">H-Born<b class="lpvm_status red">Off</b></div> <div class="lpvm_button lpvm_m">M-Born<b class="lpvm_status red">Off</b></div> <div class="lpvm_button lpvm_limit">Limit<b class="lpvm_status red">Off</b></div> <div class='gamee_input'><input style='width:120px; margin-left:-2px; background:grey;text-align:center;font-size:16;' type='text' placeholder="Enter text" name='lpvm_capt' value='60' /></div> </div> `;
                 $("body").append(`<style>${css}</style>${html}`);
                 $("body").append(`<style>${csspvp}</style>${PVP_panel}`);
                 $("body").append(`<style>${cssresp}</style>${RESP_panel}`);
@@ -719,11 +719,13 @@ if (typeof GAME === 'undefined') {} else {
                         $('#lpvm_Panel .lpvm_u').hide();
                         $('#lpvm_Panel .lpvm_s').hide();
                         $('#lpvm_Panel .lpvm_h').hide();
+                        $('#lpvm_Panel .lpvm_m').hide();
                     } else {
                         $(".lpvm_g .lpvm_status").removeClass("green").addClass("red").html("Off");
                         $('#lpvm_Panel .lpvm_u').show();
                         $('#lpvm_Panel .lpvm_s').show();
                         $('#lpvm_Panel .lpvm_h').show();
+                        $('#lpvm_Panel .lpvm_m').show();
                         $(".lpvm_lpvm .lpvm_status").removeClass("green").addClass("red").html("Off");
                         LPVM.Stop = true;
                     }
@@ -735,11 +737,13 @@ if (typeof GAME === 'undefined') {} else {
                         $('#lpvm_Panel .lpvm_g').hide();
                         $('#lpvm_Panel .lpvm_s').hide();
                         $('#lpvm_Panel .lpvm_h').hide();
+                        $('#lpvm_Panel .lpvm_m').hide();
                     } else {
                         $(".lpvm_u .lpvm_status").removeClass("green").addClass("red").html("Off");
                         $('#lpvm_Panel .lpvm_g').show();
                         $('#lpvm_Panel .lpvm_s').show();
                         $('#lpvm_Panel .lpvm_h').show();
+                        $('#lpvm_Panel .lpvm_m').show();
                         $(".lpvm_lpvm .lpvm_status").removeClass("green").addClass("red").html("Off");
                         LPVM.Stop = true;
                     }
@@ -751,11 +755,13 @@ if (typeof GAME === 'undefined') {} else {
                         $('#lpvm_Panel .lpvm_g').hide();
                         $('#lpvm_Panel .lpvm_u').hide();
                         $('#lpvm_Panel .lpvm_h').hide();
+                        $('#lpvm_Panel .lpvm_m').hide();
                     } else {
                         $(".lpvm_s .lpvm_status").removeClass("green").addClass("red").html("Off");
                         $('#lpvm_Panel .lpvm_g').show();
                         $('#lpvm_Panel .lpvm_u').show();
                         $('#lpvm_Panel .lpvm_h').show();
+                        $('#lpvm_Panel .lpvm_m').show();
                         $(".lpvm_lpvm .lpvm_status").removeClass("green").addClass("red").html("Off");
                         LPVM.Stop = true;
                     }
@@ -767,11 +773,31 @@ if (typeof GAME === 'undefined') {} else {
                         $('#lpvm_Panel .lpvm_g').hide();
                         $('#lpvm_Panel .lpvm_u').hide();
                         $('#lpvm_Panel .lpvm_s').hide();
+                        $('#lpvm_Panel .lpvm_m').hide();
                     } else {
                         $(".lpvm_h .lpvm_status").removeClass("green").addClass("red").html("Off");
                         $('#lpvm_Panel .lpvm_g').show();
                         $('#lpvm_Panel .lpvm_u').show();
                         $('#lpvm_Panel .lpvm_s').show();
+                        $('#lpvm_Panel .lpvm_m').show();
+                        $(".lpvm_lpvm .lpvm_status").removeClass("green").addClass("red").html("Off");
+                        LPVM.Stop = true;
+                    }
+                });
+                $('#lpvm_Panel .lpvm_m').click(() => {
+                    if ($(".lpvm_m .lpvm_status").hasClass("red")) {
+                        $(".lpvm_m .lpvm_status").removeClass("red").addClass("green").html("On");
+                        LPVM.Born = 6;
+                        $('#lpvm_Panel .lpvm_g').hide();
+                        $('#lpvm_Panel .lpvm_u').hide();
+                        $('#lpvm_Panel .lpvm_s').hide();
+                        $('#lpvm_Panel .lpvm_h').hide();
+                    } else {
+                        $(".lpvm_m .lpvm_status").removeClass("green").addClass("red").html("Off");
+                        $('#lpvm_Panel .lpvm_g').show();
+                        $('#lpvm_Panel .lpvm_u').show();
+                        $('#lpvm_Panel .lpvm_s').show();
+                        $('#lpvm_Panel .lpvm_h').show();
                         $(".lpvm_lpvm .lpvm_status").removeClass("green").addClass("red").html("Off");
                         LPVM.Stop = true;
                     }
