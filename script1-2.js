@@ -102,6 +102,9 @@ if (typeof GAME === 'undefined') { } else {
                 }, 1000);
                 this.setWebsiteBackground();
                 this.bindClickHandlers();
+                GAME.socket.on('gr', (res) => {
+                    this.handleSockets(res);
+                });
             }
             isLogged(cb) {
                 let waitForID = setInterval(() => {
