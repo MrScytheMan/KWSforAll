@@ -785,7 +785,6 @@ if (typeof GAME === 'undefined') { } else {
                             }
                             $(this).closest('.qtrack').remove();
                             markedQuests.push(zawartoscB);
-                            console.log("1")
                         }
                     }
                 });
@@ -807,7 +806,6 @@ if (typeof GAME === 'undefined') { } else {
                             }
                             $(this).closest('.qtrack').remove();
                             markedQuests.push(zawartoscB);
-                            console.log("1")
                         }
                     }
                 });
