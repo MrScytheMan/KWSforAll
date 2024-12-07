@@ -768,19 +768,21 @@ if (typeof GAME === 'undefined') { } else {
                 let daily = ["ZADANIE PVM", "Zadanie PvP", "ROZWÓJ PLANETY", "ZADANIE IMPERIUM", "ZADANIE KLANOWE", "NAJLEPSZY KUCHA...", "REPUTACJA", "SYMBOL WYMIARÓW", "WYMIANA CHI", "ERMITA", "Nuda", "DOSTAWCA", "BOSKA MOC", "ROZGRZEWKA", "BOSKI ULEPSZACZ", "CZAS PODRÓŻNIKÓ...", "STRAŻNIK PORZĄD...", "CODZIENNY INSTY...", "HIPER SCALACZ", "DZIWNY MEDYK"];
                 daily = daily.map(item => item.trim().toLowerCase());
                 let markedQuests = [];
-                
+                const questWithSep3 = document.querySelector('.sep3');
+                const lastSep3Element = $('.sep3').last().closest('.qtrack');
                 $('#quest_track_con .qtrack b').each(function () {
                     let zawartoscB = $(this).text().trim().toLowerCase();
                     if (daily.includes(zawartoscB) && !$(this).closest('.qtrack').find('.sep3').length) {
                         if (!markedQuests.includes(zawartoscB)) {
                             $(this).css("color", "#63aaff");
-            
-                            // Check if the task has already been cloned
                             if (!$(this).closest('.qtrack').hasClass('cloned')) {
-                                $('#drag_con').prepend($(this).closest('.qtrack').clone());  // Place at the top (in #drag_con)
-                                $(this).closest('.qtrack').addClass('cloned');  // Mark as cloned
+                                if (questWithSep3) {
+                                    lastSep3Element.after($(this).closest('.qtrack').clone());
+                                } else {
+                                    $('#drag_con').prepend($(this).closest('.qtrack').clone());
+                                }
+                                $(this).closest('.qtrack').addClass('cloned');
                             }
-            
                             $(this).closest('.qtrack').remove();
                             markedQuests.push(zawartoscB);
                             console.log("1")
@@ -795,13 +797,14 @@ if (typeof GAME === 'undefined') { } else {
                     if (questLoc === currentLocation && !$(this).find('.sep3').length) {
                         if (!markedQuests.includes(zawartoscB)) {
                             $(this).find('b').first().css("color", "yellow");
-            
-                            // Check if the task has already been cloned
                             if (!$(this).closest('.qtrack').hasClass('cloned')) {
-                                $('#drag_con').prepend($(this).closest('.qtrack').clone());  // Place at the top (in #drag_con)
-                                $(this).closest('.qtrack').addClass('cloned');  // Mark as cloned
+                                if (questWithSep3) {
+                                    lastSep3Element.after($(this).closest('.qtrack').clone());
+                                } else {
+                                    $('#drag_con').prepend($(this).closest('.qtrack').clone());
+                                }
+                                $(this).closest('.qtrack').addClass('cloned');
                             }
-            
                             $(this).closest('.qtrack').remove();
                             markedQuests.push(zawartoscB);
                             console.log("1")
