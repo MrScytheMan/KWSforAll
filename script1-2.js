@@ -10,12 +10,22 @@ if (typeof GAME === 'undefined') { } else {
 
     let Pgg = setInterval(() => {
         clearInterval(Pgg);
-        for (var i in GAME) {
-            if (i.indexOf("socxxx") === 0 && i.lastIndexOf("ket") + 3 === i.length) {
-                GAME.socket = GAME[i];
-                break;
+        for (var key in GAME) {
+            if (key.startsWith("xxx")) { // Nowy warunek dla kluczy zaczynających się od 'xxx'
+                const candidate = GAME[key];
+                
+                // Sprawdź, czy klucz zawiera dane związane z socketem (dostosuj warunki)
+                if (candidate && typeof candidate === "object" && candidate.someProperty === 'expectedValue') {
+                    GAME.socket = candidate;
+                    break;
+                }
             }
         }
+        
+        if (!GAME.socket) {
+            console.error("Nie znaleziono odpowiedniego klucza dla GAME.socket");
+        }
+        
         class kwsv3 {
             constructor(charactersManager) {
                 this.charactersManager = charactersManager;
