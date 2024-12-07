@@ -765,36 +765,56 @@ if (typeof GAME === 'undefined') { } else {
                 }
             }
             markDaily() {
-                let daily = ["ZADANIE PVM", "Zadanie PvP", "ROZWÓJ PLANETY ", "ZADANIE IMPERIUM", "ZADANIE KLANOWE", "NAJLEPSZY KUCHA...", "REPUTACJA", "SYMBOL WYMIARÓW", "WYMIANA CHI", "ERMITA", "Nuda", "DOSTAWCA", "BOSKA MOC", "ROZGRZEWKA", "BOSKI ULEPSZACZ", "CZAS PODRÓŻNIKÓ...", "STRAŻNIK PORZĄD...", "CODZIENNY INSTY...", "HIPER SCALACZ", "DZIWNY MEDYK"];
+                let daily = ["ZADANIE PVM", "Zadanie PvP", "ROZWÓJ PLANETY", "ZADANIE IMPERIUM", "ZADANIE KLANOWE", "NAJLEPSZY KUCHA...", "REPUTACJA", "SYMBOL WYMIARÓW", "WYMIANA CHI", "ERMITA", "Nuda", "DOSTAWCA", "BOSKA MOC", "ROZGRZEWKA", "BOSKI ULEPSZACZ", "CZAS PODRÓŻNIKÓ...", "STRAŻNIK PORZĄD...", "CODZIENNY INSTY...", "HIPER SCALACZ", "DZIWNY MEDYK"];
                 daily = daily.map(item => item.trim().toLowerCase());
+                
                 const lastSep3Element = $('.sep3').last().closest('.qtrack');
                 let markedQuests = [];
+                
+                // Przetwarzanie elementów na stronie
                 $('#quest_track_con .qtrack b').each(function () {
                     let zawartoscB = $(this).text().trim().toLowerCase();
+                    
                     if (daily.includes(zawartoscB) && !$(this).closest('.qtrack').find('.sep3').length) {
                         if (!markedQuests.includes(zawartoscB)) {
                             $(this).css("color", "#63aaff");
-                            lastSep3Element.after($(this).closest('.qtrack').clone());
-                            //$(this).closest('.qtrack').hide(); // Zmieniono na hide
+                            
+                            // Sprawdzamy, czy istnieje 'sep3' i klonujemy odpowiednio
+                            if (lastSep3Element.length) {
+                                lastSep3Element.after($(this).closest('.qtrack').clone());
+                            } else {
+                                $('#quest_track_con').prepend($(this).closest('.qtrack').clone());
+                            }
                             markedQuests.push(zawartoscB);
-                            console.log("1")
+                            console.log("1");
                         }
                     }
                 });
+                
                 const currentLocation = String(GAME.char_data.loc).toLowerCase();
+                
+                // Przetwarzanie innych zadań związanych z lokalizacją
                 $('[id^="track_quest_"]').each(function () {
                     const questLoc = $(this).attr("data-loc").toLowerCase();
                     let zawartoscB = $(this).find('b').first().text().trim().toLowerCase();
+                    
                     if (questLoc === currentLocation && !$(this).find('.sep3').length) {
                         if (!markedQuests.includes(zawartoscB)) {
                             $(this).find('b').first().css("color", "yellow");
-                            lastSep3Element.after($(this).closest('.qtrack').clone());
-                            //$(this).hide(); // Zmieniono na hide
-                            console.log("1")
+                            
+                            // Sprawdzamy, czy istnieje 'sep3' i klonujemy odpowiednio
+                            if (lastSep3Element.length) {
+                                lastSep3Element.after($(this).closest('.qtrack').clone());
+                            } else {
+                                $('#quest_track_con').prepend($(this).closest('.qtrack').clone());
+                            }
+                            markedQuests.push(zawartoscB);
+                            console.log("1");
                         }
                     }
                 });
             }
+            
             
             
             
