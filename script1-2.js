@@ -775,7 +775,7 @@ if (typeof GAME === 'undefined') { } else {
                         if (!markedQuests.includes(zawartoscB)) {
                             $(this).css("color", "#63aaff");
                             lastSep3Element.after($(this).closest('.qtrack').clone());
-                            $(this).closest('.qtrack').remove();
+                            $(this).closest('.qtrack').hide(); // Zmieniono na hide
                             markedQuests.push(zawartoscB);
                         }
                     }
@@ -788,11 +788,12 @@ if (typeof GAME === 'undefined') { } else {
                         if (!markedQuests.includes(zawartoscB)) {
                             $(this).find('b').first().css("color", "yellow");
                             lastSep3Element.after($(this).closest('.qtrack').clone());
-                            $(this).remove();
+                            $(this).hide(); // Zmieniono na hide
                         }
                     }
                 });
             }
+            
             
             
             wojny2() {
