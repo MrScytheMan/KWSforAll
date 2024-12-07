@@ -392,7 +392,7 @@ class filterQuest {
             // Sprawdzenie, czy input z filtrem już istnieje
             if ($("#quest-filter-input").length === 0) {
                 // HTML i CSS do wstawienia
-                let questFilterHTML = `<input type="text" id="quest-filter-input" placeholder="Wpisz coś..." />`;
+                let questFilterHTML = `<input type="text" id="quest-filter-input" placeholder="Wpisz coś..." autocomplete="off"/>`;
                 let questFilterCSS = { 
                     position: 'absolute', 
                     top: '45px', 
