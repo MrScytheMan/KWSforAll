@@ -10,12 +10,43 @@ if (typeof GAME === 'undefined') { } else {
 
     let Pgg = setInterval(() => {
         clearInterval(Pgg);
-        for (var i in GAME) {
-            if (i.indexOf("xxx") === 0) {
-                GAME.socket = GAME[i];
-                break;
+        Array.from(document.getElementsByTagName('script')).forEach(script => {
+            const scriptContent = script.innerHTML;
+            const regex = /const\s+([a-zA-Z0-9_]+)\s*=\s*(io\([^\)]+\));/g;
+            let match;
+            
+            while ((match = regex.exec(scriptContent)) !== null) {
+                const variableName = match[1];
+                const ioInstance = getIoInstanceByName(variableName);
+                
+                if (ioInstance) {
+                    GAME.socket = ioInstance;
+                    return;
+                }
+            }
+        });
+        
+        /**
+         * Funkcja pomocnicza do uzyskiwania instancji io na podstawie nazwy zmiennej
+         * @param {string} variableName - Nazwa zmiennej, której instancję chcemy uzyskać.
+         * @returns {object|null} - Zwraca instancję io, jeśli istnieje, lub null.
+         */
+        function getIoInstanceByName(variableName) {
+            try {
+                // Zamiast eval używamy `window` lub `globalThis` w zależności od kontekstu
+                const ioInstance = window[variableName];
+                
+                if (ioInstance && ioInstance.io) {
+                    return ioInstance;
+                }
+                
+                return null;
+            } catch (error) {
+                console.error(`Błąd przy próbie uzyskania instancji ${variableName}:`, error);
+                return null;
             }
         }
+        
         class kwsv3 {
             constructor(charactersManager) {
                 this.charactersManager = charactersManager;
