@@ -780,9 +780,7 @@ if (typeof GAME === 'undefined') { } else {
                                 $('#drag_tracker').after($(this).closest('.qtrack').clone());
                             }
                             $(this).closest('.qtrack').remove();
-                            
                             markedQuests.push(zawartoscB);
-                            console.log("1");
                         }
                     }
                 });
