@@ -770,7 +770,7 @@ if (typeof GAME === 'undefined') { } else {
                 });
                 $('#quest_track_con .qtrack b').each(function () {
                     let zawartoscB = $(this).text().trim().toLowerCase();
-                    if (daily.includes(zawartoscB) && !$(this).closest('.qtrack').hasClass('dep3')) {
+                    if (daily.includes(zawartoscB)) {
                         $(this).css("color", "#63aaff");
                         lastSep3Element.append($(this).closest('.qtrack').clone());
                         $(this).closest('.qtrack').remove();
@@ -779,12 +779,13 @@ if (typeof GAME === 'undefined') { } else {
                 const currentLocation = String(GAME.char_data.loc).toLowerCase();
                 $('[id^="track_quest_"]').each(function () {
                     const questLoc = $(this).attr("data-loc").toLowerCase();
-                    if (questLoc === currentLocation && !$(this).closest('.qtrack').hasClass('dep3')) {
+                    if (questLoc === currentLocation) {
                         $(this).find('b').first().css("color", "yellow");
                         lastSep3Element.append($(this).closest('.qtrack').clone());
                         $(this).remove();
                     }
                 });
+                console.log("test")
             }            
             wojny2() {
                 var aimp = $("#e_admiral_player").find("[data-option=show_player]").attr("data-char_id");
