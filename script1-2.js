@@ -774,16 +774,21 @@ if (typeof GAME === 'undefined') { } else {
                     if (daily.includes(zawartoscB) && !$(this).closest('.qtrack').find('.sep3').length) {
                         if (!markedQuests.includes(zawartoscB)) {
                             $(this).css("color", "#63aaff");
-                            if (lastSep3Element.length) {
-                                lastSep3Element.after($(this).closest('.qtrack').clone());
-                            } else {
-                                $('#drag_tracker').after($(this).closest('.qtrack').clone());
+                            if (!$(this).closest('.qtrack').hasClass('cloned')) {
+                                if (lastSep3Element.length) {
+                                    lastSep3Element.after($(this).closest('.qtrack').clone());
+                                } else {
+                                    $('#drag_tracker').after($(this).closest('.qtrack').clone());
+                                }
+                                $(this).closest('.qtrack').addClass('cloned');  // Add class to mark as cloned
                             }
+            
                             $(this).closest('.qtrack').remove();
                             markedQuests.push(zawartoscB);
                         }
                     }
                 });
+            
                 const currentLocation = String(GAME.char_data.loc).toLowerCase();
                 $('[id^="track_quest_"]').each(function () {
                     const questLoc = $(this).attr("data-loc").toLowerCase();
@@ -791,17 +796,22 @@ if (typeof GAME === 'undefined') { } else {
                     if (questLoc === currentLocation && !$(this).find('.sep3').length) {
                         if (!markedQuests.includes(zawartoscB)) {
                             $(this).find('b').first().css("color", "yellow");
-                            if (lastSep3Element.length) {
-                                lastSep3Element.after($(this).closest('.qtrack').clone());
-                            } else {
-                                $('#drag_tracker').after($(this).closest('.qtrack').clone());
+                            if (!$(this).closest('.qtrack').hasClass('cloned')) {
+                                if (lastSep3Element.length) {
+                                    lastSep3Element.after($(this).closest('.qtrack').clone());
+                                } else {
+                                    $('#drag_tracker').after($(this).closest('.qtrack').clone());
+                                }
+                                $(this).closest('.qtrack').addClass('cloned');  // Add class to mark as cloned
                             }
+            
                             $(this).closest('.qtrack').remove();
                             markedQuests.push(zawartoscB);
                         }
                     }
                 });
             }
+            
             
             wojny2() {
                 var aimp = $("#e_admiral_player").find("[data-option=show_player]").attr("data-char_id");
