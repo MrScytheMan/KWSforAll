@@ -765,29 +765,34 @@ if (typeof GAME === 'undefined') { } else {
                 let daily = ["ZADANIE PVM", "Zadanie PvP", "ROZWÓJ PLANETY ", "ZADANIE IMPERIUM", "ZADANIE KLANOWE", "NAJLEPSZY KUCHA...", "REPUTACJA", "SYMBOL WYMIARÓW", "WYMIANA CHI", "ERMITA", "Nuda", "DOSTAWCA", "BOSKA MOC", "ROZGRZEWKA", "BOSKI ULEPSZACZ", "CZAS PODRÓŻNIKÓ...", "STRAŻNIK PORZĄD...", "CODZIENNY INSTY...", "HIPER SCALACZ", "DZIWNY MEDYK"];
                 daily = daily.map(item => item.trim().toLowerCase());
             
-                const lastSep3Element = $('.sep3').last().closest('.qtrack');
+                // Znajdź ostatni kontener z .sep3 i upewnij się, że jest to odpowiedni rodzic
+                const lastSep3Element = $('.sep3').last().parent();
+            
+                // Pętla do przetwarzania questów według listy "daily"
                 $('#quest_track_con .qtrack b').each(function () {
                     let zawartoscB = $(this).text().trim().toLowerCase();
-                    if (daily.includes(zawartoscB)) {
-                        const qtrackElement = $(this).closest('.qtrack');
-                        if (!qtrackElement.hasClass('sep3')) {
-                            $(this).css("color", "#63aaff");
-                            lastSep3Element.append(qtrackElement.clone());
-                            qtrackElement.remove();
-                        }
+                    if (daily.includes(zawartoscB) && !$(this).closest('.qtrack').hasClass('sep3')) {
+                        $(this).css("color", "#63aaff"); // Zmień kolor na niebieski
+                        $(this).closest('.qtrack').clone().insertAfter(lastSep3Element); // Wstaw po kontenerze
+                        $(this).closest('.qtrack').addClass('processed').remove(); // Oznacz jako przetworzony i usuń
                     }
                 });
+            
+                // Pobierz aktualną lokalizację gracza
                 const currentLocation = String(GAME.char_data.loc).toLowerCase();
+            
+                // Pętla do przetwarzania questów według lokalizacji
                 $('[id^="track_quest_"]').each(function () {
                     const questLoc = $(this).attr("data-loc").toLowerCase();
-                    const qtrackElement = $(this).closest('.qtrack');
-                    if (questLoc === currentLocation && !qtrackElement.hasClass('sep3')) {
-                        $(this).find('b').first().css("color", "yellow");
-                        lastSep3Element.append(qtrackElement.clone());
-                        qtrackElement.remove();
+                    if (questLoc === currentLocation && !$(this).closest('.qtrack').hasClass('sep3')) {
+                        $(this).find('b').first().css("color", "yellow"); // Zmień kolor na żółty
+                        $(this).closest('.qtrack').clone().insertAfter(lastSep3Element); // Wstaw po kontenerze
+                        $(this).closest('.qtrack').addClass('processed').remove(); // Oznacz jako przetworzony i usuń
                     }
                 });
-            }   
+            
+                console.log('markDaily: Finished processing.');
+            }
             wojny2() {
                 var aimp = $("#e_admiral_player").find("[data-option=show_player]").attr("data-char_id");
                 var imp = $("#leader_player").find("[data-option=show_player]").attr("data-char_id");
