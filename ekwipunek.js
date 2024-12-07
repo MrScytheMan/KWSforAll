@@ -330,7 +330,6 @@ class locationWrapper {
                     white-space: nowrap; /* Zapobiega zawijaniu tekstu */
                 }
                 #loc_bons {
-                    position: relative; /* Dodajemy pozycjonowanie względne */
                     z-index: 20; /* Najwyższy możliwy z-index */
                 }`;
                 let locationWrapperHTML = `
