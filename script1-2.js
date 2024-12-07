@@ -764,33 +764,23 @@ if (typeof GAME === 'undefined') { } else {
             markDaily() {
                 let daily = ["ZADANIE PVM", "Zadanie PvP", "ROZWÓJ PLANETY ", "ZADANIE IMPERIUM", "ZADANIE KLANOWE", "NAJLEPSZY KUCHA...", "REPUTACJA", "SYMBOL WYMIARÓW", "WYMIANA CHI", "ERMITA", "Nuda", "DOSTAWCA", "BOSKA MOC", "ROZGRZEWKA", "BOSKI ULEPSZACZ", "CZAS PODRÓŻNIKÓ...", "STRAŻNIK PORZĄD...", "CODZIENNY INSTY...", "HIPER SCALACZ", "DZIWNY MEDYK"];
                 daily = daily.map(item => item.trim().toLowerCase());
-                
                 const lastSep3Element = $('.sep3').last().closest('.qtrack');
-                
-                // Przechowujemy już zaznaczone misje w tablicy
                 let markedQuests = [];
-            
                 $('#quest_track_con .qtrack b').each(function () {
                     let zawartoscB = $(this).text().trim().toLowerCase();
-                    
-                    // Sprawdzamy, czy misja już była zaznaczona na niebiesko
                     if (daily.includes(zawartoscB) && !$(this).closest('.qtrack').find('.sep3').length) {
                         if (!markedQuests.includes(zawartoscB)) {
                             $(this).css("color", "#63aaff");
                             lastSep3Element.after($(this).closest('.qtrack').clone());
                             $(this).closest('.qtrack').remove();
-                            markedQuests.push(zawartoscB); // Dodajemy misję do listy zaznaczonych
+                            markedQuests.push(zawartoscB);
                         }
                     }
                 });
-            
                 const currentLocation = String(GAME.char_data.loc).toLowerCase();
-                
                 $('[id^="track_quest_"]').each(function () {
                     const questLoc = $(this).attr("data-loc").toLowerCase();
                     let zawartoscB = $(this).find('b').first().text().trim().toLowerCase();
-            
-                    // Sprawdzamy, czy misja nie została już zaznaczona na niebiesko
                     if (questLoc === currentLocation && !$(this).find('.sep3').length) {
                         if (!markedQuests.includes(zawartoscB)) {
                             $(this).find('b').first().css("color", "yellow");
@@ -799,8 +789,6 @@ if (typeof GAME === 'undefined') { } else {
                         }
                     }
                 });
-            
-                console.log("test2");
             }
             
             
