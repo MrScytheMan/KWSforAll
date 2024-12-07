@@ -772,7 +772,7 @@ if (typeof GAME === 'undefined') { } else {
                     let zawartoscB = $(this).text().trim().toLowerCase();
                     if (daily.includes(zawartoscB) && !$(this).closest('.qtrack').hasClass('sep3')) {
                         $(this).css("color", "#63aaff");
-                        lastSep3Element.insertAfter($(this).closest('.qtrack').clone());
+                        lastSep3Element.ater($(this).closest('.qtrack').clone());
                         $(this).closest('.qtrack').remove();
                     }
                 });
@@ -781,7 +781,7 @@ if (typeof GAME === 'undefined') { } else {
                     const questLoc = $(this).attr("data-loc").toLowerCase();
                     if (questLoc === currentLocation && !$(this).closest('.qtrack').hasClass('sep3')) {
                         $(this).find('b').first().css("color", "yellow");
-                        lastSep3Element.insertAfter($(this).closest('.qtrack').clone());
+                        lastSep3Element.after($(this).closest('.qtrack').clone());
                         $(this).remove();
                     }
                 });
