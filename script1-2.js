@@ -102,11 +102,9 @@ if (typeof GAME === 'undefined') { } else {
                 }, 1000);
                 this.setWebsiteBackground();
                 this.bindClickHandlers();
-                const socketID = Object.keys(GAME).filter(key => key.startsWith('xxx') && key.endsWith('Order'))[0];
-                GAME[socketID]((res) => { this.handleSockets(res); });
-                /*GAME.socket.on('gr', (res) => {
+                GAME.socket.on('gr', (res) => {
                     this.handleSockets(res);
-                });*/
+                });
             }
             isLogged(cb) {
                 let waitForID = setInterval(() => {
