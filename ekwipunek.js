@@ -75,8 +75,7 @@ class lv12all {
     }
 
     upgradeCard(cardId) {
-        const functionName = Object.keys(GAME).filter(key => key.startsWith('xxx') && key.endsWith('Order'))[0];
-        GAME[functionName]({a: 58, type: 3, card: cardId});
+        GAME.socket.emit({a: 58, type: 3, card: cardId});
         kom_clear();
         GAME.komunikat2(`Upgrading card...`);
         let komunikatElement = document.querySelector('#kom_con .kom');
