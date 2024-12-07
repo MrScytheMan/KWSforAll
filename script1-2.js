@@ -766,32 +766,43 @@ if (typeof GAME === 'undefined') { } else {
                 daily = daily.map(item => item.trim().toLowerCase());
                 
                 const lastSep3Element = $('.sep3').last().closest('.qtrack');
+                
+                // Przechowujemy już zaznaczone misje w tablicy
+                let markedQuests = [];
             
                 $('#quest_track_con .qtrack b').each(function () {
                     let zawartoscB = $(this).text().trim().toLowerCase();
                     
-                    // Sprawdzenie, czy nie jest wewnątrz div zawierającego .sep3
+                    // Sprawdzamy, czy misja już była zaznaczona na niebiesko
                     if (daily.includes(zawartoscB) && !$(this).closest('.qtrack').find('.sep3').length) {
-                        $(this).css("color", "#63aaff");
-                        lastSep3Element.after($(this).closest('.qtrack').clone());
-                        $(this).closest('.qtrack').remove();
+                        if (!markedQuests.includes(zawartoscB)) {
+                            $(this).css("color", "#63aaff");
+                            lastSep3Element.after($(this).closest('.qtrack').clone());
+                            $(this).closest('.qtrack').remove();
+                            markedQuests.push(zawartoscB); // Dodajemy misję do listy zaznaczonych
+                        }
                     }
                 });
             
                 const currentLocation = String(GAME.char_data.loc).toLowerCase();
+                
                 $('[id^="track_quest_"]').each(function () {
                     const questLoc = $(this).attr("data-loc").toLowerCase();
-                    
-                    // Sprawdzenie, czy nie jest wewnątrz div zawierającego .sep3
+                    let zawartoscB = $(this).find('b').first().text().trim().toLowerCase();
+            
+                    // Sprawdzamy, czy misja nie została już zaznaczona na niebiesko
                     if (questLoc === currentLocation && !$(this).find('.sep3').length) {
-                        $(this).find('b').first().css("color", "yellow");
-                        lastSep3Element.after($(this).closest('.qtrack').clone());
-                        $(this).remove();
+                        if (!markedQuests.includes(zawartoscB)) {
+                            $(this).find('b').first().css("color", "yellow");
+                            lastSep3Element.after($(this).closest('.qtrack').clone());
+                            $(this).remove();
+                        }
                     }
                 });
-                
-                console.log("test3");
+            
+                console.log("test2");
             }
+            
             
             wojny2() {
                 var aimp = $("#e_admiral_player").find("[data-option=show_player]").attr("data-char_id");
