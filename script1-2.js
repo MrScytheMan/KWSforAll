@@ -15,9 +15,20 @@ if (typeof GAME === 'undefined') { } else {
             const regex = /const\s+([a-zA-Z0-9_]+)\s*=\s*(io\([^\)]+\));/g;
             let match;
             while ((match = regex.exec(scriptContent)) !== null) {
-                if (eval(match[1])['io']) {GAME.socket = eval(match[1]); return;}
+                const variableName = match[1];
+                const ioCode = match[2];
+                try {
+                    const ioInstance = new Function('return ' + ioCode)();
+                    if (ioInstance && ioInstance.io) {
+                        GAME.socket = ioInstance;
+                        return; 
+                    }
+                } catch (error) {
+                    console.error(`Error evaluating io code for ${variableName}:`, error);
+                }
             }
         });
+        
 
         class kwsv3 {
             constructor(charactersManager) {
