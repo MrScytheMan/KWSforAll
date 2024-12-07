@@ -11,7 +11,7 @@ if (typeof GAME === 'undefined') { } else {
     let Pgg = setInterval(() => {
         clearInterval(Pgg);
         for (var i in GAME) {
-            if (i.indexOf("socxxx") === 0 && i.lastIndexOf("ket") + 3 === i.length) {
+            if (i.indexOf("xxx") === 0) {
                 GAME.socket = GAME[i];
                 break;
             }
