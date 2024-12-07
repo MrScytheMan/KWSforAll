@@ -764,31 +764,27 @@ if (typeof GAME === 'undefined') { } else {
             markDaily() {
                 let daily = ["ZADANIE PVM", "Zadanie PvP", "ROZWÓJ PLANETY ", "ZADANIE IMPERIUM", "ZADANIE KLANOWE", "NAJLEPSZY KUCHA...", "REPUTACJA", "SYMBOL WYMIARÓW", "WYMIANA CHI", "ERMITA", "Nuda", "DOSTAWCA", "BOSKA MOC", "ROZGRZEWKA", "BOSKI ULEPSZACZ", "CZAS PODRÓŻNIKÓ...", "STRAŻNIK PORZĄD...", "CODZIENNY INSTY...", "HIPER SCALACZ", "DZIWNY MEDYK"];
                 daily = daily.map(item => item.trim().toLowerCase());
-                const lastSep3Element = $('.sep3').last().parent();
+                const lastSep3Element = $('.sep3').last().closest('.qtrack');
+                lastSep3Element.find('.qtrack').each(function () {
+                    const bElement = $(this).find('b');
+                });
                 $('#quest_track_con .qtrack b').each(function () {
                     let zawartoscB = $(this).text().trim().toLowerCase();
-                    if ($(this).closest('.qtrack').hasClass('sep3')) {
-                        return;
-                    }
-                    if (daily.includes(zawartoscB)) {
+                    if (daily.includes(zawartoscB) && !$(this).closest('.qtrack').hasClass('sep3')) {
                         $(this).css("color", "#63aaff");
-                        $(this).closest('.qtrack').clone().insertAfter(lastSep3Element);
-                        $(this).closest('.qtrack').addClass('processed').remove();
+                        lastSep3Element.insertAfter($(this).closest('.qtrack').clone());
+                        $(this).closest('.qtrack').remove();
                     }
                 });
                 const currentLocation = String(GAME.char_data.loc).toLowerCase();
                 $('[id^="track_quest_"]').each(function () {
                     const questLoc = $(this).attr("data-loc").toLowerCase();
-                    if ($(this).closest('.qtrack').hasClass('sep3')) {
-                        return;
-                    }
-                    if (questLoc === currentLocation) {
+                    if (questLoc === currentLocation && !$(this).closest('.qtrack').hasClass('sep3')) {
                         $(this).find('b').first().css("color", "yellow");
-                        $(this).closest('.qtrack').clone().insertAfter(lastSep3Element);
-                        $(this).closest('.qtrack').addClass('processed').remove();
+                        lastSep3Element.insertAfter($(this).closest('.qtrack').clone());
+                        $(this).remove();
                     }
                 });
-                            console.log('markDaily: Finished.');
             }            
             wojny2() {
                 var aimp = $("#e_admiral_player").find("[data-option=show_player]").attr("data-char_id");
