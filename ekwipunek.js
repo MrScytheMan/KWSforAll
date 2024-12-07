@@ -2,6 +2,7 @@ class ekwipunekMenager {
     constructor() {
         const otwieranieKart = new cardOpen();
         const mapWrapper = new locationWrapper();
+        const questFilter = new filterQuest();
         this.setupCalculatePA();
         const lvl12all = new lv12all();
         lvl12all.initialize();
@@ -188,14 +189,29 @@ class cardOpen {
                 }, 500);
             });
         });
+
         $("body").on("click", '.otwieranie_kart', () => {
             let upperLimit = parseInt(document.querySelector("#item_am").value, 10);
             if (!isNaN(upperLimit) && upperLimit > 0) {
+                let stopOpening = false;
                 for (let i = 0; i < upperLimit; i++) {
                     setTimeout(() => {
+                        if (stopOpening) return;
                         let cards = $(`#ekw_page_items div[data-base_item_id="1784"]`);
+                        if (cards.length === 0) {
+                            setTimeout(() => { GAME.komunikat("Karty się skończyły.");}, 1000);
+                            stopOpening = true;
+                            return;
+                        }
                         let cards_id = parseInt(cards.attr("data-item_id"));
-                        GAME.socket.emit('ga',{a: 12, type: 14, iid: cards_id, page: GAME.ekw_page, page2: GAME.ekw_page2, am: '100'});
+                        let stack = parseInt(cards.attr('data-stack'), 10);
+                        if (stack < 100) {
+                            GAME.socket.emit('ga', { a: 12, type: 14, iid: cards_id, page: GAME.ekw_page, page2: GAME.ekw_page2, am: stack });
+                            setTimeout(() => { GAME.komunikat("Karty się skończyły.");}, 1000);
+                            stopOpening = true;
+                            return;
+                        }
+                        GAME.socket.emit('ga', { a: 12, type: 14, iid: cards_id, page: GAME.ekw_page, page2: GAME.ekw_page2, am: '100' });
                     }, i * 2000);
                 }
             } else {
@@ -204,6 +220,8 @@ class cardOpen {
         });     
     }
 }
+
+
 
 class calculatePA {
     constructor() {
@@ -367,6 +385,52 @@ class locationWrapper {
         });
     }
 }
+
+class filterQuest {
+    constructor() {
+        $("body").on("click", '#map_link_btn', () => {
+            if ($("#quest-filter-input").length === 0) {
+                let questFilterHTML = `<input type="text" id="quest-filter-input" placeholder="Wpisz coś..." autocomplete="off"/>`;
+                let questFilterCSS = { 
+                    position: 'absolute', 
+                    top: '45px', 
+                    right: '120px', 
+                    backgroundSize: '100% 100%', 
+                    border: '1px solid rgb(42 173 173 / 44%)', 
+                    color: 'white',
+                    width: '200px',
+                    height: '30px',
+                    background: 'rgb(249 249 249 / 10%)',
+                    textAlign: 'center',
+                    lineHeight: '40px',
+                    textTransform: 'uppercase',
+                };
+                $('#rightArrow').after(questFilterHTML);
+                $("#quest-filter-input").css(questFilterCSS);
+                $("#quest-filter-input").on("input", this.filterQuests);
+            }
+            this.filterQuests();
+        });
+        const questContainer = document.querySelector('#drag_con');
+        const observer = new MutationObserver(this.filterQuests.bind(this));
+        observer.observe(questContainer, { childList: true, subtree: true });
+    }
+    filterQuests() {
+        const inputField = $("#quest-filter-input")[0]; 
+        const searchText = inputField.value.toLowerCase();
+        const questContainer = document.querySelector('#drag_con');
+        const quests = questContainer.querySelectorAll('.qtrack');
+        quests.forEach(quest => {
+            const questText = quest.textContent.toLowerCase(); 
+            if (questText.includes(searchText)) {
+                quest.style.display = '';
+            } else {
+                quest.style.display = 'none';
+            }
+        });
+    }
+}
+
 
 
 
