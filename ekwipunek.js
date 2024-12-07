@@ -328,6 +328,10 @@ class locationWrapper {
                     font-weight: bold;
                     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
                     white-space: nowrap; /* Zapobiega zawijaniu tekstu */
+                }
+                #loc_bons {
+                    position: relative; /* Dodajemy pozycjonowanie względne */
+                    z-index: 20; /* Najwyższy możliwy z-index */
                 }`;
                 let locationWrapperHTML = `
                 <div id="changeLocationWrapper">
