@@ -777,24 +777,25 @@ if (typeof GAME === 'undefined') { } else {
                             if (lastSep3Element.length) {
                                 lastSep3Element.after($(this).closest('.qtrack').clone());
                             } else {
-                                $('#quest_track_con').prepend($(this).closest('.qtrack').clone());
+                                $('#drag_tracker').after($(this).closest('.qtrack').clone());
                             }
                             markedQuests.push(zawartoscB);
                             console.log("1");
                         }
                     }
-                });  
+                });
                 const currentLocation = String(GAME.char_data.loc).toLowerCase();
                 $('[id^="track_quest_"]').each(function () {
                     const questLoc = $(this).attr("data-loc").toLowerCase();
                     let zawartoscB = $(this).find('b').first().text().trim().toLowerCase();
+                    
                     if (questLoc === currentLocation && !$(this).find('.sep3').length) {
                         if (!markedQuests.includes(zawartoscB)) {
                             $(this).find('b').first().css("color", "yellow");
                             if (lastSep3Element.length) {
                                 lastSep3Element.after($(this).closest('.qtrack').clone());
                             } else {
-                                $('#quest_track_con').prepend($(this).closest('.qtrack').clone());
+                                $('#drag_tracker').after($(this).closest('.qtrack').clone());
                             }
                             markedQuests.push(zawartoscB);
                             console.log("1");
@@ -802,6 +803,7 @@ if (typeof GAME === 'undefined') { } else {
                     }
                 });
             }
+            
             
             
             
