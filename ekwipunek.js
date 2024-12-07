@@ -389,9 +389,7 @@ class locationWrapper {
 class filterQuest {
     constructor() {
         $("body").on("click", '#map_link_btn', () => {
-            // Sprawdzenie, czy input z filtrem już istnieje
             if ($("#quest-filter-input").length === 0) {
-                // HTML i CSS do wstawienia
                 let questFilterHTML = `<input type="text" id="quest-filter-input" placeholder="Wpisz coś..." autocomplete="off"/>`;
                 let questFilterCSS = { 
                     position: 'absolute', 
@@ -407,41 +405,27 @@ class filterQuest {
                     lineHeight: '40px',
                     textTransform: 'uppercase',
                 };
-
-
-                // Dodanie HTML i CSS za pomocą jQuery
                 $('#rightArrow').after(questFilterHTML);
                 $("#quest-filter-input").css(questFilterCSS);
-                
-                // Dodanie nasłuchiwacza na pole tekstowe
                 $("#quest-filter-input").on("input", this.filterQuests);
             }
-
-            // Wywołanie filtrowania przy każdym załadowaniu zapytań
             this.filterQuests();
         });
-
-        // MutationObserver dla zmian w DOM-ie (np. dodanie nowych misji)
         const questContainer = document.querySelector('#drag_con');
         const observer = new MutationObserver(this.filterQuests.bind(this));
-
-        // Obserwowanie dodawania nowych elementów
         observer.observe(questContainer, { childList: true, subtree: true });
     }
-
-    // Funkcja filtrowania misji
     filterQuests() {
-        const inputField = $("#quest-filter-input")[0]; // Pobieramy pole tekstowe
-        const searchText = inputField.value.toLowerCase(); // Pobieramy tekst z pola
-        const questContainer = document.querySelector('#drag_con'); // Kontener misji
-        const quests = questContainer.querySelectorAll('.qtrack'); // Pobieramy wszystkie misje
-
+        const inputField = $("#quest-filter-input")[0]; 
+        const searchText = inputField.value.toLowerCase();
+        const questContainer = document.querySelector('#drag_con');
+        const quests = questContainer.querySelectorAll('.qtrack');
         quests.forEach(quest => {
-            const questText = quest.textContent.toLowerCase(); // Pobieramy tekst z misji
+            const questText = quest.textContent.toLowerCase(); 
             if (questText.includes(searchText)) {
-                quest.style.display = ''; // Pokazujemy pasujące misje
+                quest.style.display = '';
             } else {
-                quest.style.display = 'none'; // Ukrywamy niepasujące misje
+                quest.style.display = 'none';
             }
         });
     }
