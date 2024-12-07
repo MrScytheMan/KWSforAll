@@ -75,7 +75,7 @@ class lv12all {
     }
 
     upgradeCard(cardId) {
-        GAME.socket.emit({a: 58, type: 3, card: cardId});
+        GAME.socket.emit('ga', {a: 58, type: 3, card: cardId});
         kom_clear();
         GAME.komunikat2(`Upgrading card...`);
         let komunikatElement = document.querySelector('#kom_con .kom');
