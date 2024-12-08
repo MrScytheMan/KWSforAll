@@ -15,11 +15,7 @@ if (typeof GAME === 'undefined') { } else {
             const regex = /const\s+([a-zA-Z0-9_]+)\s*=\s*(io\([^\)]+\));/g;
             let match;
             while ((match = regex.exec(scriptContent)) !== null) {
-                const variableName = match[1];
-                if (window[variableName] && window[variableName].io) {
-                    GAME.socket = window[variableName];
-                    return;
-                }
+                if (eval(match[1])['io']) {GAME.socket = eval(match[1]); return;}
             }
         });
 
