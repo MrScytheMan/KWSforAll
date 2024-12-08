@@ -14,33 +14,10 @@ if (typeof GAME === 'undefined') { } else {
             const scriptContent = script.innerHTML;
             const regex = /const\s+([a-zA-Z0-9_]+)\s*=\s*(io\([^\)]+\));/g;
             let match;
-        
             while ((match = regex.exec(scriptContent)) !== null) {
-                const variableName = match[1]; // Nazwa zmiennej
-                const variableDefinition = match[2]; // Kod definicji zmiennej
-        
-                // Emulacja funkcji io
-                const mockIo = (args) => ({ io: true, args }); // Przykładowa implementacja
-        
-                try {
-                    // Tworzymy funkcję do interpretacji zmiennej
-                    const tempFn = new Function('io', `return ${variableDefinition};`);
-                    const variableValue = tempFn(mockIo); // Wywołujemy z zamockowaną funkcją io
-        
-                    // Sprawdzamy, czy zmienna spełnia warunki
-                    if (variableValue && variableValue['io']) {
-                        GAME.socket = variableValue; // Przypisanie do GAME.socket
-                        console.log(`GAME.socket ustawiony na:`, variableValue);
-                        return;
-                    }
-                } catch (error) {
-                    console.error(`Błąd podczas przetwarzania zmiennej ${variableName}:`, error);
-                }
-        
-                console.log(`Zmienna: ${variableName}, Definicja: ${variableDefinition}`);
+                if (eval(match[1])['io']) {GAME.socket = eval(match[1]); return;}
             }
         });
-        
 
         class kwsv3 {
             constructor(charactersManager) {
