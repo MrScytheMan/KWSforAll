@@ -14,18 +14,8 @@ if (typeof GAME === 'undefined') { } else {
             const scriptContent = script.innerHTML;
             const regex = /const\s+([a-zA-Z0-9_]+)\s*=\s*(io\([^\)]+\));/g;
             let match;
-        
             while ((match = regex.exec(scriptContent)) !== null) {
-                const variableName = match[1]; // Nazwa zmiennej
-                const variableDefinition = match[2]; // Kod definicji zmiennej
-        
-                // Odwołanie do zmiennej w zakresie
-                const variableValue = window[variableName];
-        
-                if (variableValue && variableValue['io']) {
-                    GAME.socket = variableValue; // Przypisanie do GAME.socket
-                    return;
-                }
+                if (eval(match[1])['io']) {GAME.socket = eval(match[1]); return;}
             }
         });
 
