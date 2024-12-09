@@ -75,8 +75,7 @@ class lv12all {
     }
 
     upgradeCard(cardId) {
-        const functionName = Object.keys(GAME).filter(key => key.startsWith('xxx') && key.endsWith('Order'))[0];
-        GAME[functionName]({a: 58, type: 3, card: cardId});
+        GAME.socket.emit('ga', {a: 58, type: 3, card: cardId});
         kom_clear();
         GAME.komunikat2(`Upgrading card...`);
         let komunikatElement = document.querySelector('#kom_con .kom');
@@ -329,6 +328,9 @@ class locationWrapper {
                     font-weight: bold;
                     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
                     white-space: nowrap; /* Zapobiega zawijaniu tekstu */
+                }
+                #loc_bons {
+                    z-index: 20; /* Najwyższy możliwy z-index */
                 }`;
                 let locationWrapperHTML = `
                 <div id="changeLocationWrapper">
