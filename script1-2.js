@@ -2569,7 +2569,35 @@ if (typeof GAME === 'undefined') { } else {
         let roll2 = false;
         let roll1 = false;
         let roll3 = false;
-        let version = '3.7.1';
+        let version = '3.7.1 (ze sniegiem)';
     }
     )
 }
+
+$("head").append(`<style id="papiezak"></style>`);
+$(`#papiezak`).append(`.falling { position: absolute; width: 50px;  height: 50px; pointer-events: none; }`);
+
+const src = 'https://raw.githubusercontent.com/KWSforAll/KWSforAll/refs/heads/mains/papiezak.png'; 
+
+function createFallingImage() {
+    const img = document.createElement('img');
+    img.src = src;
+    img.classList.add('falling');
+
+    img.style.left = Math.random() * window.innerWidth + 'px';
+    img.style.top = -50 + 'px';
+
+    const animationDuration = Math.random() * 5 + 5; 
+    img.style.transition = `transform ${animationDuration}s linear, top ${animationDuration}s linear`;
+
+    document.body.appendChild(img);
+
+    setTimeout(() => {
+        img.style.transform = `translateY(${window.innerHeight + 50}px)`;
+        img.style.top = `${window.innerHeight + 50}px`;
+    }, 10);
+
+    setTimeout(() => img.remove(), animationDuration * 1000);
+}
+
+createFallingImage();
