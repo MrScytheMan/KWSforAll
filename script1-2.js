@@ -2600,4 +2600,12 @@ function createFallingImage() {
     setTimeout(() => img.remove(), animationDuration * 1000);
 }
 
-setTimeout(() => createFallingImage(), 500);
+function startFallingImages() {
+    setInterval(() => {
+        createFallingImage();
+    }, 500);
+}
+
+setTimeout(() => {
+startFallingImages();
+}, 3000);
