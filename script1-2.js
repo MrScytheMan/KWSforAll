@@ -2561,25 +2561,7 @@ if (typeof GAME === 'undefined') { } else {
             $('#available_servers').html(con);
             $('#available_servers option[value=' + this.server + ']').prop('selected', true);
         };
-        const kulka = new ballManager();
-        const ekwipunek = new ekwipunekMenager();
-        let adimp = false;
-        let arena_count = 0;
-        let pvp_count = 0;
-        let roll2 = false;
-        let roll1 = false;
-        let roll3 = false;
-        let version = '3.7.1 (ze sniegiem)';
-    }
-    )
-}
-
-$("head").append(`<style id="papiezak"></style>`);
-$(`#papiezak`).append(`.falling { position: absolute; width: 50px;  height: 50px; pointer-events: none; }`);
-
-const src = 'https://raw.githubusercontent.com/KWSforAll/KWSforAll/refs/heads/mains/papiezak.png'; 
-
-function createFallingImage() {
+	function createFallingImage() {
     const img = document.createElement('img');
     img.src = src;
     img.classList.add('falling');
@@ -2605,7 +2587,23 @@ function startFallingImages() {
         createFallingImage();
     }, 500);
 }
+	    $("head").append(`<style id="papiezak"></style>`);
+$(`#papiezak`).append(`.falling { position: absolute; width: 50px;  height: 50px; pointer-events: none; }`);
 
-setTimeout(() => {
+const src = 'https://raw.githubusercontent.com/KWSforAll/KWSforAll/refs/heads/mains/papiezak.png'; 
+
+	    setTimeout(() => {
 startFallingImages();
 }, 3000);
+        const kulka = new ballManager();
+        const ekwipunek = new ekwipunekMenager();
+        let adimp = false;
+        let arena_count = 0;
+        let pvp_count = 0;
+        let roll2 = false;
+        let roll1 = false;
+        let roll3 = false;
+        let version = '3.7.1 (ze sniegiem)';
+    }
+    )
+}
