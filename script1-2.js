@@ -2565,9 +2565,12 @@ if (typeof GAME === 'undefined') { } else {
 	    document.body.insertAdjacentHTML('beforeend', `<div id="scoreDisplay" style="position:fixed; top:80px; right:10px; font-size:24px; color:white; background-color:rgba(0,0,0,0.8); padding:10px;">Cremovki: 0</div>`);
 	    function handleImageClick(event) {
     cremovki += 1;
-		    console.log("PAPA DESTROYED!!"); //log papiezak interaction
+		    console.log("PAPA DESTROYED!!");
 		    event.target.classList.add('clicked');
     document.getElementById("scoreDisplay").textContent = `Cremovki: ${cremovki}`;
+		    setTimeout(() => {
+        event.target.remove();
+    }, 500);
 }
 	function createFallingImage() {
     const img = document.createElement('img');
