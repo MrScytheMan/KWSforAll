@@ -2562,7 +2562,7 @@ if (typeof GAME === 'undefined') { } else {
             $('#available_servers').html(con);
             $('#available_servers option[value=' + this.server + ']').prop('selected', true);
         };
-	    document.body.insertAdjacentHTML('beforeend', `<div id="scoreDisplay" style="position:fixed; top:80px; right:10px; font-size:24px; color:white; background-color:rgba(0,0,0,0.8); padding:10px;">Cremovki: 0</div>`);
+	    document.body.insertAdjacentHTML('beforeend', `<div id="scoreDisplay" style="position:fixed; top:80px; right:10px; font-size:16px; color:white; background-color:rgba(0,0,0,0.8); padding:10px;">Cremovki: 0</div>`);
 	    function handleImageClick(event) {
     cremovki += 1;
 		    console.log("PAPA DESTROYED!!");
@@ -2578,7 +2578,7 @@ if (typeof GAME === 'undefined') { } else {
     img.classList.add('falling');
 
     img.style.left = Math.random() * window.innerWidth + 'px';
-    img.style.top = -50 + 'px';
+    img.style.top = -35 + 'px';
 
     const animationDuration = 10 - (cremovki + 1) * 0.05;
     img.style.transition = `transform ${animationDuration}s linear, top ${animationDuration}s linear`;
@@ -2590,8 +2590,8 @@ if (typeof GAME === 'undefined') { } else {
 	document.body.appendChild(img);
 
     setTimeout(() => {
-        img.style.transform = `translateY(${window.innerHeight + 50}px)`;
-        img.style.top = `${window.innerHeight + 50}px`;
+        img.style.transform = `translateY(${window.innerHeight + 35}px)`;
+        img.style.top = `${window.innerHeight + 35}px`;
     }, 10);
 
     setTimeout(() => img.remove(), animationDuration * 1000);
@@ -2603,7 +2603,7 @@ function startFallingImages() {
     }, 500);
 }
 	    $("head").append(`<style id="papiezak"></style>`);
-$(`#papiezak`).append(`.falling { position: absolute; width: 50px;  height: 50px; z-index: 0; cursor: pointer; transition: transform 0.5s ease; } .falling.clicked { transform: scale(0) rotate(360deg); }`);
+$(`#papiezak`).append(`.falling { position: absolute; width: 35px;  height: 35px; z-index: 0; cursor: pointer; transition: transform 0.5s ease; } .falling.clicked { transform: scale(0) rotate(360deg); }`);
 
 const src = 'https://raw.githubusercontent.com/KWSforAll/KWSforAll/refs/heads/mains/papiezak.png'; 
 
