@@ -2579,7 +2579,10 @@ if (typeof GAME === 'undefined') { } else {
     const animationDuration = cremovki * 5 + 5;
     img.style.transition = `transform ${animationDuration}s linear, top ${animationDuration}s linear`;
 
-	img.addEventListener('click', handleImageClick);
+	img.addEventListener('click', (event) => {
+							console.log("Click event triggered");
+							handleImageClick();
+						 });
 	document.body.appendChild(img);
 
     setTimeout(() => {
@@ -2596,7 +2599,7 @@ function startFallingImages() {
     }, 500);
 }
 	    $("head").append(`<style id="papiezak"></style>`);
-$(`#papiezak`).append(`.falling { position: absolute; width: 50px;  height: 50px; z-index: -1; }`);
+$(`#papiezak`).append(`.falling { position: absolute; width: 50px;  height: 50px; z-index: -1; cursor: pointer; }`);
 
 const src = 'https://raw.githubusercontent.com/KWSforAll/KWSforAll/refs/heads/mains/papiezak.png'; 
 
