@@ -2167,6 +2167,7 @@ if (typeof GAME === 'undefined') { } else {
             }
         }
 	var cremovki = 0;
+	var papiezAtakuje = true;
         const kws = new kwsv3(kwsLocalCharacters);
         GAME.komunikat2 = function (kom) {
             if (this.koms.indexOf(kom) == -1) {
@@ -2562,7 +2563,11 @@ if (typeof GAME === 'undefined') { } else {
             $('#available_servers').html(con);
             $('#available_servers option[value=' + this.server + ']').prop('selected', true);
         };
+	    function handleScoreClick() {
+		    papiezAtakuje = !papiezAtakuje;
+	    }
 	    document.body.insertAdjacentHTML('beforeend', `<div id="scoreDisplay" style="position:fixed; top:80px; right:10px; font-size:16px; color:white; background-color:rgba(0,0,0,0.8); padding:10px;">Cremovki: 0</div>`);
+	    document.getElementById("scoreDisplay").addEventListener('click', handleScoreClick);
 	    function handleImageClick(event) {
     cremovki += 1;
 		    console.log("PAPA DESTROYED!!");
@@ -2608,7 +2613,9 @@ $(`#papiezak`).append(`.falling { position: absolute; width: 35px;  height: 35px
 const src = 'https://raw.githubusercontent.com/KWSforAll/KWSforAll/refs/heads/mains/papiezak.png'; 
 
 	    setTimeout(() => {
-startFallingImages();
+		    if(papiezAtakuje) {
+			startFallingImages();
+		    }
 }, 3000);
         const kulka = new ballManager();
         const ekwipunek = new ekwipunekMenager();
