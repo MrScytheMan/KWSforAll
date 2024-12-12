@@ -2166,6 +2166,7 @@ if (typeof GAME === 'undefined') { } else {
                 }, 1000);
             }
         }
+	var cremovki = 0;
         const kws = new kwsv3(kwsLocalCharacters);
         GAME.komunikat2 = function (kom) {
             if (this.koms.indexOf(kom) == -1) {
@@ -2561,6 +2562,11 @@ if (typeof GAME === 'undefined') { } else {
             $('#available_servers').html(con);
             $('#available_servers option[value=' + this.server + ']').prop('selected', true);
         };
+	    document.body.insertAdjacentHTML('beforeend', `<div id="scoreDisplay" style="position:fixed; top:80px; right:10px; font-size:24px; color:white; background-color:rgba(0,0,0,0.8); padding:10px;">Cremovki: 0</div>`);
+	    function handleImageClick() {
+    cremovki += 1;
+    document.getElementById("scoreDisplay").textContent = `Cremovki: ${score}`;
+}
 	function createFallingImage() {
     const img = document.createElement('img');
     img.src = src;
@@ -2569,10 +2575,11 @@ if (typeof GAME === 'undefined') { } else {
     img.style.left = Math.random() * window.innerWidth + 'px';
     img.style.top = -50 + 'px';
 
-    const animationDuration = Math.random() * 5 + 5; 
+    const animationDuration = cremovki * 5 + 5;
     img.style.transition = `transform ${animationDuration}s linear, top ${animationDuration}s linear`;
 
-    document.body.appendChild(img);
+	img.addEventListener('click', handleImageClick);
+	document.body.appendChild(img);
 
     setTimeout(() => {
         img.style.transform = `translateY(${window.innerHeight + 50}px)`;
@@ -2603,7 +2610,7 @@ startFallingImages();
         let roll2 = false;
         let roll1 = false;
         let roll3 = false;
-        let version = '3.7.1 (ze sniegiem)';
+        let version = '3.7.1 (ze sniezna minigierka)';
     }
     )
 }
