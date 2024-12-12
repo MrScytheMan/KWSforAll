@@ -2582,7 +2582,7 @@ if (typeof GAME === 'undefined') { } else {
     }, 100);
 }
 	function createFallingImage() {
-	if(papiezAtakuje) {
+	if(!papiezAtakuje) {
 		return;
 	}
     const img = document.createElement('img');
