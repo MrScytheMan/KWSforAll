@@ -2617,7 +2617,9 @@ const src = 'https://raw.githubusercontent.com/KWSforAll/KWSforAll/refs/heads/ma
 			startFallingImages();
 		    }
 }, 3000);
-	    document.getElementById("scoreDisplay").addEventListener('click', handleScoreClick);
+	    document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById("scoreDisplay").addEventListener('click', handleScoreClick);
+});
         const kulka = new ballManager();
         const ekwipunek = new ekwipunekMenager();
         let adimp = false;
