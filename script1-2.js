@@ -1332,6 +1332,7 @@ if (typeof GAME === 'undefined') { } else {
                 });
 		    $("body").on("click", `.kws_top_bar_section.version`, () => {
                     papiezAtakuje = !papiezAtakuje;
+			    console.log("Papiez atakuje switch to ", papiezAtakuje);
                 });
                 $("body").on("click", `.kws_additional_top_bar_section.additional_stats_reset`, () => {
                     this.resetCalculatedPower();
