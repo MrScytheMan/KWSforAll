@@ -2570,7 +2570,7 @@ if (typeof GAME === 'undefined') { } else {
     document.getElementById("scoreDisplay").textContent = `Cremovki: ${cremovki}`;
 		    setTimeout(() => {
         event.target.remove();
-    }, 500);
+    }, 100);
 }
 	function createFallingImage() {
     const img = document.createElement('img');
