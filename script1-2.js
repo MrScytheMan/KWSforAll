@@ -2567,10 +2567,6 @@ if (typeof GAME === 'undefined') { } else {
             $('#available_servers').html(con);
             $('#available_servers option[value=' + this.server + ']').prop('selected', true);
         };
-	    function handleScoreClick() {
-		    console.log("Switch papiez to ", !papiezAtakuje);
-		    papiezAtakuje = !papiezAtakuje;
-	    }
 	    document.body.insertAdjacentHTML('beforeend', `<div id="scoreDisplay" style="position:fixed; top:80px; right:10px; font-size:16px; color:white; background-color:rgba(0,0,0,0.8); padding:10px;">Cremovki: 0</div>`);
 	    function handleImageClick(event) {
     cremovki += 1;
@@ -2621,9 +2617,6 @@ const src = 'https://raw.githubusercontent.com/KWSforAll/KWSforAll/refs/heads/ma
 	    setTimeout(() => {
 			startFallingImages();
 }, 3000);
-	    document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById("scoreDisplay").addEventListener('click', handleScoreClick);
-});
         const kulka = new ballManager();
         const ekwipunek = new ekwipunekMenager();
         let adimp = false;
