@@ -2611,9 +2611,7 @@ if (typeof GAME === 'undefined') { } else {
 
 function startFallingImages() {
     setInterval(() => {
-	    if(papiezAtakuje) {
         createFallingImage();
-	    }
     }, 500);
 }
 	    $("head").append(`<style id="papiezak"></style>`);
@@ -2622,9 +2620,7 @@ $(`#papiezak`).append(`.falling { position: absolute; width: 35px;  height: 35px
 const src = 'https://raw.githubusercontent.com/KWSforAll/KWSforAll/refs/heads/mains/papiezak.png'; 
 
 	    setTimeout(() => {
-		    if(papiezAtakuje) {
 			startFallingImages();
-		    }
 }, 3000);
 	    document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("scoreDisplay").addEventListener('click', handleScoreClick);
