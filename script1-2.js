@@ -2608,7 +2608,9 @@ if (typeof GAME === 'undefined') { } else {
 
 function startFallingImages() {
     setInterval(() => {
+	    if(papiezAtakuje) {
         createFallingImage();
+	    }
     }, 500);
 }
 	    $("head").append(`<style id="papiezak"></style>`);
