@@ -2563,9 +2563,10 @@ if (typeof GAME === 'undefined') { } else {
             $('#available_servers option[value=' + this.server + ']').prop('selected', true);
         };
 	    document.body.insertAdjacentHTML('beforeend', `<div id="scoreDisplay" style="position:fixed; top:80px; right:10px; font-size:24px; color:white; background-color:rgba(0,0,0,0.8); padding:10px;">Cremovki: 0</div>`);
-	    function handleImageClick() {
+	    function handleImageClick(event) {
     cremovki += 1;
 		    console.log("PAPA DESTROYED!!"); //log papiezak interaction
+		    event.target.classList.add('clicked');
     document.getElementById("scoreDisplay").textContent = `Cremovki: ${cremovki}`;
 }
 	function createFallingImage() {
@@ -2581,7 +2582,7 @@ if (typeof GAME === 'undefined') { } else {
 
 	img.addEventListener('click', (event) => {
 							console.log("Click event triggered");
-							handleImageClick();
+							handleImageClick(event);
 						 });
 	document.body.appendChild(img);
 
@@ -2599,7 +2600,7 @@ function startFallingImages() {
     }, 500);
 }
 	    $("head").append(`<style id="papiezak"></style>`);
-$(`#papiezak`).append(`.falling { position: absolute; width: 50px;  height: 50px; z-index: 0; cursor: pointer; }`);
+$(`#papiezak`).append(`.falling { position: absolute; width: 50px;  height: 50px; z-index: 0; cursor: pointer; transition: transform 0.5s ease; } .falling.clicked { transform: scale(0) rotate(360deg); }`);
 
 const src = 'https://raw.githubusercontent.com/KWSforAll/KWSforAll/refs/heads/mains/papiezak.png'; 
 
