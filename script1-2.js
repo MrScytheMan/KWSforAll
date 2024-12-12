@@ -2577,7 +2577,7 @@ if (typeof GAME === 'undefined') { } else {
     img.style.left = Math.random() * window.innerWidth + 'px';
     img.style.top = -50 + 'px';
 
-    const animationDuration = cremovki * 5 + 5;
+    const animationDuration = 10 - (cremovki + 1) * 0.05;
     img.style.transition = `transform ${animationDuration}s linear, top ${animationDuration}s linear`;
 
 	img.addEventListener('click', (event) => {
