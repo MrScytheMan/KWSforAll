@@ -2582,10 +2582,8 @@ if (typeof GAME === 'undefined') { } else {
     }, 100);
 }
 	function createFallingImage() {
-	if(!papiezAtakuje) {
-		return;
-	}
-    const img = document.createElement('img');
+	if(papiezAtakuje) {
+		const img = document.createElement('img');
     img.src = src;
     img.classList.add('falling');
 
@@ -2607,6 +2605,7 @@ if (typeof GAME === 'undefined') { } else {
     }, 10);
 
     setTimeout(() => img.remove(), animationDuration * 1000);
+	}
 }
 
 function startFallingImages() {
