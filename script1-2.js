@@ -2582,6 +2582,9 @@ if (typeof GAME === 'undefined') { } else {
     }, 100);
 }
 	function createFallingImage() {
+	if(papiezAtakuje) {
+		return;
+	}
     const img = document.createElement('img');
     img.src = src;
     img.classList.add('falling');
