@@ -2595,7 +2595,7 @@ function startFallingImages() {
     }, 500);
 }
 	    $("head").append(`<style id="papiezak"></style>`);
-$(`#papiezak`).append(`.falling { position: absolute; width: 50px;  height: 50px; }`);
+$(`#papiezak`).append(`.falling { position: absolute; width: 50px;  height: 50px; z-index: -1; }`);
 
 const src = 'https://raw.githubusercontent.com/KWSforAll/KWSforAll/refs/heads/mains/papiezak.png'; 
 
