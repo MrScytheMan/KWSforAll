@@ -2564,10 +2564,10 @@ if (typeof GAME === 'undefined') { } else {
             $('#available_servers option[value=' + this.server + ']').prop('selected', true);
         };
 	    function handleScoreClick() {
+		    console.log("Switch papiez to ", !papiezAtakuje);
 		    papiezAtakuje = !papiezAtakuje;
 	    }
 	    document.body.insertAdjacentHTML('beforeend', `<div id="scoreDisplay" style="position:fixed; top:80px; right:10px; font-size:16px; color:white; background-color:rgba(0,0,0,0.8); padding:10px;">Cremovki: 0</div>`);
-	    document.getElementById("scoreDisplay").addEventListener('click', handleScoreClick);
 	    function handleImageClick(event) {
     cremovki += 1;
 		    console.log("PAPA DESTROYED!!");
@@ -2617,6 +2617,7 @@ const src = 'https://raw.githubusercontent.com/KWSforAll/KWSforAll/refs/heads/ma
 			startFallingImages();
 		    }
 }, 3000);
+	    document.getElementById("scoreDisplay").addEventListener('click', handleScoreClick);
         const kulka = new ballManager();
         const ekwipunek = new ekwipunekMenager();
         let adimp = false;
