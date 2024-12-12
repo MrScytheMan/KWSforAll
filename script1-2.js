@@ -2566,7 +2566,7 @@ if (typeof GAME === 'undefined') { } else {
 	    function handleImageClick(event) {
     cremovki += 1;
 		    console.log("PAPA DESTROYED!!"); //log papiezak interaction
-		    event.target.addClass('falling.clicked');
+		    event.target.classList.add('clicked');
     document.getElementById("scoreDisplay").textContent = `Cremovki: ${cremovki}`;
 }
 	function createFallingImage() {
