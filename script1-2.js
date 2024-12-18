@@ -2635,7 +2635,7 @@ const src = 'https://raw.githubusercontent.com/KWSforAll/KWSforAll/refs/heads/ma
         let roll2 = false;
         let roll1 = false;
         let roll3 = false;
-        let version = '3.7.1 (ze sniezna minigierka)';
+        let version = '3.7.2 (ze sniezna minigierka)';
     }
     )
 }
