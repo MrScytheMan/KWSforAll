@@ -19,6 +19,16 @@ if (typeof GAME === 'undefined') { } else {
             }
         });
 
+	window.a24value = null;
+	Array.from(document.getElementsByTagName('script')).forEach(script => {
+    	    const scriptContent = script.innerHTML;
+    	    const regex = /a:\s*'([a-zA-Z0-9]+)'/g;
+    	    let match;
+    	    while ((match = regex.exec(scriptContent)) !== null) {
+                window.a24value = match[1];
+    	    }
+	});
+
         class kwsv3 {
             constructor(charactersManager) {
                 this.charactersManager = charactersManager;
