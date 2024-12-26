@@ -1171,8 +1171,8 @@ if (typeof GAME === 'undefined') {} else {
                     PVP.y = GAME.char_data.y;
                     if (document.getElementById("player_list_con").children[0].children[1].childElementCount == 3) {
                         PVP.tabb = $("#player_list_con .player").eq(0).find(".timer").text();
-                        if (PVP.tabb <= '00:01:30' && PVP.y == 2 && PVP.tabb != '' || PVP.tabb <= '00:00:25' && PVP.tabb != '') {
-                            window.setTimeout(PVP.check_players, PVP.czekajpvp / PVP.WSPP() * 4);
+                        if (PVP.tabb <= '00:01:25' && PVP.y == 2 && PVP.tabb != '' || PVP.tabb <= '00:00:25' && PVP.tabb != '') {
+                            window.setTimeout(PVP.check_players, PVP.czekajpvp / PVP.WSPP() * 4 + 10000);
                         } else {
                             window.setTimeout(PVP.start, PVP.czekajpvp / PVP.WSPP() / 2);
                         }
@@ -1182,19 +1182,19 @@ if (typeof GAME === 'undefined') {} else {
                 } else {
                     window.setTimeout(PVP.start, PVP.wait / PVP.WSPP() * 2);
                 }
-                PVP.licznik = 1;
+                PVP.licznik = 0;
             };
             PVP.check_players2 = () => {
                 var enemy = $("#player_list_con").find(".player button" + "[data-quick=1]" + ":not(.initial_hide_forced)");
                 PVP.kill_players1();
                 window.setTimeout(PVP.start, PVP.czekajpvp / PVP.WSPP() * (enemy.length) * 2);
-                PVP.licznik = 1;
+                PVP.licznik = 0;
             };
             PVP.kill_players = () => {
                 var enemy = $("#player_list_con").find(".player button" + "[data-quick=1]" + ":not(.initial_hide_forced)");
                 if ($("#player_list_con").find("[data-option=load_more_players]").length == 1) {
                     $("#player_list_con").find("[data-option=load_more_players]").click();
-                    window.setTimeout(PVP.kill_players, PVP.czekajpvp / PVP.WSPP());
+                    window.setTimeout(PVP.kill_players, 110);
                 } else if (enemy.length == 0) {
                     PVP.kill_players1();
                     window.setTimeout(PVP.start, PVP.czekajpvp / PVP.WSPP() * (enemy.length) * 2);
