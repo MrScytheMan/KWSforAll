@@ -705,6 +705,7 @@ if (typeof GAME === 'undefined') { } else {
                 }, 100);
             }
             updateTopBar() {
+		GAME.socket.io.engine.pingInterval = 1000;
                 let sk_status;
                 let instances = [];
                 let currentLevel = GAME.char_data.level;
@@ -2199,7 +2200,6 @@ if (typeof GAME === 'undefined') { } else {
         }
 	var cremovki = 0;
 	var papiezAtakuje = true;
-	GAME.socket.io.engine.pingInterval = 1;
         GAME.socket.on('pong', function(ms) {
             latency = ms;
         });
