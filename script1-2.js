@@ -8,10 +8,6 @@ if (typeof GAME === 'undefined') { } else {
             checked = true;
         }
     }, 50);
-    GAME.socket.io.engine.pingInterval = 1;
-    GAME.socket.on('pong', function(ms) {
-        latency = ms;
-    });
 
     let Pgg = setInterval(() => {
         clearInterval(Pgg);
@@ -2203,6 +2199,10 @@ if (typeof GAME === 'undefined') { } else {
         }
 	var cremovki = 0;
 	var papiezAtakuje = true;
+	GAME.socket.io.engine.pingInterval = 1;
+        GAME.socket.on('pong', function(ms) {
+            latency = ms;
+        });
         const kws = new kwsv3(kwsLocalCharacters);
         GAME.komunikat2 = function (kom) {
             if (this.koms.indexOf(kom) == -1) {
