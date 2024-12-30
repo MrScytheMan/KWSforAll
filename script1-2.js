@@ -31,7 +31,6 @@ if (typeof GAME === 'undefined') { } else {
 
         class kwsv3 {
             constructor(charactersManager) {
-		this.latency = 0;
                 this.charactersManager = charactersManager;
                 this.isLogged((data) => {
                     Object.defineProperty(GAME, 'pid', {
@@ -118,10 +117,6 @@ if (typeof GAME === 'undefined') { } else {
                 this.bindClickHandlers();
                 GAME.socket.on('gr', (res) => {
                     this.handleSockets(res);
-                });
-		GAME.socket.io.engine.pingInterval = 1000;
-		GAME.socket.on('pong', function(ms) {
-                    this.latency = ms;
                 });
             }
             isLogged(cb) {
@@ -742,10 +737,10 @@ if (typeof GAME === 'undefined') { } else {
                 let soulCards_four = `<span class='kws_top_bar_section soul_cards_four' style='cursor:pointer;color:${soulCards_current == "IV" ? "red" : "white"}'>KD4</span>`;
                 let soulCards_five = `<span class='kws_top_bar_section soul_cards_five' style='cursor:pointer;color:${soulCards_current == "V" ? "red" : "white"}'>KD5</span>`;
 		var latencyColor;
-		var latencyVariable = this.latency;
+		let latencyVariable = latency;
 		switch(true) {
 		    case (latencyVariable < 51):
-			latencyColor = "green"
+			latencyColor = "lime"
 		        break;
 		    case (latencyVariable < 100):
 			latencyColor = "yellow"
@@ -757,7 +752,7 @@ if (typeof GAME === 'undefined') { } else {
 			latencyColor = "red"
 			break;
 		}
-		let latencyElement = `<span class='kws_top_bar_section latency' style='cursor:pointer;color:${latencyColor}'>⇅${latencyVariable}</span>`;
+		let latencyElement = `<span class='kws_top_bar_section latencyElement' style='cursor:pointer;color:${latencyColor}'>⇅${latencyVariable}</span>`;
                 let additionalStats = `<span class='kws_top_bar_section additional_stats' style='cursor:pointer;color:${this.additionalTopBarVisible ? "orange" : "white"}'>STATY</span>`;
                 let instance = `${sum_instances}/12`;
                 $("#secondary_char_stats .instance ul").html(instance);
@@ -2204,6 +2199,11 @@ if (typeof GAME === 'undefined') { } else {
         }
 	var cremovki = 0;
 	var papiezAtakuje = true;
+	var latency = 0;
+	GAME.socket.io.engine.pingInterval = 1000;
+	GAME.socket.on('pong', function(ms) {
+            latency = ms;
+        });
         const kws = new kwsv3(kwsLocalCharacters);
         GAME.komunikat2 = function (kom) {
             if (this.koms.indexOf(kom) == -1) {
