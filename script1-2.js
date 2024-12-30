@@ -8,7 +8,7 @@ if (typeof GAME === 'undefined') { } else {
             checked = true;
         }
     }, 50);
-    GAME.socket.io.engine.pingInterval = 1000;
+    GAME.socket.io.engine.pingInterval = 1;
     GAME.socket.on('pong', function(ms) {
         latency = ms;
     });
