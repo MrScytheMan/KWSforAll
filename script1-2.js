@@ -1,4 +1,5 @@
 var checked = false;
+var latency = -1;
 
 if (typeof GAME === 'undefined') { } else {
     let Pog = setInterval(() => {
@@ -7,6 +8,10 @@ if (typeof GAME === 'undefined') { } else {
             checked = true;
         }
     }, 50);
+    GAME.socket.io.engine.pingInterval = 1000;
+    GAME.socket.on('pong', function(ms) {
+        latency = ms;
+    });
 
     let Pgg = setInterval(() => {
         clearInterval(Pgg);
@@ -737,22 +742,21 @@ if (typeof GAME === 'undefined') { } else {
                 let soulCards_four = `<span class='kws_top_bar_section soul_cards_four' style='cursor:pointer;color:${soulCards_current == "IV" ? "red" : "white"}'>KD4</span>`;
                 let soulCards_five = `<span class='kws_top_bar_section soul_cards_five' style='cursor:pointer;color:${soulCards_current == "V" ? "red" : "white"}'>KD5</span>`;
 		var latencyColor;
-		let latencyVariable = latency;
 		switch(true) {
-		    case (latencyVariable < 51):
+		    case (latency < 51):
 			latencyColor = "lime"
 		        break;
-		    case (latencyVariable < 100):
+		    case (latency < 100):
 			latencyColor = "yellow"
 		        break;
-		    case (latencyVariable < 140):
+		    case (latency < 140):
 			latencyColor = "orange"
 		        break;
 		    default:
 			latencyColor = "red"
 			break;
 		}
-		let latencyElement = `<span class='kws_top_bar_section latencyElement' style='cursor:pointer;color:${latencyColor}'>⇅${latencyVariable}</span>`;
+		let latencyElement = `<span class='kws_top_bar_section latencyElement' style='cursor:pointer;color:${latencyColor}'>⇅${latency}</span>`;
                 let additionalStats = `<span class='kws_top_bar_section additional_stats' style='cursor:pointer;color:${this.additionalTopBarVisible ? "orange" : "white"}'>STATY</span>`;
                 let instance = `${sum_instances}/12`;
                 $("#secondary_char_stats .instance ul").html(instance);
@@ -2199,11 +2203,6 @@ if (typeof GAME === 'undefined') { } else {
         }
 	var cremovki = 0;
 	var papiezAtakuje = true;
-	var latency = 0;
-	GAME.socket.io.engine.pingInterval = 1000;
-	GAME.socket.on('pong', function(ms) {
-            latency = ms;
-        });
         const kws = new kwsv3(kwsLocalCharacters);
         GAME.komunikat2 = function (kom) {
             if (this.koms.indexOf(kom) == -1) {
