@@ -1656,6 +1656,7 @@ if (typeof GAME === 'undefined') {} else {
                 buff_clan: false,
                 loc: GAME.char_data.loc
             };
+            if (GAME.char_data.id = '8807'){ RESP.wait = 1; console.log("RESP.wait = " + RESP.wait)}
             RESP.check = () => {
                 let imp = $("#leader_player").find("[data-option=show_player]").attr("data-char_id");
                 let emp = GAME.char_data.empire;
