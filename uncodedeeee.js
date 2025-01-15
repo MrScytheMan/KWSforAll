@@ -1121,14 +1121,11 @@ if (typeof GAME === 'undefined') {} else {
                 return false;
             };
             PVP.start = () => {
-                if (!PVP.stop && !GAME.is_loading) {
-                    if ($("#player_list_con").find("[data-option=load_more_players]").length != 0) {
-                        $("#player_list_con").find("[data-option=load_more_players]").click();
-                    }
+                if (!PVP.stop && !this.is_loading) {
                     PVP.action();
-                } else if (GAME.is_loading) {
+                } else {
                     window.setTimeout(PVP.start, PVP.wait / PVP.WSPP());
-                } else {}
+                }
             };
             PVP.action = () => {
                 switch (PVP.caseNumber) {
@@ -1146,15 +1143,15 @@ if (typeof GAME === 'undefined') {} else {
                         break;
                     case 3:
                         PVP.caseNumber++;
-                        PVP.check_players();
+                        PVP.check2();
                         break;
                     case 4:
                         PVP.caseNumber++;
-                        PVP.check2();
+                        PVP.wojny1();
                         break;
                     case 5:
                         PVP.caseNumber++;
-                        PVP.wojny1();
+                        PVP.kill_players();
                         break;
                     case 6:
                         PVP.caseNumber++;
@@ -1162,13 +1159,9 @@ if (typeof GAME === 'undefined') {} else {
                         break;
                     case 7:
                         PVP.caseNumber++;
-                        PVP.kill_players1();
-                        break;
-                    case 8:
-                        PVP.caseNumber++;
                         PVP.dec_wars();
                         break;
-                    case 9:
+                    case 8:
                         PVP.caseNumber = 0;
                         PVP.go();
                     // case 0:
@@ -1313,6 +1306,15 @@ if (typeof GAME === 'undefined') {} else {
             //         }
             //     }
             // };
+            PVP.kill_players = () => {
+                var enemy = $("#player_list_con").find(".player button" + "[data-quick=1]" + ":not(.initial_hide_forced)");
+                if (enemy.length > 0) {
+                    enemy.eq(0).click();
+                } else {
+                    kom_clear();
+                }
+                window.setTimeout(PVP.start, PVP.wait / PVP.WSPP());
+            };
             PVP.kill_players1 = () => {
                 let opponents = $("#player_list_con").find(".player button" + "[data-quick=1]" + ":not(.initial_hide_forced)");
                 let len = $("#player_list_con .player").length;
