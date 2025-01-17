@@ -2604,7 +2604,7 @@ if (typeof GAME === 'undefined') { } else {
         let roll2 = false;
         let roll1 = false;
         let roll3 = false;
-        let version = '3.7.3';
+        let version = '3.7.4';
     }
     )
 }
