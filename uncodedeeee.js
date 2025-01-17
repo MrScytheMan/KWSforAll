@@ -1,31 +1,31 @@
 if (typeof GAME === 'undefined') {} else {
-    function pvp_option_bind(){
-        $('.poption').off('click').on('click',function(){
-            var th=$(this);
-            if(th.is(':disabled')) return false;
-            th.tooltip('hide');
-            var option=th.data('option');
-            switch(option){
-                case 'show_player':
-                    GAME.emitOrder({a:34,type:0,char_id:th.data('char_id')});
-                break;
-                case 'show_clan':
-                    var klan_id=parseInt(th.data('klan_id'));
-                    GAME.emitOrder({a:40,klan_id:klan_id});
-                break;
-                case 'pvp_attack':
-                    GAME.emitOrder({a:window.a24value,char_id:th.data('char_id'),quick:th.data('quick')});
-                break;
-                case 'gpvp_attack':
-                    GAME.emitOrder({a:window.a24value,type:1,char_id:th.data('char_id'),quick:th.data('quick')});
-                break;
-                case 'load_more_players':
-                    GAME.emitOrder({a:3,type:1,start:th.data('start_from'),vo:GAME.map_options.vo});
-                    $('.more_players').remove();
-                break;
-            }
-        });
-    }
+    // function pvp_option_bind(){
+    //     $('.poption').off('click').on('click',function(){
+    //         var th=$(this);
+    //         if(th.is(':disabled')) return false;
+    //         th.tooltip('hide');
+    //         var option=th.data('option');
+    //         switch(option){
+    //             case 'show_player':
+    //                 GAME.emitOrder({a:34,type:0,char_id:th.data('char_id')});
+    //             break;
+    //             case 'show_clan':
+    //                 var klan_id=parseInt(th.data('klan_id'));
+    //                 GAME.emitOrder({a:40,klan_id:klan_id});
+    //             break;
+    //             case 'pvp_attack':
+    //                 GAME.emitOrder({a:window.a24value,char_id:th.data('char_id'),quick:th.data('quick')});
+    //             break;
+    //             case 'gpvp_attack':
+    //                 GAME.emitOrder({a:window.a24value,type:1,char_id:th.data('char_id'),quick:th.data('quick')});
+    //             break;
+    //             case 'load_more_players':
+    //                 GAME.emitOrder({a:3,type:1,start:th.data('start_from'),vo:GAME.map_options.vo});
+    //                 $('.more_players').remove();
+    //             break;
+    //         }
+    //     });
+    // }
     
     let Pog = setInterval(() => {
             clearInterval(Pog);
