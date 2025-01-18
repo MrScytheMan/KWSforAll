@@ -1603,6 +1603,25 @@ if (typeof GAME === 'undefined') {} else {
                 if ($("#pvp_Panel input[name=speed_capt]").val() == '') speed = 50;
                 return speed / 50;
             };
+            GAME.parseListPlayer_o = GAME.parseListPlayer;
+            GAME.parseListPlayer = function (entry, pvp_master) {
+                var res = '';
+                if (entry.data) {
+                    var pd = entry.data;
+                    if (PVP.higherRebornAvoid && pd.reborn > GAME.char_data.reborn && pd.reborn > 3){return res;}
+                }
+                return GAME.parseListPlayer_o(entry, pvp_master);
+            };
+            GAME.parsePlayerShadow_o = GAME.parsePlayerShadow;
+            GAME.parsePlayerShadow = function (data, pvp_master) {
+                var entry = data.data;
+                var res = '';
+                if (entry.data) {
+                    var pd = entry.data;
+                    if ( PVP.higherRebornAvoid && pd.reborn > GAME.char_data.reborn && pd.reborn > 3){return res;}
+                }
+                return GAME.parsePlayerShadow_o(data, pvp_master)
+            };
             var RESP = {
                 wait: 60,
                 stop: true,
