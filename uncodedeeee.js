@@ -1121,10 +1121,10 @@ if (typeof GAME === 'undefined') {} else {
                 return false;
             };
             PVP.start = () => {
-                if (!PVP.stop && !this.is_loading) {
-                    PVP.action();
-                } else {
+                if (this.is_loading) {
                     window.setTimeout(PVP.start, PVP.wait / PVP.WSPP());
+                } else if (!PVP.stop){
+                    PVP.action();
                 }
             };
             PVP.action = () => {
