@@ -1217,14 +1217,12 @@ if (typeof GAME === 'undefined') { } else {
                 $("body").on("click", '.mborn', () => {
                     knowStatus = true;
                     GAME.socket.emit('ga',{a:9,type:3,nid:382});
-                    mbornInterval = setInterval(wiedza_M, 60000);
+                    mbornInterval = setInterval(wiedza_M, 1000);
                     function wiedza_M(){
                         if(knowStatus) {
-                            if (GAME.char_tables.timed_actions[0] == undefined || GAME.char_tables.timed_actions[1] == undefined && GAME.char_data.bonus16 > GAME.getTime()) {
+                            if (GAME.char_tables.timed_actions[0] == undefined ) {
                                 GAME.socket.emit('ga', {a: 9, type: 3, nid:382});
                                 kom_clear();
-                            } else{
-                                console.log("Yasoen: wiedza trwa.")
                             }
                         }
                     }
