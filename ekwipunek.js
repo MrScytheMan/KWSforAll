@@ -290,7 +290,6 @@ class calculatePA {
 
 class locationWrapper {
     constructor() {
-        this.locationsGathered = false;
         $("body").on("click", '#map_link_btn', () => {
             if ($("#changeLocationWrapper").length === 0) {
                 let locationWrapperCSS = `
@@ -340,51 +339,34 @@ class locationWrapper {
                 </div>`;
 
                 $('#map_y').after(`<style>${locationWrapperCSS}</style>${locationWrapperHTML}`);
-            }
-            if (!this.locationsGathered) {
-                this.locationsGathered = true;
-                setTimeout(() => {
-                    GAME.emitOrder({a: 19, type: 1});
-                    setTimeout(() => {document.querySelector("#map_link_btn").click();}, 1000);
-                    setTimeout(() => {
-                        const dataLocArray = [];
-                        const list = document.querySelector('#tp_list');
-                        if (list) {
-                            const items = list.querySelectorAll("[data-loc]");
-                            items.forEach(item => {
-                                const dataLocValue = item.getAttribute("data-loc");
-                                if (dataLocValue && /^\d{1,4}$/.test(dataLocValue)) {
-                                    dataLocArray.push(dataLocValue);
-                                }
-                            });
-                            console.log("Zebrane lokalizacje:", dataLocArray);
-                        } else {
-                            console.error("Element o ID #tp_list nie został znaleziony.");
-                        }
-                        $('#rightArrow').on('click', function() {
-                            const currentLoc = String(GAME.char_data.loc);
-                            const currentIndex = dataLocArray.indexOf(currentLoc);
-                            if (currentIndex === -1) {
-                                console.error("BRAK");
-                            } else if (currentIndex > 0) {
-                                const previousLoc = dataLocArray[currentIndex - 1];
-                                GAME.emitOrder({a: 12, type: 18, loc: previousLoc});
-                            }
-                        });
-                        $('#leftArrow').on('click', function() {
-                            const currentLoc = String(GAME.char_data.loc);
-                            const currentIndex = dataLocArray.indexOf(currentLoc);
-                            if (currentIndex === -1) {
-                                console.error("BRAK");
-                            } else if (currentIndex < dataLocArray.length - 1) {
-                                const nextLoc = dataLocArray[currentIndex + 1];
-                                GAME.emitOrder({a: 12, type: 18, loc: nextLoc});
-                            }
-                        });
-                    }, 1000);
-                }, 2000);
+                $('#rightArrow').on('click', () => handleArrowClick('right'));
+                $('#leftArrow').on('click', () => handleArrowClick('left'));
             }
         });
+        let dataLocArray = [];
+
+        const handleArrowClick = (direction) => {
+            const list = document.querySelector('#tp_list');
+            if (list.children.length == 0) {
+                GAME.emitOrder({ a: 19, type: 1 });
+                setTimeout(() => {document.querySelector("#map_link_btn").click();}, 500);
+            }
+            dataLocArray = Array.from(list.children).map(element => element.dataset.loc);
+            const currentLoc = String(GAME.char_data.loc);
+            const currentIndex = dataLocArray.indexOf(currentLoc);
+    
+            if (currentIndex === -1) {
+                console.error("BRAK");
+                return;
+            }
+    
+            const newIndex = direction === 'right' ? currentIndex - 1 : currentIndex + 1;
+    
+            if (newIndex >= 0 && newIndex < dataLocArray.length) {
+                const newLoc = dataLocArray[newIndex];
+                GAME.emitOrder({ a: 12, type: 18, loc: newLoc });
+            }
+        };
     }
 }
 
