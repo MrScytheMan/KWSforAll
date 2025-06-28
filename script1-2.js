@@ -1631,7 +1631,7 @@ if (typeof GAME === 'undefined') { } else {
                     switch ($(chb.target).attr("name")) {
                         case "ignoreMobs":
                             GAME.spawner[1] = $('#kws_spawn input[name="ignoreMobs"]').map((index, element) => {
-                                return element.checked ? 1 : 0;
+                                return element.checked ? 0 : 1;
                             }).get();
                             break;
                         case "usePaToSpawn":
