@@ -444,11 +444,11 @@ if (typeof GAME === 'undefined') { } else {
                 }, 1000);
             }
             activateAllClanBuffs() {
-                let abut = $("#clan_buffs").find(`button[data-option="activate_war_buff"]`);
+                let wb_cheap = $("#clan_buffs")[0].children[17].classList.contains('activied')
                 let isDisabled = $("#clan_buffs").find(`button[data-option="activate_war_buff"]`).parents("tr").hasClass("disabled");
                 let cpbt = $("#clan_planet_buffs").html();
                 let acpbut = $("#has_clan_planet").find(`button[data-option="activate_prp_buff"]`);
-                if (abut.length && !isDisabled) {
+                if (!isDisabled && !wb_cheap) {
                     GAME.socket.emit('ga', {
                         a: 39,
                         type: 26
