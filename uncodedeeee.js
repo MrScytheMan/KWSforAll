@@ -993,6 +993,7 @@ if (typeof GAME === 'undefined') {} else {
                 dogory: false,
                 loc: 0,
                 adimp: false,
+                prev: 1,
                 g: 1,
                 tele: false,
                 tabb: [],
@@ -1409,7 +1410,7 @@ if (typeof GAME === 'undefined') {} else {
                 GAME.socket.emit('ga', {
                     a: 16
                 });
-                window.setTimeout(PVP.teleport, 2000);
+                window.setTimeout(PVP.teleport, 1000);
             };
             PVP.go = () => {
                 var x = GAME.char_data.x;
@@ -1417,6 +1418,8 @@ if (typeof GAME === 'undefined') {} else {
                 if (x == 14 && y == 14 && PVP.loc === 1) {
                     PVP.zejdz();
                     PVP.g = 2;
+                    if (PVP.prev != 1) { PVP.g = 1;}
+                    PVP.prev = 1;
                     PVP.tele = true;
                 } else if (x == 14 && y == 14 && PVP.loc === 2) {
                     PVP.zejdz();
@@ -1429,6 +1432,7 @@ if (typeof GAME === 'undefined') {} else {
                 } else if (x == 14 && y == 14 && PVP.loc === 4) {
                     PVP.zejdz();
                     PVP.g = 1;
+                    PVP.prev = 4;
                     PVP.tele = true;
                 } else if (PVP.loc === 7) {
                     PVP.zejdz();
