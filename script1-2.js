@@ -1049,7 +1049,7 @@ if (typeof GAME === 'undefined') { } else {
                         opponents.eq(0).click();
                         setTimeout(() => {
                             this.pvpKill();
-                        }, 110);
+                        }, 126);
                     }
                 }
             }
