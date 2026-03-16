@@ -1,5 +1,5 @@
 if (typeof GAME === 'undefined') {} else {
-    console.log("AFO: 1.0.0")
+    console.log("AFO: 1.0.2")
     // function pvp_option_bind(){
     //     $('.poption').off('click').on('click',function(){
     //         var th=$(this);
@@ -992,8 +992,8 @@ if (typeof GAME === 'undefined') {} else {
                 wk: true,
                 higherRebornAvoid: false,
                 caseNumber: 0,
-                wait: 15,
-                wait2: 35,
+                wait: 10,
+                wait2: 30,
                 czekajpvp: 160,
                 WSP: 50,
                 licznik: 0,
@@ -1163,25 +1163,21 @@ if (typeof GAME === 'undefined') {} else {
                 switch (PVP.caseNumber) {
                     case 0:
                         PVP.caseNumber++;
-                        PVP.check();
+                        PVP.check_all();
                         break;
                     case 1:
                         PVP.caseNumber++;
-                        PVP.check2();
+                        PVP.wojny1();
                         break;
                     case 2:
                         PVP.caseNumber++;
-                        PVP.wojny1();
+                        PVP.dec_wars();
                         break;
                     case 3:
                         PVP.caseNumber++;
                         PVP.kill_player();
                         break;
                     case 4:
-                        PVP.caseNumber++;
-                        PVP.dec_wars();
-                        break;
-                    case 5:
                         PVP.caseNumber = 0;
                         PVP.go();
                     default:
@@ -1192,7 +1188,7 @@ if (typeof GAME === 'undefined') {} else {
                 if (enemy.length > 0) {
                     enemy.eq(0).click();
                 }
-                window.setTimeout(PVP.start, PVP.wait / PVP.WSPP());
+                window.setTimeout(PVP.start, 15);
             };
             PVP.check_imp = () => {
                 var tab = [];
@@ -1377,19 +1373,17 @@ if (typeof GAME === 'undefined') {} else {
                 });
                 window.setTimeout(PVP.start, PVP.wait2 / PVP.WSPP());
             };
-            PVP.check = () => {
+            PVP.check_all = () => {
                 if ($("#ewar_list").text().includes("--:--:--")) {
-                    window.setTimeout(PVP.check, 300);
-                } else {
-                    window.setTimeout(PVP.start, PVP.wait / PVP.WSPP());
+                    window.setTimeout(PVP.check_all, 300);
+                    return;
                 }
-            };
-            PVP.check2 = () => {
                 if (PVP.checkkkk()) {
-                    window.setTimeout(PVP.check2, 1800);
-                } else {
-                    window.setTimeout(PVP.start, PVP.wait / PVP.WSPP());
+                    window.setTimeout(PVP.check_all, 1800);
+                    return;
                 }
+
+                window.setTimeout(PVP.start, PVP.wait / PVP.WSPP());
             };
             PVP.clan_list = () => {
                 var list = localStorage.getItem('clan_list');
