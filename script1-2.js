@@ -738,22 +738,22 @@ if (typeof GAME === 'undefined') { } else {
                 let soulCards_three = `<span class='kws_top_bar_section soul_cards_three' style='cursor:pointer;color:${soulCards_current == "III" ? "red" : "white"}'>KD3</span>`;
                 let soulCards_four = `<span class='kws_top_bar_section soul_cards_four' style='cursor:pointer;color:${soulCards_current == "IV" ? "red" : "white"}'>KD4</span>`;
                 let soulCards_five = `<span class='kws_top_bar_section soul_cards_five' style='cursor:pointer;color:${soulCards_current == "V" ? "red" : "white"}'>KD5</span>`;
-		var latencyColor;
-		switch(true) {
-		    case (latency < 51):
-			latencyColor = "lime"
-		        break;
-		    case (latency < 100):
-			latencyColor = "yellow"
-		        break;
-		    case (latency < 140):
-			latencyColor = "orange"
-		        break;
-		    default:
-			latencyColor = "red"
-			break;
-		}
-		let latencyElement = `<span class='kws_top_bar_section latencyElement' style='cursor:pointer;color:${latencyColor}'>⇅${latency}</span>`;
+                var latencyColor;
+                switch(true) {
+                    case (latency < 51):
+                        latencyColor = "lime"
+                        break;
+                    case (latency < 100):
+                        latencyColor = "yellow"
+                        break;
+                    case (latency < 140):
+                        latencyColor = "orange"
+                        break;
+                    default:
+                        latencyColor = "red"
+                        break;
+                }
+                let latencyElement = `<span class='kws_top_bar_section latencyElement' style='cursor:pointer;color:${latencyColor}'>⇅${latency}</span>`;
                 let additionalStats = `<span class='kws_top_bar_section additional_stats' style='cursor:pointer;color:${this.additionalTopBarVisible ? "orange" : "white"}'>STATY</span>`;
                 let instance = `${sum_instances}/12`;
                 $("#secondary_char_stats .instance ul").html(instance);
@@ -975,7 +975,9 @@ if (typeof GAME === 'undefined') { } else {
                             button: 1,
                             id: qb_id
                         });
-                    } else if ($("button[data-option=quest_riddle]").is(":visible")) {
+                        return true
+                    }
+                    if ($("button[data-option=quest_riddle]").is(":visible")) {
                         let qb_id = $("button[data-option=quest_riddle]").attr("data-qid");
                         GAME.socket.emit('ga', {
                             a: 22,
@@ -983,14 +985,21 @@ if (typeof GAME === 'undefined') { } else {
                             id: qb_id,
                             ans: $('#quest_riddle').val()
                         });
-                    } else if ($("button[data-option=quest_duel]").is(":visible")) {
+                        return true
+                    }
+                    if ($("button[data-option=quest_duel]").is(":visible")) {
                         let fb_id = $("button[data-option=quest_duel]").attr("data-qid");
                         GAME.socket.emit('ga', {
                             a: 22,
                             type: 6,
                             id: fb_id
                         });
-                    } else if ($(".quest_win .sekcja").text().toLowerCase() === "nuda" && $("button[data-option=finish_quest]").length === 3) {
+                        setTimeout(() => {
+                            $('#fight_view').fadeOut();
+                        }, 500);
+                        return true
+                    }
+                    if ($(".quest_win .sekcja").text().toLowerCase() === "nuda" && $("button[data-option=finish_quest]").length === 3) {
                         let qb_id = $("button[data-option=finish_quest]").attr("data-qb_id");
                         GAME.socket.emit('ga', {
                             a: 22,
@@ -998,7 +1007,9 @@ if (typeof GAME === 'undefined') { } else {
                             button: 2,
                             id: qb_id
                         });
-                    } else if ($(".quest_win .sekcja").text().toLowerCase().startsWith("zadanie substancji") && $("button[data-option=finish_quest]").length === 3) {
+                        return true
+                    }
+                    if ($(".quest_win .sekcja").text().toLowerCase().startsWith("zadanie substancji") && $("button[data-option=finish_quest]").length === 3) {
                         let qb_id = $("button[data-option=finish_quest]").attr("data-qb_id");
                         GAME.socket.emit('ga', {
                             a: 22,
@@ -1006,7 +1017,9 @@ if (typeof GAME === 'undefined') { } else {
                             button: 3,
                             id: qb_id
                         });
-                    } else if ($("button[data-option=finish_quest]").length === 2 && $("button[data-option=finish_quest]").eq(1).html() === "Mam dość tej studni") {
+                        return true
+                    }
+                    if ($("button[data-option=finish_quest]").length === 2 && $("button[data-option=finish_quest]").eq(1).html() === "Mam dość tej studni") {
                         let qb_id = $("button[data-option=finish_quest]").eq(1).attr("data-qb_id");
                         GAME.socket.emit('ga', {
                             a: 22,
@@ -1014,28 +1027,30 @@ if (typeof GAME === 'undefined') { } else {
                             button: 2,
                             id: qb_id
                         });
-                    } else if ($("#field_opts_con .sekcja").html() == "Zasoby") {
+                        return true
+                    }
+                    if ($("#field_opts_con .sekcja").html() == "Zasoby") {
                         let qb_id = $("#field_opts_con .field_option").find("[data-option=start_mine]").attr("data-mid");
                         GAME.socket.emit('ga', {
                             a: 22,
                             type: 8,
                             mid: qb_id
                         });
-                    } else if ($(".quest_action").is(":visible")) {
-                        GAME.questAction() 
+                        return true
                     }
-                    setTimeout(() => {
-                        $('#fight_view').fadeOut();
-                    }, 500);
-                    kom_clear();
-                } else if ($("button[data-option=start_mine]").length >= 1) {
+                    if ($(".quest_action").is(":visible")) {
+                        return GAME.questAction() 
+                    }
+                }
+                if ($("button[data-option=start_mine]").length >= 1) {
                     let mineID = parseInt($("button[data-option=start_mine]").attr("data-mid"));
                     GAME.socket.emit('ga', {
                         a: 22,
                         type: 8,
                         mid: mineID
                     });
-                }
+                } 
+                return false
             }
             pvpKill() {
                 if (!JQS.chm.is(":focus")) {
@@ -1532,6 +1547,13 @@ if (typeof GAME === 'undefined') { } else {
                 $("body").on("click", `[data-option="map_alternative_pilot"]`, () => {
                     this.createAlternativePilot();
                 });
+                GAME.executeIx_o = GAME.executeIx
+                GAME.questProceed = this.questProceed
+                GAME.executeIx = function () {
+                    if (!GAME.questProceed()) {
+                        return GAME.executeIx_o();
+                    }
+                };
                 $(document).keydown((event) => {
                     if (!$("input, textarea").is(":focus")) {
                         if (event.key === "x" || event.key === "X") {
@@ -2424,10 +2446,12 @@ if (typeof GAME === 'undefined') { } else {
                     id: GAME.quest_action_qid,
                     cnt: GAME.quest_action_max
                 });
+                return true
             }
             setTimeout(() => {
                 kws.markDaily();
             }, 100);
+            return false
         }
         GAME.parseQuest = function (res) {
             var quest = res.q_step;
