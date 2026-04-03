@@ -1,5 +1,5 @@
 if (typeof GAME === 'undefined') {} else {
-    console.log("AFO: 1.0.13")
+    console.log("AFO: 1.0.15")
 
     const delay = (ms) => new Promise(res => setTimeout(res, ms));
     const $playerListCon = $("#player_list_con");
@@ -1394,6 +1394,7 @@ if (typeof GAME === 'undefined') {} else {
                     var pd = entry.data;
                     if ( PVP.higherRebornAvoid && pd.reborn > GAME.char_data.reborn && pd.reborn > 3){return res;}
                 }
+                if (GAME.map_options.vo[4] == 0) return res;
                 return GAME.parsePlayerShadow_o(data, pvp_master)
             };
 
