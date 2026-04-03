@@ -1,5 +1,9 @@
 if (typeof GAME === 'undefined') {} else {
-    console.log("AFO: 1.0.15")
+    console.log("AFO: 1.0.27")
+
+    const delay = (ms) => new Promise(res => setTimeout(res, ms));
+    const $playerListCon = $("#player_list_con");
+    const enemySelector = ".player button[data-quick=1]:not(.initial_hide_forced)";
     // function pvp_option_bind(){
     //     $('.poption').off('click').on('click',function(){
     //         var th=$(this);
@@ -996,8 +1000,8 @@ if (typeof GAME === 'undefined') {} else {
                 wk: true,
                 higherRebornAvoid: false,
                 caseNumber: 0,
-                wait: 15,
-                wait2: 33,
+                wait: 20,
+                waitMove: 60,
                 czekajpvp: 160,
                 WSP: 50,
                 licznik: 0,
@@ -1158,6 +1162,26 @@ if (typeof GAME === 'undefined') {} else {
                 }
                 return false;
             };
+            PVP.run = async () => {
+                if (PVP.stop) return;
+            
+                if (this.is_loading) {
+                    await delay(10);
+                    return PVP.run(); 
+                }
+            
+                PVP.check_all();
+            
+                if (PVP.higherRebornAvoid) {
+                    await PVP.kill_players();
+                } else {
+                    await PVP.kill_player();
+                }
+            
+                await PVP.move();
+            
+                PVP.run();
+            };
             PVP.start = () => {
                 if (this.is_loading) {
                     window.setTimeout(PVP.start, 10);
@@ -1173,50 +1197,85 @@ if (typeof GAME === 'undefined') {} else {
                         break;
                     case 1:
                         PVP.caseNumber++;
-                        PVP.wojny1();
-                        break;
-                    case 2:
-                        PVP.caseNumber++;
-                        PVP.check_clan_wars();
-                        break;
-                    case 3:
-                        PVP.caseNumber++;
                         if (PVP.higherRebornAvoid) {
                             PVP.kill_players();
                         } else {
                             PVP.kill_player();
                         }
                         break;
-                    case 4:
+                    case 2:
                         PVP.caseNumber = 0;
-                        PVP.go();
+                        PVP.move();
                     default:
                 }
             };
-            PVP.kill_player = () => {
-                let enemy = $("#player_list_con").find(".player button" + "[data-quick=1]" + ":not(.initial_hide_forced)");
-                if (enemy.length > 0) {
-                    enemy.eq(0).click();
+            PVP.kill_player = async () => {
+                const $enemies = $playerListCon.find(enemySelector);
+
+                if ($enemies.length > 0) {
+                    $enemies.eq(0).click();
                 }
-                window.setTimeout(PVP.start, PVP.wait);
+
+                await delay(PVP.wait);
+                PVP.start();
             };
-            PVP.kill_players = () => {
-                let enemy = $("#player_list_con").find(".player button" + "[data-quick=1]" + ":not(.initial_hide_forced)");
-                if ($("button[data-option='load_more_players']").is(":visible")) {
-                    $("button[data-option='load_more_players']").click();
-                    setTimeout(() => {
-                        PVP.kill_players();
-                    }, 110);
-                } else if (enemy.length > 0) {
-                    enemy.eq(0).click();
-                    setTimeout(() => {
-                        PVP.kill_players();
-                    }, 251);
-                } else {
-                    kom_clear();
-                    setTimeout(() => {
-                        PVP.start();
-                    }, PVP.wait);
+            PVP.kill_players = async () => {
+                const $enemies = $playerListCon.find(enemySelector);
+                const $loadMoreBtn = $("button[data-option='load_more_players']");
+
+                if ($loadMoreBtn.is(":visible")) {
+                    $loadMoreBtn.click();
+                    await delay(110);
+                    return PVP.kill_players();
+                }
+
+                if ($enemies.length > 0) {
+                    $enemies.eq(0).click();
+
+                    if ($enemies.length === 1) {
+                        await delay(251);
+                        kom_clear();
+                        await delay(PVP.wait);
+                        return PVP.start();
+                    }
+
+                    await delay(251);
+                    return PVP.kill_players();
+                }
+
+                kom_clear();
+                await delay(PVP.wait);
+                PVP.start();
+            };
+            PVP.check_all = async () => {
+                if ($("#ewar_list").text().includes("--:--:--")) {
+                    await delay(300);
+                    return PVP.check_all();
+                }
+                if (PVP.checkkkk()) {
+                    await delay(1800);
+                    return PVP.check_all();
+                }
+                await PVP.check_emp_wars()
+                await PVP.check_clan_wars()
+
+                PVP.start();
+            };
+            PVP.save_clan_war_list = () => {
+                localStorage.setItem('clan_war_list', PVP.clan_war_list);
+            };
+            PVP.check_clan_wars = async () => {
+                if (!PVP.wk) return;
+
+                var count = PVP.clan_war_list.split(";").length;
+
+                if (count > 0 && GAME.char_data.klan_id != 0 && GAME.char_data.klan_rent == 0 && GAME.clan_wars.length < count) {
+                    GAME.socket.emit('ga', {
+                        a: 39,
+                        type: 24,
+                        shorts: PVP.clan_war_list
+                    });
+                    await delay(500); 
                 }
             };
             PVP.check_imp = () => {
@@ -1233,51 +1292,44 @@ if (typeof GAME === 'undefined') {} else {
                 }
                 return tab;
             };
-            PVP.wojny1 = () => {
-                if (PVP.wi) {
-                    var aimp = $("#e_admiral_player").find("[data-option=show_player]").attr("data-char_id");
-                    var imp = $("#leader_player").find("[data-option=show_player]").attr("data-char_id");
-                    if (!PVP.adimp) {
-                        GAME.socket.emit('ga', {
-                            a: 50,
-                            type: 0,
-                            empire: GAME.char_data.empire
-                        });
-                        PVP.adimp = true;
-                        window.setTimeout(PVP.wojny1, 500);
-                    } else if (!GAME.emp_enemies.includes(1) && ![GAME.char_data.empire].includes(1) && (PVP.check_imp().includes(GAME.char_id) || PVP.check_imp2().includes(GAME.char_id) || imp == GAME.char_id || aimp == GAME.char_id)) {
-                        GAME.socket.emit('ga', {
-                            a: 50,
-                            type: 7,
-                            target: 1
-                        });
-                        window.setTimeout(PVP.wojny1, 500);
-                    } else if (!GAME.emp_enemies.includes(2) && ![GAME.char_data.empire].includes(2) && (PVP.check_imp().includes(GAME.char_id) || PVP.check_imp2().includes(GAME.char_id) || imp == GAME.char_id || aimp == GAME.char_id)) {
-                        GAME.socket.emit('ga', {
-                            a: 50,
-                            type: 7,
-                            target: 2
-                        });
-                        window.setTimeout(PVP.wojny1, 500);
-                    } else if (!GAME.emp_enemies.includes(3) && ![GAME.char_data.empire].includes(3) && (PVP.check_imp().includes(GAME.char_id) || PVP.check_imp2().includes(GAME.char_id) || imp == GAME.char_id || aimp == GAME.char_id)) {
-                        GAME.socket.emit('ga', {
-                            a: 50,
-                            type: 7,
-                            target: 3
-                        });
-                        window.setTimeout(PVP.wojny1, 500);
-                    } else if (!GAME.emp_enemies.includes(4) && ![GAME.char_data.empire].includes(4) && (PVP.check_imp().includes(GAME.char_id) || PVP.check_imp2().includes(GAME.char_id) || imp == GAME.char_id || aimp == GAME.char_id)) {
+            PVP.check_emp_wars = async () => {
+                if (!PVP.wi) return;
+            
+                if (!PVP.adimp) {
+                    GAME.socket.emit('ga', {
+                        a: 50,
+                        type: 0,
+                        empire: GAME.char_data.empire
+                    });
+                    PVP.adimp = true;
+                    await delay(500);
+                }
+            
+                const aimp = $("#e_admiral_player").find("[data-option=show_player]").attr("data-char_id");
+                const imp = $("#leader_player").find("[data-option=show_player]").attr("data-char_id");
+                const isAuthorized = PVP.check_imp().includes(GAME.char_id) || 
+                                     PVP.check_imp2().includes(GAME.char_id) || 
+                                     imp == GAME.char_id || 
+                                     aimp == GAME.char_id;
+            
+                if (!isAuthorized) return;
+            
+                const myEmpire = GAME.char_data.empire;
+            
+                for (let targetEmpire = 1; targetEmpire <= 4; targetEmpire++) {
+                    const alreadyAtWar = GAME.emp_enemies.includes(targetEmpire);
+                    const isMyEmpire = myEmpire === targetEmpire;
+            
+                    if (!alreadyAtWar && !isMyEmpire) {
+                        console.log(`Starting war with Empire ${targetEmpire}...`);
                         GAME.socket.emit('ga', {
                             a: 50,
                             type: 7,
-                            target: 4
+                            target: targetEmpire
                         });
-                        window.setTimeout(PVP.wojny1, 500);
-                    } else {
-                        window.setTimeout(PVP.start, PVP.wait);
+                        
+                        await delay(500); 
                     }
-                } else {
-                    window.setTimeout(PVP.start, PVP.wait);
                 }
             };
             PVP.nextLocation = () => {
@@ -1287,12 +1339,16 @@ if (typeof GAME === 'undefined') {} else {
                 }
                 PVP.zejdz();
             };
-            PVP.zejdz = () => {
+            PVP.zejdz = async () => {
                 GAME.socket.emit('ga', {
                     a: 16
                 });
                 PVP.tele = true;
-                window.setTimeout(PVP.teleport, 800);
+                await delay(500); 
+                while (this.is_loading) {
+                    await delay(200); 
+                }
+                PVP.teleport();
             };
             PVP.checkSpecialTile = (x, y, loc) => {
                 const key = `${x},${y},${loc}`;
@@ -1300,7 +1356,38 @@ if (typeof GAME === 'undefined') {} else {
                 if (action) PVP[action]();
                 return !!action;
             };
-            PVP.go = () => {
+            PVP.move2 = async () => {
+                if (PVP.stop) return;
+
+                const {x,y} = GAME.char_data;
+
+                if (PVP.isSpecialTile(x, y)) {
+                    await PVP.handleSpecialTile();
+                    return PVP.start();
+                }
+
+                // default serpentine
+                const maxX = 14;
+                const minX = 2;
+
+                if (y % 2 === 0) {
+                    if (x < maxX) {
+                        await PVP.go_right();
+                    } else {
+                        await PVP.go_down();
+                    }
+                }
+                else {
+                    if (x > minX) {
+                        await PVP.go_left();
+                    } else {
+                        await PVP.go_down();
+                    }
+                }
+
+                PVP.start(); 
+            };
+            PVP.move = () => {
                 const {x,y} = GAME.char_data;
                 PVP.check_location()
 
@@ -1324,14 +1411,14 @@ if (typeof GAME === 'undefined') {} else {
                     else PVP.go_down();
                 }
             };
-            PVP.teleport = () => {
+            PVP.teleport = async () => {
                 if (PVP.routeIndex == 0) {
                     if (PVP.startTime) {
                        let difference = Date.now() - PVP.startTime
                        if (difference < 5 * 60 * 1000) {
                           console.log("PVP czekam")
-                          window.setTimeout(PVP.teleport, 5000);
-                          return
+                          await delay(5000); 
+                          return PVP.teleport()
                        }
                     }
                     PVP.startTime = Date.now()
@@ -1342,11 +1429,13 @@ if (typeof GAME === 'undefined') {} else {
                         type: 5,
                         e: PVP.route[PVP.routeIndex]
                     });
-                    window.setTimeout(PVP.start, 1000);
+                    await delay(500); 
+                    while (this.is_loading) {
+                        await delay(200); 
+                    }
                     PVP.tele = false;
-                    return
                 } 
-                window.setTimeout(PVP.start, PVP.wait);
+                PVP.start()
             };
             PVP.check_location = () => {
                 if (GAME.char_data.loc == 351) {
@@ -1367,78 +1456,32 @@ if (typeof GAME === 'undefined') {} else {
                 }
                 PVP.loc = 7;
             };
-            PVP.cofanie = () => {
-                const x = GAME.char_data.x;
-                if (x >= 7) {
-                    PVP.go_down();
-                } else {
+            PVP.cofanie = async () => {
+                while (GAME.char_data.x < 7) {
                     GAME.emitOrder({
                         a: 4,
                         dir: 7,
                         vo: GAME.map_options.vo
                     });
-                    window.setTimeout(PVP.cofanie, 150);
+                    await delay(PVP.waitMove / PVP.WSPP())
                 }
+                await PVP.go_down();
             };
-            PVP.go_up = () => {
+            PVP.go = async (dir) => {
                 GAME.emitOrder({
                     a: 4,
-                    dir: 2,
+                    dir: dir,
                     vo: GAME.map_options.vo
                 });
-                window.setTimeout(PVP.start, PVP.wait2 / PVP.WSPP());
+            
+                await delay(PVP.waitMove / PVP.WSPP());
+                PVP.start();
             };
-            PVP.go_down = () => {
-                GAME.emitOrder({
-                    a: 4,
-                    dir: 1,
-                    vo: GAME.map_options.vo
-                });
-                window.setTimeout(PVP.start, PVP.wait2 / PVP.WSPP());
-            };
-            PVP.go_left = () => {
-                GAME.emitOrder({
-                    a: 4,
-                    dir: 8,
-                    vo: GAME.map_options.vo
-                });
-                window.setTimeout(PVP.start, PVP.wait2 / PVP.WSPP());
-            };
-            PVP.go_right = () => {
-                GAME.emitOrder({
-                    a: 4,
-                    dir: 7,
-                    vo: GAME.map_options.vo
-                });
-                window.setTimeout(PVP.start, PVP.wait2 / PVP.WSPP());
-            };
-            PVP.check_all = () => {
-                if ($("#ewar_list").text().includes("--:--:--")) {
-                    window.setTimeout(PVP.check_all, 300);
-                    return;
-                }
-                if (PVP.checkkkk()) {
-                    window.setTimeout(PVP.check_all, 1800);
-                    return;
-                }
+            PVP.go_down  = () => PVP.go(1);
+            PVP.go_up    = () => PVP.go(2);
+            PVP.go_right = () => PVP.go(7);
+            PVP.go_left  = () => PVP.go(8);
 
-                window.setTimeout(PVP.start, PVP.wait);
-            };
-            PVP.save_clan_war_list = () => {
-                localStorage.setItem('clan_war_list', PVP.clan_war_list);
-            };
-            PVP.check_clan_wars = () => {
-                var wars = PVP.clan_war_list;
-                var count = wars.split(";").length;
-                if (count > 0 && PVP.wk && GAME.char_data.klan_id != 0 && GAME.char_data.klan_rent == 0 && GAME.clan_wars.length < count) {
-                    GAME.socket.emit('ga', {
-                        a: 39,
-                        type: 24,
-                        shorts: wars
-                    });
-                }
-                window.setTimeout(PVP.start, PVP.wait);
-            };
             PVP.speed = () => {
                 var list = localStorage.getItem('pvp_speed');
                 PVP.WSP = parseInt(list);
@@ -1462,7 +1505,11 @@ if (typeof GAME === 'undefined') {} else {
                 var res = '';
                 if (entry.data) {
                     var pd = entry.data;
-                    if (PVP.higherRebornAvoid && pd.reborn > GAME.char_data.reborn && pd.reborn > 3){return res;}
+                    if (PVP.higherRebornAvoid) {
+                        if (pd.reborn > GAME.char_data.reborn && pd.reborn > 3 || pd.empire == GAME.char_data.empire){
+                            return res;
+                        }
+                   }
                 }
                 return GAME.parseListPlayer_o(entry, pvp_master);
             };
