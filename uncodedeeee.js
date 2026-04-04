@@ -1,5 +1,5 @@
 if (typeof GAME === 'undefined') {} else {
-    console.log("AFO: 1.0.27")
+    console.log("AFO: 1.0.28")
 
     const delay = (ms) => new Promise(res => setTimeout(res, ms));
     const $playerListCon = $("#player_list_con");
@@ -1046,6 +1046,57 @@ if (typeof GAME === 'undefined') {} else {
                 "8,8,2": "go_right",
                 "2,11,3": "cofanie"
             };
+            PVP.check_code = async () => {
+                if (!PVP.code) return;
+
+                if ($("#train_uptime").find('.timer').length == 0) {
+                    //check ssj
+                    if ($('#ssj_status').text() == "--:--:--") {
+                        GAME.socket.emit('ga', {
+                            a: 18,
+                            type: 6
+                        });
+                        await delay(1000)
+                    }
+                    if (GAME.quick_opts.ssj && GAME.ssj) {
+                        GAME.socket.emit('ga', {
+                            a: 18,
+                            type: 5,
+                            tech_id: GAME.quick_opts.ssj[0]
+                        });
+                        await delay(1000)
+                    } 
+                    
+                    if (!GAME.is_training) {
+                        GAME.socket.emit('ga', {
+                            a: 8,
+                            type: 2,
+                            stat: 1,
+                            duration: 1
+                        });
+                        await delay(1600)
+                    }
+                    if(PVP.codeTP) {
+                        GAME.socket.emit('ga', {
+                            a: 8,
+                            type: 5,
+                            multi: ':checked',
+                            apud: 'vzaaa'
+                        });
+                    } else {
+                        GAME.socket.emit('ga', {
+                            a: 8,
+                            type: 5,
+                            apud: 'vzaaa'
+                        });
+                    }
+                    await delay(500)
+                    GAME.socket.emit('ga', {
+                        a: 8,
+                        type: 3
+                    });
+                }
+            };
             PVP.checkkkk = () => {
                 let imp = $("#leader_player").find("[data-option=show_player]").attr("data-char_id");
                 let emp = GAME.char_data.empire;
@@ -1163,24 +1214,22 @@ if (typeof GAME === 'undefined') {} else {
                 return false;
             };
             PVP.run = async () => {
-                if (PVP.stop) return;
-            
-                if (this.is_loading) {
-                    await delay(10);
-                    return PVP.run(); 
+                while (!PVP.stop) {
+                    if (this.is_loading) {
+                        await delay(20);
+                        continue;
+                    }
+
+                    await PVP.check_all();
+
+                    if (PVP.higherRebornAvoid) {
+                        await PVP.kill_players();
+                    } else {
+                        await PVP.kill_player();
+                    }
+
+                    await PVP.move();
                 }
-            
-                PVP.check_all();
-            
-                if (PVP.higherRebornAvoid) {
-                    await PVP.kill_players();
-                } else {
-                    await PVP.kill_player();
-                }
-            
-                await PVP.move();
-            
-                PVP.run();
             };
             PVP.start = () => {
                 if (this.is_loading) {
@@ -1248,18 +1297,14 @@ if (typeof GAME === 'undefined') {} else {
                 PVP.start();
             };
             PVP.check_all = async () => {
-                if ($("#ewar_list").text().includes("--:--:--")) {
+                while($("#ewar_list").text().includes("--:--:--")) {
                     await delay(300);
-                    return PVP.check_all();
                 }
-                if (PVP.checkkkk()) {
-                    await delay(1800);
-                    return PVP.check_all();
-                }
+                await PVP.check_code()
                 await PVP.check_emp_wars()
                 await PVP.check_clan_wars()
 
-                PVP.start();
+                return PVP.start();
             };
             PVP.save_clan_war_list = () => {
                 localStorage.setItem('clan_war_list', PVP.clan_war_list);
@@ -1356,44 +1401,12 @@ if (typeof GAME === 'undefined') {} else {
                 if (action) PVP[action]();
                 return !!action;
             };
-            PVP.move2 = async () => {
-                if (PVP.stop) return;
-
-                const {x,y} = GAME.char_data;
-
-                if (PVP.isSpecialTile(x, y)) {
-                    await PVP.handleSpecialTile();
-                    return PVP.start();
-                }
-
-                // default serpentine
-                const maxX = 14;
-                const minX = 2;
-
-                if (y % 2 === 0) {
-                    if (x < maxX) {
-                        await PVP.go_right();
-                    } else {
-                        await PVP.go_down();
-                    }
-                }
-                else {
-                    if (x > minX) {
-                        await PVP.go_left();
-                    } else {
-                        await PVP.go_down();
-                    }
-                }
-
-                PVP.start(); 
-            };
             PVP.move = () => {
                 const {x,y} = GAME.char_data;
                 PVP.check_location()
 
                 if (PVP.loc === 7) {
-                    PVP.zejdz();
-                    return;
+                    return PVP.zejdz();
                 }
 
                 // check special tiles first
@@ -1414,8 +1427,8 @@ if (typeof GAME === 'undefined') {} else {
             PVP.teleport = async () => {
                 if (PVP.routeIndex == 0) {
                     if (PVP.startTime) {
-                       let difference = Date.now() - PVP.startTime
-                       if (difference < 5 * 60 * 1000) {
+                       let difference = (Date.now() - PVP.startTime) / 1000
+                       if (difference < 302) {
                           console.log("PVP czekam")
                           await delay(5000); 
                           return PVP.teleport()
