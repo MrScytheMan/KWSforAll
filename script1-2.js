@@ -1,6 +1,7 @@
 var checked = false;
 var latency = -1;
 const gitUrl = 'https://raw.githubusercontent.com/MrScytheMan/KWSforAll'
+const delay = (ms) => new Promise(res => setTimeout(res, ms));
 
 if (typeof GAME === 'undefined') { } else {
     let Pog = setInterval(() => {
@@ -365,41 +366,40 @@ if (typeof GAME === 'undefined') { } else {
                     }, 3000);
                 }
             }
-            manageAutoArena() {
-                if (this.auto_arena) {
+            async manageAutoArena() {
+                while (true) {
+                    if (!this.auto_arena) {
+                        this.stopAutoArena();
+                        return;
+                    }
+            
                     GAME.socket.emit('ga', {
                         a: 46,
                         type: 0
                     });
-                    setTimeout(() => {
-                        this.attackAutoArena();
-                    }, 1000);
-                } else {
-                    this.stopAutoArena();
+            
+                    await delay(5000);
+                    await this.attackAutoArena();
                 }
             }
-            attackAutoArena() {
-                let opponents = $("#arena_players").find(`.player button[data-option="arena_attack"][data-quick="1"]:not(.initial_hide_forced)`);
-                let opponent = parseInt(opponents.attr("data-index"));
-                if (this.auto_arena) {
-                    if (opponents.length > 0 && GAME.timed == 0) {
-                        GAME.socket.emit('ga', {
-                            a: 46,
-                            type: 1,
-                            index: opponent,
-                            quick: 1
-                        });
-                        setTimeout(() => {
-                            this.attackAutoArena();
-                        }, 500);
-                    } else {
-                        setTimeout(() => {
-                            this.manageAutoArena();
-                        }, 5000);
-                    }
-                } else {
-                    this.stopAutoArena();
-                }
+            
+            async attackAutoArena() {
+                const arenaCon = $("#arena_players");
+                const opponents = arenaCon.find('.player button[data-option="arena_attack"][data-quick="1"]:not(.initial_hide_forced)');
+            
+                if (opponents.length > 0 && GAME.timed == 0) {
+                    const opponentIndex = parseInt(opponents.first().attr("data-index"));
+            
+                    GAME.socket.emit('ga', {
+                        a: 46,
+                        type: 1,
+                        index: opponentIndex,
+                        quick: 1
+                    });
+            
+                    await delay(250);
+                    return await this.attackAutoArena();
+                } 
             }
             stopAutoArena() {
                 this.auto_arena = false;
@@ -1054,6 +1054,8 @@ if (typeof GAME === 'undefined') { } else {
             }
             pvpKill() {
                 if (!JQS.chm.is(":focus")) {
+                    if ($("#arena_players").is(":visible")) return this.attackAutoArena(); 
+
                     let opponents = $("#player_list_con").find(".player button" + "[data-quick=1]" + ":not(.initial_hide_forced)");
                     if ($("button[data-option='load_more_players']").is(":visible")) {
                         $("button[data-option='load_more_players']").click();
