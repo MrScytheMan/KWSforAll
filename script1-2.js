@@ -69,7 +69,6 @@ if (typeof GAME === 'undefined') { } else {
                 this.addToCSS(`.option.ls.spawner{ position:absolute; top:60px; right:40px; background-size: 100% 100%; border: solid #6f6f6f 1px; }`);
                 this.addToCSS(`#kws_minimap_settings{ margin:10px 0px 0px 0px; border-top:solid white 1px; padding-top:10px; } #field_sett #field_options{ height:407px; } #minimap_con{ ${this.minimap.side == 1 ? `left: -4px; right: unset;` : this.minimap.side == 2 ? `left: -210px; right: unset;` : ""} opacity: ${this.minimap.opacity / 100} } #minimap_range{ width:150px; display:inline-block; vertical-align:middle;} .smin_butt{background: #31313a69 !important; border: solid #ffffff4d 1px !important; width:auto !important; height:32px !important; line-height: 30px; display: inline-block; text-align: center; font-family: 'Play', sans-serif; font-size: 13px; font-weight: Bold; color: #fff; text-decoration: none; text-transform: uppercase; border: none; padding: 0 10px; border-radius: 5px; cursor: pointer; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; margin-top:2px; float:none !important;} .smin_input{background: #040e13; height: 31px; border: solid #ffffff4d 1px !important; display: inline-block; text-align:center; font-size: 13px; color: #305779; font-family: 'Play', sans-serif; vertical-align: middle;border-radius: 5px;}`);
                 this.addToCSS(`#kws_locInfo{background:url("/gfx/layout/tloPilot.png");position: absolute;top: 220px;z-index: 2;width: 204px;padding: 5px;border-radius: 5px;border-image: url(/gfx/layout/mapborder.png) 7 8 7 7 fill;border-style: solid;border-width: 7px 8px 7px 7px; display:${this.minimap.loc_info == 0 ? `none` : `block`}} #kws_locInfo .sekcja{position:absolute;top:-20px;left:0px;background:url("https://i.imgur.com/Mi3kUpg.png");background-size:100% 100%;width:190px;}`);
-                this.addToCSS(`.kws_top_bar{float:left !important; position: absolute; z-index: -1;} .kws_top_bar_section{color:white;padding:3px 5px 3px 5px;border-radius:5px;margin-right:8px;user-select:none;}`);
                 this.addToCSS(`.go_to_emp_con{ position:absolute; top:33px; z-index:1; background:rgb(0 0 0 / 59%); display:none; flex-direction: column-reverse; padding:5px 5px 0px 5px; border-radius:5px; box-shadow:0px 0px 5px 0px rgb(32 96 185);} .empPos:hover + .go_to_emp_con, .go_to_emp_con:hover { display:flex; } .go_to_emp_con .qlink { display:block; margin:0px 0px 5px 0px; }`);
                 this.addToCSS(`#ekw_sets_buy button, div[data-option="change_ekw_set"]{height:20px !important; line-height:19px !important; margin-top:9px !important;}`);
                 this.addToCSS(`#page_game_camp .ekw_slot.smaller img{ width: 64px; } #page_game_camp div[data-item_id="1923"].smaller img { width: 32px; position: absolute; margin-top: -64px; margin-left: 34px; }`);
@@ -88,7 +87,64 @@ if (typeof GAME === 'undefined') { } else {
                     background: linear-gradient(0deg, rgba(247,121,12,1) 0%, rgba(252,238,54,1) 100%);
                     border: 0px solid #973804;
                 }`);
-                this.addToCSS(`.kws_additional_top_bar{float:left !important; position: absolute; z-index: -1; display: none} .kws_additional_top_bar_section{color:white;padding:3px 5px 3px 5px;border-radius:5px;margin-right:8px;user-select:none;}`);
+                this.addToCSS(`
+                    .kws_top_bar, .kws_additional_top_bar{
+                        float:left !important;
+                        position: absolute;
+                        z-index: -1
+                    }
+                    .kws_additional_top_bar{
+                        display: none
+                    }
+                    .kws_top_bar_section, .kws_additional_top_bar_section {
+                        color: white;
+                        padding: 3px 3px;
+                        margin-right: 5px;
+                        user-select: none;
+                        display: inline-block;
+                        vertical-align: middle;
+                    }
+                    .latencyElement {
+                        width: 32px !important;
+                        min-width: 32px !important;
+                        max-width: 32px !important;
+                        padding: 3px 0px !important;
+                        text-align: center;
+                        white-space: nowrap;
+                        overflow: visible;
+                    }
+                    .sc_active { color: red !important; font-weight: bold; }
+                    .status_active { color: lime !important; }
+                `);
+                this.addToCSS(`
+                    .soul_card_container {
+                        display: inline-block;
+                        vertical-align: middle;
+                        margin-left: 5px;
+                    }
+                    
+                    .sc_btn {
+                        display: inline-block;
+                        width: 32px;
+                        text-align: center;
+                        cursor: pointer;
+                        color: #ccc;
+                        margin: 0 2px;
+                        border-radius: 5px;
+                        font-family: monospace;
+                        font-weight: bold;
+                        transition: background 0.2s, color 0.2s;
+                    }
+                    
+                    .sc_btn:hover {
+                        background: rgba(255, 255, 255, 0.2);
+                        color: white;
+                    }
+                    
+                    .sc_btn.active {
+                        color: red;
+                    }
+                `);
                 $("#top_bar").append(`<div class="kws_top_bar"></div>`);
                 $("#top_bar").append(`<div class="kws_additional_top_bar"></div>`);
                 $("#bless_type_2").click();
@@ -711,75 +767,79 @@ if (typeof GAME === 'undefined') { } else {
                 }, 100);
             }
             updateTopBar() {
-		GAME.socket.io.engine.pingInterval = 1000;
-                let sk_status;
-                let instances = [];
-                let currentLevel = GAME.char_data.level;
-                let currentTime = Date.now();
-                let levelsGained = currentLevel - GAME.startLevel;
-                let levelsPerHour = levelsGained / ((currentTime - GAME.startTime) / 1000 / 60 / 60);
-                let lvlh = levelsPerHour.toFixed(2);
-                if ($(`#mdbp_${GAME.char_data.reborn}`).find('.timer').length) {
-                    sk_status = $(`#mdbp_${GAME.char_data.reborn}`).find('.timer').text();
-                } else {
-                    sk_status = "AKTYWNE";
-                }
+                GAME.socket.io.engine.pingInterval = 1000;
+                const char = GAME.char_data;
+            
+                const currentTime = Date.now();
+                const levelsGained = char.level - (GAME.startLevel || char.level);
+                const hrs = (currentTime - (GAME.startTime || currentTime)) / 3600000;
+                const lvlh = hrs > 0 ? (levelsGained / hrs).toFixed(2) : "0.00";
+            
+                const sk_timer = $(`#mdbp_${char.reborn}`).find('.timer').text();
+                const sk_status = sk_timer.length > 0 ? sk_timer : "AKTYWNE";
+                
                 let train_upgr = $("#train_uptime").find('.timer').text();
-                if (train_upgr.length == 0 || train_upgr == "00:00:00") {
-                    train_upgr = "AKTYWNE";
+                if (!train_upgr || train_upgr === "00:00:00") train_upgr = "AKTYWNE";
+            
+
+                const soulCards_current = $(".sc_sets_all.current").html();
+                const romans = ["I", "II", "III", "IV", "V"];
+                const soulCardsHTML = romans.map((rom, i) => {
+                    const activeClass = (soulCards_current === rom) ? "active" : "";
+                    
+                    return "<span class='sc_btn soul_cards_" + (i + 1) + " " + activeClass + "'>" + rom + "</span>";
+                }).join('');
+            
+                const lColor = latency < 51 ? "lime" : latency < 100 ? "yellow" : latency < 140 ? "orange" : "red";
+            
+                const traderBtn = (new Date().getDay() === 6) ? "<span class='kws_top_bar_section trader_info' style='cursor:pointer;'>HANDLARZ</span>" : "";
+                
+                const bar1 = `
+                    <span class='kws_top_bar_section latencyElement' style='color:${lColor}'>⇅${latency}</span>
+                    <span class='kws_top_bar_section sk_info' style='cursor:pointer;'>SK: <span style="color:${sk_status === "AKTYWNE" ? "lime" : "white"}">${sk_status}</span></span>
+                    <span class='kws_top_bar_section train_upgr_info' style='cursor:pointer;'>KODY: <span style="color:${train_upgr === "AKTYWNE" ? "lime" : "white"}">${train_upgr}</span></span>
+                    <span class='kws_top_bar_section'>[ ${soulCardsHTML} ]</span>
+                    <span class='kws_top_bar_section lvl' style='cursor:pointer;'>LVL: <span>${lvlh}/H</span></span>
+                    <span class='kws_top_bar_section pvp' style='cursor:pointer;'>PVP: <span>${pvp_count}</span></span>
+                    <span class='kws_top_bar_section arena' style='cursor:pointer;'>ARENA: <span>${arena_count}</span></span>
+                    ${traderBtn}
+                    <span class='kws_top_bar_section additional_stats' style='cursor:pointer; color:${this.additionalTopBarVisible ? "orange" : "white"}'>STATY</span>
+                    <span class='kws_top_bar_section version' style='cursor:pointer;'>v<span>${version}</span></span>
+                `;
+            
+                const bar2 = `
+                    <span class='kws_additional_top_bar_section pvm_power' style='cursor:pointer;'>ZDOBYTA MOC: <span style="color:lime;">${GAME.dots(char.moc - (this.baselinePower || char.moc))}</span></span>
+                    <span class='kws_additional_top_bar_section future_stats' style='cursor:pointer;'>${this.prepareFutureStatsData()}</span>
+                    <span class='kws_additional_top_bar_section lvlsGained' style='cursor:pointer;'>ZDOBYTE LVL: <span>${GAME.dots(char.level - (this.baselineLevel || char.level))}</span></span>
+                    <span class='kws_additional_top_bar_section psk' style='cursor:pointer;'>PSK: ${GAME.dots(char.minor_ball)}</span>
+                    <span class='kws_additional_top_bar_section additional_stats_reset' style='cursor:pointer;'>RESET</span>
+                `;
+            
+                $(".kws_top_bar").html(bar1);
+                $(".kws_additional_top_bar").html(bar2);
+
+                // instances count display
+                let instances = [];
+                if (GAME.char_data) {
+                    instances = [
+                        GAME.char_data.icd_1, 
+                        GAME.char_data.icd_2, 
+                        GAME.char_data.icd_3, 
+                        GAME.char_data.icd_4, 
+                        GAME.char_data.icd_5, 
+                        GAME.char_data.icd_6
+                    ];
                 }
-                if ('char_data' in GAME) {
-                    instances = [GAME.char_data.icd_1, GAME.char_data.icd_2, GAME.char_data.icd_3, GAME.char_data.icd_4, GAME.char_data.icd_5, GAME.char_data.icd_6];
-                }
-                let sum_instances = instances.reduce(function (a, b) {
-                    return a + b;
-                }, 0);
+                let sum_instances = instances.reduce((a, b) => a + (b || 0), 0);
+                $("#secondary_char_stats .instance ul").html(`${sum_instances}/12`);
+
+                // activities count display
                 let activity = $('#char_activity').text();
                 let received = $("#act_prizes").find("div.act_prize.disabled").length;
-                let is_trader = new Date();
-                let trader = `<span class='kws_top_bar_section trader_info' style='cursor:pointer;'>HANDLARZ</span> `;
-                let soulCards_current = $(".sc_sets_all.current").html();
-                let soulCards_one = `<span class='kws_top_bar_section soul_cards_one' style='cursor:pointer;color:${soulCards_current == "I" ? "red" : "white"}'>KD1</span>`;
-                let soulCards_two = `<span class='kws_top_bar_section soul_cards_two' style='cursor:pointer;color:${soulCards_current == "II" ? "red" : "white"}'>KD2</span>`;
-                let soulCards_three = `<span class='kws_top_bar_section soul_cards_three' style='cursor:pointer;color:${soulCards_current == "III" ? "red" : "white"}'>KD3</span>`;
-                let soulCards_four = `<span class='kws_top_bar_section soul_cards_four' style='cursor:pointer;color:${soulCards_current == "IV" ? "red" : "white"}'>KD4</span>`;
-                let soulCards_five = `<span class='kws_top_bar_section soul_cards_five' style='cursor:pointer;color:${soulCards_current == "V" ? "red" : "white"}'>KD5</span>`;
-                var latencyColor;
-                switch(true) {
-                    case (latency < 51):
-                        latencyColor = "lime"
-                        break;
-                    case (latency < 100):
-                        latencyColor = "yellow"
-                        break;
-                    case (latency < 140):
-                        latencyColor = "orange"
-                        break;
-                    default:
-                        latencyColor = "red"
-                        break;
-                }
-                let latencyElement = `<span class='kws_top_bar_section latencyElement' style='cursor:pointer;color:${latencyColor}'>⇅${latency}</span>`;
-                let additionalStats = `<span class='kws_top_bar_section additional_stats' style='cursor:pointer;color:${this.additionalTopBarVisible ? "orange" : "white"}'>STATY</span>`;
-                let instance = `${sum_instances}/12`;
-                $("#secondary_char_stats .instance ul").html(instance);
                 let activities = `${activity}/185 (${received}/5)`;
                 $("#secondary_char_stats .activities ul").html(activities);
-                let innerHTML = ` <span class='kws_top_bar_section sk_info' style='cursor:pointer;'>SK: <span style="color:${sk_status == "AKTYWNE" ? "lime" : "white"};">${sk_status}</span></span> <span class='kws_top_bar_section train_upgr_info' style='cursor:pointer;'>KODY: <span style="color:${train_upgr == "AKTYWNE" ? "lime" : "white"};">${train_upgr}</span></span><span class='kws_top_bar_section lvl' style='cursor:pointer;'>LVL: <span>${lvlh}/H</span></span><span class='kws_top_bar_section pvp' style='cursor:pointer;'>PVP: <span>${pvp_count}</span></span><span class='kws_top_bar_section arena' style='cursor:pointer;'>ARENA: <span>${arena_count}</span></span> ${is_trader.getDay() == 6 ? trader : ''} [${soulCards_one}| ${soulCards_two}| ${soulCards_three}| ${soulCards_four}| ${soulCards_five}]  ${additionalStats} <span class='kws_top_bar_section version' style='cursor:pointer;'>v<span>${version}</span></span> ${latencyElement}`;
-                $(".kws_top_bar").html(innerHTML);
-                if (this.baselinePower == undefined) {
-                    this.baselinePower = GAME.char_data.moc;
-                }
-                if (this.baselineLevel == undefined) {
-                    this.baselineLevel = GAME.char_data.level;
-                }
-                let calculated_power = GAME.dots(GAME.char_data.moc - this.baselinePower);//(GAME.char_data.moc - this.baselinePower).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-                let calculatedPowerReset = `<span class='kws_top_bar_section additional_stats_reset' style='cursor:pointer;color:"white"'>RESET</span>`;
-                let futureStats = this.prepareFutureStatsData();
-                let calculated_levels = GAME.dots(GAME.char_data.level - this.baselineLevel);
-                $(".kws_additional_top_bar").html(` <span class='kws_additional_top_bar_section pvm_power' style='cursor:pointer;'>ZDOBYTA MOC: <span style="color:lime;">${calculated_power}</span></span> <span class='kws_additional_top_bar_section future_stats' style='cursor:pointer;'>${futureStats}</span><span class='kws_additional_top_bar_section lvlsGained' style='cursor:pointer;'>ZDOBYTE LVL: <span>${calculated_levels}</span></span><span class='kws_additional_top_bar_section psk' style='cursor:pointer;'>PSK: ${GAME.dots(GAME.char_data.minor_ball)}</span> ${calculatedPowerReset}`);
+
                 this.adjustCurrentCharacterId();
-                //this.checkTournamentsSigning();
             }
             collectActivities() {
                 let received = $("#act_prizes").find("div.act_prize.disabled").length;
@@ -1349,40 +1409,22 @@ if (typeof GAME === 'undefined') { } else {
                 $("body").on("click", `.kws_top_bar_section.trader_info`, () => {
                     GAME.page_switch('game_events');
                 });
-                $("body").on("click", `.kws_top_bar_section.soul_cards_one`, () => {
-                    GAME.socket.emit('ga', {
-                        a: 58,
-                        type: 7,
-                        set: 0
-                    });
-                });
-                $("body").on("click", `.kws_top_bar_section.soul_cards_two`, () => {
-                    GAME.socket.emit('ga', {
-                        a: 58,
-                        type: 7,
-                        set: 1
-                    });
-                });
-                $("body").on("click", `.kws_top_bar_section.soul_cards_three`, () => {
-                    GAME.socket.emit('ga', {
-                        a: 58,
-                        type: 7,
-                        set: 2
-                    });
-                });
-                $("body").on("click", `.kws_top_bar_section.soul_cards_four`, () => {
-                    GAME.socket.emit('ga', {
-                        a: 58,
-                        type: 7,
-                        set: 3
-                    });
-                });
-                $("body").on("click", `.kws_top_bar_section.soul_cards_five`, () => {
-                    GAME.socket.emit('ga', {
-                        a: 58,
-                        type: 7,
-                        set: 4
-                    });
+                $("body").on("click", ".sc_btn", function() {
+                    const classList = $(this).attr('class');
+                    const match = classList.match(/soul_cards_(\d+)/);
+                    
+                    if (match) {
+                        const setIndex = parseInt(match[1]) - 1;
+                        
+                        GAME.socket.emit('ga', {
+                            a: 58,
+                            type: 7,
+                            set: setIndex
+                        });
+                        
+                        $(this).css('opacity', '0.5');
+                        setTimeout(() => $(this).css('opacity', '1'), 100);
+                    }
                 });
                 $("body").on("click", `.kws_top_bar_section.additional_stats`, () => {
                     this.handleAdditionalTopBarVisibility();
