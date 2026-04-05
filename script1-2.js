@@ -72,9 +72,40 @@ if (typeof GAME === 'undefined') { } else {
                 this.addToCSS(`.go_to_emp_con{ position:absolute; top:33px; z-index:1; background:rgb(0 0 0 / 59%); display:none; flex-direction: column-reverse; padding:5px 5px 0px 5px; border-radius:5px; box-shadow:0px 0px 5px 0px rgb(32 96 185);} .empPos:hover + .go_to_emp_con, .go_to_emp_con:hover { display:flex; } .go_to_emp_con .qlink { display:block; margin:0px 0px 5px 0px; }`);
                 this.addToCSS(`#ekw_sets_buy button, div[data-option="change_ekw_set"]{height:20px !important; line-height:19px !important; margin-top:9px !important;}`);
                 this.addToCSS(`#page_game_camp .ekw_slot.smaller img{ width: 64px; } #page_game_camp div[data-item_id="1923"].smaller img { width: 32px; position: absolute; margin-top: -64px; margin-left: 34px; }`);
-                this.addToCSS(`#kws_spawn{ background: rgba(0,0,0,0.9); position: fixed; top: 120px;left: 5px; z-index: 9999; width: 200px; padding: 1px; border-radius: 5px; border-style: solid; border-width: 7px 8px 7px 7px; display:block; user-select: none; color: #333333; } #kws_spawn .sekcja { position: absolute; top: -27px; left: -7px; background: rgba(0,0,0,0.9); filter: hue-rotate(150deg); background-size: 100% 100%; width: 200px; cursor: all-scroll; } #kws_spawn .spawn_row{border-bottom:solid gray 1px; color: white; font-size: 13px; display: flex; padding:4px;}`);
-                $("#map_canvas_container").append(`<div id="kws_spawn"> <div class="sekcja"><img src="/gfx/layout/war.png" class="spawn_switch">USTAWIENIA SPAWNU</div><div id="kws_spawn2" style="">${this.spawnList()}</div>`);
-                this.addToCSS(`.spawn_switch{cursor:pointer;}`);
+                //spawner config
+                this.addToCSS(`
+                #kws_spawn {
+                    display: none;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    background: rgba(0,0,0,0.9);
+                    z-index: 9999;
+                    width: 200px;
+                    padding: 6px;
+                    border-radius: 6px;
+                    border: 2px solid #000;
+                    color: white;
+                    pointer-events: auto;
+                }
+                
+                #kws_spawn .spawn_header {
+                    font-weight: bold;
+                    text-align: center;
+                    margin-bottom: 5px;
+                    border-bottom: 1px solid gray;
+                    padding-bottom: 3px;
+                }
+                
+                #kws_spawn .spawn_row {
+                    border-bottom: solid gray 1px;
+                    font-size: 13px;
+                    display: flex;
+                    padding: 4px;
+                }
+                `);
+                if (this.settings.spawner) GAME.spawner = this.settings.spawner;
+                $("body").append(`<div id="kws_spawn"> <div class="spawn_header">USTAWIENIA SPAWNU</div> <div id="kws_spawn2">${this.spawnList()}</div> </div>`);
                 this.addToCSS(`.quest_roll1{position:absolute; width:50px; height:50px; background:url('/gfx/layout/dice.png') 0 0; top:-25px; left:25px; cursor:pointer; filter:drop-shadow(0px 0px 10px lime)} .quest_roll2{position:absolute; width:50px; height:50px; background:url('/gfx/layout/dice.png') 0 0; top:-25px; left:75px; cursor:pointer; filter:drop-shadow(0px 0px 10px #00fdff)} .quest_roll3{position:absolute; width:50px; height:50px; background:url('/gfx/layout/dice.png') 0 0; top:-25px; left:125px; cursor:pointer; filter:drop-shadow(0px 0px 10px #ff0000)} .quest_roll:hover{background:url('/gfx/layout/dice.png') 0 -45px;} .quest_roll1:hover{background:url('/gfx/layout/dice.png') 0 -45px;} .quest_roll2:hover{background:url('/gfx/layout/dice.png') 0 -45px;} .quest_roll3:hover{background:url('/gfx/layout/dice.png') 0 -45px;}`);
                 this.addToCSS(`#lastmap_bar { top: 115px !important; }`);
                 this.addToCSS(`button#changeProfileNext { position: absolute; top: 85px; right: 16px; background: linear-gradient(0deg, rgba(252,238,54,1) 0%, rgba(247,121,12,1) 100%); border: 2px solid #973804; border-radius: 5px; width: 52px; }`);
@@ -205,7 +236,8 @@ if (typeof GAME === 'undefined') { } else {
                 let settings = JSON.parse(localStorage.getItem("kws_settings"));
                 let settings_sample = {
                     hide_tracker: false,
-                    aeCodes: false
+                    aeCodes: false,
+                    spawner: GAME.spawner
                 };
                 if (settings) {
                     for (const key of Object.keys(settings_sample)) {
@@ -1169,12 +1201,40 @@ if (typeof GAME === 'undefined') { } else {
                     return false;
                 }
             }
+            positionTooltip(e) {
+                const $tooltip = $('#kws_spawn');
+                const $button = $(e.currentTarget);
+            
+                $tooltip.css({ visibility: 'hidden', display: 'block' });
+            
+                const btnOffset = $button.offset();
+                const btnWidth = $button.outerWidth();
+                const tooltipWidth = $tooltip.outerWidth();
+            
+                let left = btnOffset.left - tooltipWidth - 10;
+                
+                let top = btnOffset.top; 
+            
+                if (left < 0) {
+                    left = btnOffset.left + btnWidth + 10;
+                }
+            
+                const scrollTop = $(window).scrollTop();
+                if (top < scrollTop) top = scrollTop + 10;
+            
+                $tooltip.css({
+                    left: left + 'px',
+                    top: top + 'px',
+                    visibility: 'visible',
+                    display: 'none'
+                });
+            }
             spawnList() {
                 let mob = "";
                 for (var i = 0; i < 6; i++) {
-                    mob += `<div class="spawn_row"><div class="newCheckbox"><input id="kws_spawner_ignore_${i}" type="checkbox" class="kws_spawner_check" name="ignoreMobs" value="${i}" ${(GAME.spawner && GAME.spawner[1][i] ? 'checked' : '')} /><label for="kws_spawner_ignore_${i}"></label></div>${LNG.lab457}&nbsp;<b>${LNG['mob_rank' + i]}</b></div>`;
+                    mob += `<div class="spawn_row"><div class="newCheckbox"><input id="kws_spawner_ignore_${i}" type="checkbox" class="kws_spawner_check" name="ignoreMobs" value="${i}" ${(GAME.spawner && GAME.spawner[1][i] ? '' : 'checked')} /><label for="kws_spawner_ignore_${i}"></label></div><b>${LNG['mob_rank' + i]}</b></div>`;
                 }
-                mob += `<div class="spawn_row" style="flex-direction: column;align-items: center;"><div>Użyte PA na spawn</div><div class="game_input small"><input id="kws_pa_max" name="usePaToSpawn" type="text" value="1000"></div></div>`;
+                mob += `<div class="spawn_row" style="flex-direction: column;align-items: center;"><div>Użyte PA na spawn</div><div class="game_input small"><input id="kws_pa_max" name="usePaToSpawn" type="text" value="${GAME.spawner[0]}"></div></div>`;
                 return mob;
             }
             updatePaToSpawn(pats) {
@@ -1688,23 +1748,49 @@ if (typeof GAME === 'undefined') { } else {
                         e: emp
                     });
                 });
-                $("#kws_spawn").draggable({
-                    handle: ".sekcja"
+                const $kwsSpawnTooltip = $('#kws_spawn');
+                
+                let overButton = false;
+                let overTooltip = false;
+                
+                $(document).on('mouseenter', 'button.option.ls.spawner[data-option="mob_spawner"]', (e) => {
+                    overButton = true;
+                    
+                    this.positionTooltip(e);
+                    $kwsSpawnTooltip.stop(true, true).fadeIn(150);
                 });
-                $('.spawn_switch').on('click', function () {
-                    $("#kws_spawn2").toggle();
+                
+                $(document).on('mouseleave', 'button.option.ls.spawner[data-option="mob_spawner"]', () => {
+                    overButton = false;
+                    tryHide();
                 });
+                
+                $kwsSpawnTooltip.on('mouseenter', function () {
+                    overTooltip = true;
+                });
+                
+                $kwsSpawnTooltip.on('mouseleave', function () {
+                    overTooltip = false;
+                    tryHide();
+                });
+                
+                function tryHide() {
+                    setTimeout(() => {
+                        if (!overButton && !overTooltip) {
+                            $kwsSpawnTooltip.fadeOut(150);
+                        }
+                    }, 100);
+                }
                 $("#kws_spawn input[type=checkbox], input[type=text]").change((chb) => {
                     switch ($(chb.target).attr("name")) {
                         case "ignoreMobs":
-                            GAME.spawner[1] = $('#kws_spawn input[name="ignoreMobs"]').map((index, element) => {
-                                return element.checked ? 0 : 1;
-                            }).get();
+                            GAME.spawner[1] = $('#kws_spawn input[name="ignoreMobs"]').map((i, el) => el.checked ? 0 : 1).get();
                             break;
                         case "usePaToSpawn":
                             this.updatePaToSpawn($(chb.target).val());
                             break;
                     }
+                    this.updateSettings()
                 });
                 $("#secondary_char_stats").append(` <div class="instance" data-toggle="tooltip" data-original-title="<div class=tt>Instancje <br /><span class=&quot;red&quot;><b>Kliknij by wykonać instancje</b></span></div>" class=""><i class="ico a11"></i> <span> <ul><ul/></span></div> <div class="activities" data-toggle="tooltip" data-original-title="<div class=tt>Aktywności <br /><span class=&quot;red&quot;><b>Kliknij by odebrać aktywności</b></span></div>" class=""><i class="ico a12"></i> <span> <ul><ul/></span></div>`);
                 $("body").on('change', '.autoExpeCodes input[type=checkbox]', (el) => {
