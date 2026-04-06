@@ -1,5 +1,5 @@
 if (typeof GAME === 'undefined') {} else {
-    console.log("AFO: 1.0.15")
+    console.log("AFO: 1.0.38")
 
     const delay = (ms) => new Promise(res => setTimeout(res, ms));
     const playerListCon = $("#player_list_con");
@@ -17,7 +17,7 @@ if (typeof GAME === 'undefined') {} else {
                 const csslpvm = ` #lpvm_Panel { background: rgba(0,0,0,0.9); position: fixed; top: 650px; left: 80%; z-index: 9999; width: 150px; padding: 1px; border-radius: 5px; border-style: solid; border-width: 7px 8px 7px 7px; display:block; user-select: none; color: #333333; } #lpvm_Panel .sekcja { position: absolute; top: -27px; left: -7px; background: rgba(0,0,0,0.9); filter: hue-rotate(196deg); background-size: 100% 100%; width: 150px; cursor: all-scroll; } #lpvm_Panel .lpvm_button {cursor:pointer;text-align:center; border-bottom:solid gray 1px; color: white;} #lpvm_Panel .pvm_killed {cursor:pointer;text-align:center; border-LGtom:solid gray 1px;text-align:center; color:white;} #lpvm_Panel .gamee_input{text-align:center; border-bottom:solid gray 1px; color: white;} `;
                 const html = ` <div id="main_Panel"> <div class="sekcja panel_dragg">ALL FOR ONE</div> <div class='gh_button gh_resp'>PVM<b class='gh_status red'>Off</b></div> <div class='gh_button gh_pvp'>PVP<b class='gh_status red'>Off</b></div> <div class='gh_button gh_lpvm'>Listy<b class='gh_status red'>Off</b></div> <div class='gh_button gh_res'>Zbierajka<b class='gh_status red'>Off</b></div> <div class='gh_button gh_code'>Kody<b class='gh_status red'>Off</b></div> </div> `;
                 const PVP_panel = ` <div id="pvp_Panel"> <div class="sekcja pvp_dragg">PVP</div> <div class='pvp_button pvp_pvp'>PVP<b class='pvp_status red'>Off</b></div> <div class='pvp_button pvp_Code'>Kody<b class='pvp_status green'>On</b></div> <div class="pvp_button pvpCODE_konto">Konto<b class="pvp_status red">Off</b></div> <div class='pvp_button pvp_konto'>Obijaj Konto<b class='pvp_status red'>Off</b></div> <div class='pvp_button pvp_daily'>Daily<b class='pvp_status red'>Off</b></div> <div class='pvp_button pvp_rb_avoid'>Unikaj borny<b class='pvp_status green'>On</b></div> <div class='pvp_button pvp_WI'>Wojny Imp<b class='pvp_status green'>On</b></div> <div class='pvp_button pvp_WK'>Wojny Klanowe<b class='pvp_status green'>On</b></div> <div class='gamee_input'><input style='width:120px; margin-left:-2px; background:grey;text-align:center;font-size:16;' type='text' placeholder="Lista wojen" name='pvp_capt' value='' /></div> <div class='gameee_input'><input style='width:120px; margin-left:-2px; background:grey;text-align:center;font-size:16;' type='text' placeholder="Szybkość 10-100" name='speed_capt' value='100' /></div> </div> `;
-                const RESP_panel = ` <div id="resp_Panel"> <div class="sekcja resp_dragg">SPAWN MOBKóW</div> <div class="resp_button resp_resp">RESP<b class="resp_status red">Off</b></div> <div class="resp_button resp_code">Kody<b class="resp_status green">On</b></div> <div class="resp_button resp_konto">Konto<b class="resp_status red">Off</b></div> <div class="resp_button resp_sub">Subka<b class="resp_status green">On</b></div> <div class="resp_button resp_ost">Jaka<b class="resp_status green">Ost</b></div> <div class="resp_button resp_multi">Multiwalka<b class="resp_status green">On</b></div> <div class="resp_button resp_ssj">SSJ<b class="resp_status green">On</b></div> <div class="resp_button resp_buff_imp">Bufki IMP<b class="resp_status red">Off</b></div> <div class="resp_button resp_buff_clan">Bufki KLAN<b class="resp_status red">Off</b></div> <div class="resp_button resp_blue">BLUE<b class="resp_status red">Off</b></div> <div class="resp_button resp_green">GREEN<b class="resp_status red">Off</b></div> <div class="resp_button resp_purple">PURPLE<b class="resp_status red">Off</b></div> <div class="resp_button resp_yellow">YELLOW<b class="resp_status red">Off</b></div> <div class="resp_button resp_red">RED<b class="resp_status red">Off</b></div> <div class="resp_button resp_magic">Wyciąg<b class="resp_status red">Off</b></div> <div class="resp_button resp_bless">BŁOGO<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh1">SMOK<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh2">5% EXP<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh3">5% MOC<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh4">150K MAX<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh5">5% MOC<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh6">5% PSK<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh7">200% EXP<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh8">500 LVL<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh9">500% EXP<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh10">25% MOC<b class="resp_status red">Off</b></div> <div class="resp_button resp_on">Włącz All<b class="resp_status green">On</b></div> <div class="resp_button resp_off">Wyłącz All<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh11">100% Limit<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh14">100% Limit<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh12">200% Przyrost<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh13">300% Przyrost<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh15">5% kod<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh16">5 Min cd pvp <b class="resp_status red">Off</b></div> <div class="resp_button resp_bh17">15% szybsze zbieranie<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh18">15% więcej szansy na zebranie<b class="resp_status red">Off</b></div> </div> `;
+                const RESP_panel = ` <div id="resp_Panel"> <div class="sekcja resp_dragg">SPAWN MOBKóW</div> <div class="resp_button resp_resp">RESP<b class="resp_status red">Off</b></div> <div class="resp_button resp_code">Kody<b class="resp_status green">On</b></div> <div class="resp_button resp_konto">Konto<b class="resp_status red">Off</b></div> <div class="resp_button resp_sub">Subka<b class="resp_status green">On</b></div> <div class="resp_button resp_ost">Jaka<b class="resp_status green">Ost</b></div> <div class="resp_button resp_multi">Multiwalka<b class="resp_status green">On</b></div> <div class="resp_button resp_ssj">SSJ<b class="resp_status green">On</b></div> <div class="resp_button resp_buff_imp">Bufki IMP<b class="resp_status red">Off</b></div> <div class="resp_button resp_buff_clan">Bufki KLAN<b class="resp_status red">Off</b></div> <div class="resp_button resp_blue">BLUE<b class="resp_status red">Off</b></div> <div class="resp_button resp_green">GREEN<b class="resp_status red">Off</b></div> <div class="resp_button resp_purple">PURPLE<b class="resp_status red">Off</b></div> <div class="resp_button resp_yellow">YELLOW<b class="resp_status red">Off</b></div> <div class="resp_button resp_red">RED<b class="resp_status red">Off</b></div> <div class="resp_button resp_magic">Wyciąg<b class="resp_status red">Off</b></div> <div class="resp_button resp_bless">BŁOGO<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh resp_bh1">SMOK<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh resp_bh2">5% EXP<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh resp_bh3">5% MOC<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh resp_bh4">150K MAX<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh resp_bh5">5% MOC<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh resp_bh6">5% PSK<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh resp_bh7">200% EXP<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh resp_bh8">500 LVL<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh resp_bh9">500% EXP<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh resp_bh10">25% MOC<b class="resp_status red">Off</b></div> <div class="resp_button resp_on">Włącz All<b class="resp_status green">On</b></div> <div class="resp_button resp_off">Wyłącz All<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh resp_bh11">100% Limit<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh resp_bh14">100% Limit<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh resp_bh12">200% Przyrost<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh resp_bh13">300% Przyrost<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh resp_bh15">5% kod<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh resp_bh16">5 Min cd pvp <b class="resp_status red">Off</b></div> <div class="resp_button resp_bh resp_bh17">15% szybsze zbieranie<b class="resp_status red">Off</b></div> <div class="resp_button resp_bh resp_bh18">15% więcej szansy na zebranie<b class="resp_status red">Off</b></div> </div> `;
                 const CODE_panel = ` <div id="code_Panel"> <div class="sekcja code_dragg">Kody</div> <div class="code_button code_code">KODY<b class="code_status red">Off</b></div> <div class="code_button code_acc">Konto<b class="code_status red">Off</b></div> <div class="code_button code_zast">Zastępstwa<b class="code_status red">Off</b></div> <div class="code_button code_bh1">Błogo 250% tren<b class="code_status red">Off</b></div> <div class="code_button code_bh2">Błogo 5% kod<b class="code_status red">Off</b></div> <label class='select_input'><select id='bot_what_to_train'><option value='1'>Siła</option><option value='2'>Szybkość</option><option value='3'>Wytrzymałość</option><option value='4'>Siła Woli</option><option value='5'>Energia Ki</option><option value='6'>Wtajemniczenie</option></select></label> <label class='select_input'><select id='bot_what_to_traintime'><option value='1'>1 godz.</option><option value='2'>2 godz.</option><option value='3'>3 godz.</option><option value='4'>4 godz.</option><option value='5'>5 godz.</option><option value='6'>6 godz.</option><option value='7'>7 godz.</option><option value='8'>8 godz.</option><option value='9'>9 godz.</option><option value='10'>10 godz.</option><option value='11'>11 godz.</option><option value='12'>12 godz.</option></label> </div> `;
                 const RES_panel = ` <div id="res_Panel"> <div class="sekcja res_dragg">SUROWCE</div> <div class="res_button res_res">ZBIERAJ<b class="res_status red">Off</b></div> <div class="bt_cool" style="text-align:center; color:white;"></div> <ul></ul> </div> `;
                 const LPVM_panel = ` <div id="lpvm_Panel"> <div class="sekcja lpvm_dragg">LISTY GOŃCZE</div> <div class='pvm_killed'>Wykonane listy: <b>0</b></div> <div class="lpvm_button lpvm_lpvm">START<b class="lpvm_status red">Off</b></div> <div class="lpvm_button lpvm_g">G-Born<b class="lpvm_status red">Off</b></div> <div class="lpvm_button lpvm_u">U-Born<b class="lpvm_status red">Off</b></div> <div class="lpvm_button lpvm_s">S-Born<b class="lpvm_status red">Off</b></div> <div class="lpvm_button lpvm_h">H-Born<b class="lpvm_status red">Off</b></div> <div class="lpvm_button lpvm_m">M-Born<b class="lpvm_status red">Off</b></div> <div class="lpvm_button lpvm_limit">Limit<b class="lpvm_status red">Off</b></div> <div class='gamee_input'><input style='width:120px; margin-left:-2px; background:grey;text-align:center;font-size:16;' type='text' placeholder="Enter text" name='lpvm_capt' value='60' /></div> </div> `;
@@ -202,16 +202,7 @@ if (typeof GAME === 'undefined') {} else {
                     }
                     return false;
                 });
-                $('#resp_Panel .resp_bh1').hide();
-                $('#resp_Panel .resp_bh2').hide();
-                $('#resp_Panel .resp_bh3').hide();
-                $('#resp_Panel .resp_bh4').hide();
-                $('#resp_Panel .resp_bh5').hide();
-                $('#resp_Panel .resp_bh6').hide();
-                $('#resp_Panel .resp_bh7').hide();
-                $('#resp_Panel .resp_bh8').hide();
-                $('#resp_Panel .resp_bh9').hide();
-                $('#resp_Panel .resp_bh10').hide();
+                $('#resp_Panel .resp_bh').hide();
                 $('#resp_Panel .resp_on').hide();
                 $('#resp_Panel .resp_off').hide();
                 $('#resp_Panel .resp_resp').click(() => {
@@ -219,7 +210,6 @@ if (typeof GAME === 'undefined') {} else {
                         $(".resp_resp .resp_status").removeClass("red").addClass("green").html("On");
                         RESP.stop = false;
                         RESP.action();
-                        RESP.reloadint = setInterval(RESP.reload_map, 60000);
                         PVP.stop = true;
                         LPVM.Stop = true;
                         CODE.stop = true;
@@ -230,38 +220,19 @@ if (typeof GAME === 'undefined') {} else {
                     } else {
                         $(".resp_resp .resp_status").removeClass("green").addClass("red").html("Off");
                         RESP.stop = true;
-                        clearInterval(RESP.reloadint);
                     }
                 });
                 $('#resp_Panel .resp_bless').click(() => {
                     if (RESP.bless) {
                         $(".resp_bless .resp_status").removeClass("green").addClass("red").html("Off");
                         RESP.bless = false;
-                        $('#resp_Panel .resp_bh1').hide();
-                        $('#resp_Panel .resp_bh2').hide();
-                        $('#resp_Panel .resp_bh3').hide();
-                        $('#resp_Panel .resp_bh4').hide();
-                        $('#resp_Panel .resp_bh5').hide();
-                        $('#resp_Panel .resp_bh6').hide();
-                        $('#resp_Panel .resp_bh7').hide();
-                        $('#resp_Panel .resp_bh8').hide();
-                        $('#resp_Panel .resp_bh9').hide();
-                        $('#resp_Panel .resp_bh10').hide();
+                        $('#resp_Panel .resp_bh').hide();
                         $('#resp_Panel .resp_on').hide();
                         $('#resp_Panel .resp_off').hide();
                     } else {
                         $(".resp_bless .resp_status").removeClass("red").addClass("green").html("On");
                         RESP.bless = true;
-                        $('#resp_Panel .resp_bh1').show();
-                        $('#resp_Panel .resp_bh2').show();
-                        $('#resp_Panel .resp_bh3').show();
-                        $('#resp_Panel .resp_bh4').show();
-                        $('#resp_Panel .resp_bh5').show();
-                        $('#resp_Panel .resp_bh6').show();
-                        $('#resp_Panel .resp_bh7').show();
-                        $('#resp_Panel .resp_bh8').show();
-                        $('#resp_Panel .resp_bh9').show();
-                        $('#resp_Panel .resp_bh10').show();
+                        $('#resp_Panel .resp_bh').show();
                         $('#resp_Panel .resp_on').show();
                         $('#resp_Panel .resp_off').show();
                     }
@@ -445,16 +416,7 @@ if (typeof GAME === 'undefined') {} else {
                     }
                 });
                 $('#resp_Panel .resp_on').click(() => {
-                    $(".resp_bh1 .resp_status").removeClass("red").addClass("green").html("On");
-                    $(".resp_bh2 .resp_status").removeClass("red").addClass("green").html("On");
-                    $(".resp_bh3 .resp_status").removeClass("red").addClass("green").html("On");
-                    $(".resp_bh4 .resp_status").removeClass("red").addClass("green").html("On");
-                    $(".resp_bh5 .resp_status").removeClass("red").addClass("green").html("On");
-                    $(".resp_bh6 .resp_status").removeClass("red").addClass("green").html("On");
-                    $(".resp_bh7 .resp_status").removeClass("red").addClass("green").html("On");
-                    $(".resp_bh8 .resp_status").removeClass("red").addClass("green").html("On");
-                    $(".resp_bh9 .resp_status").removeClass("red").addClass("green").html("On");
-                    $(".resp_bh10 .resp_status").removeClass("red").addClass("green").html("On");
+                    $(".resp_bh .resp_status").removeClass("red").addClass("green").html("On");
                     RESP.b1 = true;
                     RESP.b2 = true;
                     RESP.b3 = true;
@@ -465,18 +427,17 @@ if (typeof GAME === 'undefined') {} else {
                     RESP.b8 = true;
                     RESP.b9 = true;
                     RESP.b10 = true;
+                    RESP.b11 = true;
+                    RESP.b12 = true;
+                    RESP.b13 = true;
+                    RESP.b14 = true;
+                    RESP.b15 = true;
+                    RESP.b16 = true;
+                    RESP.b17 = true;
+                    RESP.b18 = true;
                 });
                 $('#resp_Panel .resp_off').click(() => {
-                    $(".resp_bh1 .resp_status").removeClass("green").addClass("red").html("Off");
-                    $(".resp_bh2 .resp_status").removeClass("green").addClass("red").html("Off");
-                    $(".resp_bh3 .resp_status").removeClass("green").addClass("red").html("Off");
-                    $(".resp_bh4 .resp_status").removeClass("green").addClass("red").html("Off");
-                    $(".resp_bh5 .resp_status").removeClass("green").addClass("red").html("Off");
-                    $(".resp_bh6 .resp_status").removeClass("green").addClass("red").html("Off");
-                    $(".resp_bh7 .resp_status").removeClass("green").addClass("red").html("Off");
-                    $(".resp_bh8 .resp_status").removeClass("green").addClass("red").html("Off");
-                    $(".resp_bh9 .resp_status").removeClass("green").addClass("red").html("Off");
-                    $(".resp_bh10 .resp_status").removeClass("green").addClass("red").html("Off");
+                    $(".resp_bh .resp_status").removeClass("green").addClass("red").html("Off");
                     RESP.b1 = false;
                     RESP.b2 = false;
                     RESP.b3 = false;
@@ -487,6 +448,14 @@ if (typeof GAME === 'undefined') {} else {
                     RESP.b8 = false;
                     RESP.b9 = false;
                     RESP.b10 = false;
+                    RESP.b11 = false;
+                    RESP.b12 = false;
+                    RESP.b13 = false;
+                    RESP.b14 = false;
+                    RESP.b15 = false;
+                    RESP.b16 = false;
+                    RESP.b17 = false;
+                    RESP.b18 = false;
                 });
                 $('#resp_Panel .resp_buff_imp').click(() => {
                     if (RESP.buff_imp) {
@@ -1474,7 +1443,6 @@ if (typeof GAME === 'undefined') {} else {
 */
 
             var RESP = {
-                wait: 60,
                 stop: true,
                 checkOST: true,
                 checkSSJ: true,
@@ -1483,7 +1451,6 @@ if (typeof GAME === 'undefined') {} else {
                 kontoTP: false,
                 codeTP: false,
                 multifight: true,
-                reload: false,
                 SENZU_BLUE: 'SENZU_BLUE',
                 SENZU_GREEN: 'SENZU_GREEN',
                 SENZU_YELLOW: 'SENZU_YELLOW',
@@ -1526,7 +1493,6 @@ if (typeof GAME === 'undefined') {} else {
                 buff_clan: false,
                 loc: GAME.char_data.loc
             };
-            if (GAME.char_data.id == '31151'){ RESP.wait = 1; console.log("RESP.wait = " + RESP.wait)}
             RESP.check = () => {
                 let imp = $("#leader_player").find("[data-option=show_player]").attr("data-char_id");
                 let emp = GAME.char_data.empire;
@@ -1535,10 +1501,7 @@ if (typeof GAME === 'undefined') {} else {
                 let who_win = $("#gne_satus").text().includes("ZŁO");
                 let abut = $("#clan_buffs").find(`button[data-option="activate_war_buff"]`);
                 let isDisabled = $("#clan_buffs").find(`button[data-option="activate_war_buff"]`).parents("tr").hasClass("disabled");
-                if (GAME.char_data.pr <= RESP.min_pa()) {
-                    RESP.useSenzu();
-                    return true;
-                } else if (RESP.checkOST && $("#doubler_bar").css("display") === "none") {
+                if (RESP.checkOST && $("#doubler_bar").css("display") === "none") {
                     GAME.socket.emit(`ga`, {
                         a: 12,
                         type: 14,
@@ -1551,79 +1514,6 @@ if (typeof GAME === 'undefined') {} else {
                     return true;
                 } else if ((!RESP.checkOST && RESP.checkOST_timer <= GAME.getTime()) || (RESP.jaka == 1 && RESP.checkOST_timer <= GAME.getTime())) {
                     RESP.checkOST_timer = GAME.getTime() + 60;
-                    return true;
-                } else if (RESP.checkSSJ && GAME.quick_opts.ssj && $("#ssj_bar").css("display") === "none") {
-                    GAME.socket.emit(`ga`, {
-                        a: 18,
-                        type: 5,
-                        tech_id: GAME.quick_opts.ssj[0]
-                    });
-                    return true;
-                } else if (RESP.checkSSJ && $('#ssj_status').text() <= '00:00:03' && GAME.quick_opts.ssj) {
-                    return true;
-                } else if ($('#ssj_status').text() == "--:--:--" && GAME.quick_opts.ssj) {
-                    GAME.socket.emit(`ga`, {
-                        a: 18,
-                        type: 6
-                    });
-                    return true;
-                } else if ($("#train_uptime").find('.timer').length == 0 && !GAME.is_training && RESP.code) {
-                    GAME.socket.emit('ga', {
-                        a: 8,
-                        type: 2,
-                        stat: 1,
-                        duration: 1
-                    });
-                    if(RESP.codeTP){
-                        setTimeout(() => {
-                            GAME.socket.emit('ga', {
-                                a: 8,
-                                type: 5,
-                                multi: ':checked',
-                                apud: 'vzaaa'
-                            });
-                        }, 1600);
-                    }else{
-                    setTimeout(() => {
-                        GAME.socket.emit('ga', {
-                            a: 8,
-                            type: 5,
-                            apud: 'vzaaa'
-                        });
-                    }, 1600);
-                }
-                    return true;
-                } else if (GAME.is_training && $("#train_uptime").find('.timer').length == 0 && RESP.code) {
-                    if(RESP.codeTP){
-                        setTimeout(() => {
-                            GAME.socket.emit('ga', {
-                                a: 8,
-                                type: 5,
-                                multi: ':checked',
-                                apud: 'vzaaa'
-                            });
-                        }, 1600);
-                    }else{
-                    setTimeout(() => {
-                        GAME.socket.emit('ga', {
-                            a: 8,
-                            type: 5,
-                            apud: 'vzaaa'
-                        });
-                    }, 1600);
-                }
-                    return true;
-                } else if (GAME.is_training && $("#train_uptime").find('.timer').length == 1 && RESP.code) {
-                    GAME.socket.emit('ga', {
-                        a: 8,
-                        type: 3
-                    });
-                    return true;
-                } else if (GAME.is_training && RESP.code) {
-                    GAME.socket.emit('ga', {
-                        a: 8,
-                        type: 3
-                    });
                     return true;
                 } else if (imp == GAME.char_id && RESP.buff_imp && buff && buff_id < 4) {
                     GAME.socket.emit('ga', {
@@ -1674,105 +1564,116 @@ if (typeof GAME === 'undefined') {} else {
                 }
                 return false;
             };
-            RESP.min_pa = () => {
-                if (GAME.char_data.doubler_rate && GAME.char_data.doubler_rate > 19) {
-                    var cal_sub = GAME.char_data.doubler_rate;
-                    var spawner = GAME.spawner[0];
-                    var pa_mult = cal_sub * RESP.MF() + parseInt(spawner);
-                    return pa_mult;
-                } else {
-                    var spawner = GAME.spawner[0];
-                    var pa_mult = parseInt(spawner);
-                    return pa_mult;
+            RESP.check_ssj = async () => {
+                if (!RESP.checkSSJ) return;
+
+                if ($('#ssj_status').text() == "--:--:--") {
+                    await delay(500)
+                    GAME.socket.emit('ga', {
+                        a: 18,
+                        type: 6
+                    });
                 }
+                if (GAME.quick_opts.ssj && !GAME.ssj) {
+                    await delay(500)
+                    GAME.socket.emit('ga', {
+                        a: 18,
+                        type: 5,
+                        tech_id: GAME.quick_opts.ssj[0]
+                    });
+                    await delay(500)
+                } 
             };
-            RESP.action = () => {
-                if (!RESP.stop) {
-                    if (!RESP.check() && !RESP.check_bless()) {
-                        setTimeout(() => {
-                            if (RESP.MF() > 0) {
-                                RESP.fight();
-                            } else {
-                                RESP.go();
-                            }
-                        }, RESP.wait);
+            RESP.check_code = async () => {
+                if (!RESP.code) return;
+
+                if ($("#train_uptime").find('.timer').length == 0) {
+                    if (!GAME.is_training) {
+                        GAME.socket.emit('ga', {
+                            a: 8,
+                            type: 2,
+                            stat: 1,
+                            duration: 1
+                        });
+                        await delay(1600)
+                    }
+                    if(RESP.codeTP) {
+                        GAME.socket.emit('ga', {
+                            a: 8,
+                            type: 5,
+                            multi: ':checked',
+                            apud: 'vzaaa'
+                        });
                     } else {
-                        setTimeout(() => {
-                            RESP.action();
-                            kom_clear();
-                        }, 1700);
+                        GAME.socket.emit('ga', {
+                            a: 8,
+                            type: 5,
+                            apud: 'vzaaa'
+                        });
                     }
-                }
-            };
-            RESP.fight = () => {
-                if (RESP.reload) {
-                    setTimeout(() => {
-                        GAME.maploaded = false;
-                        GAME.prepareMap();
-                    }, 300);
-                    RESP.reload = false;
-                }
-                if ((RESP.MF() > 0 && GAME.field_mf[GAME.field_mob_id - 1] < 0) && GAME.field_mobs[GAME.field_mob_id - 1].ranks[0] || (RESP.MF() > 0 && GAME.field_mf[GAME.field_mob_id - 1] < 1 && GAME.field_mobs[GAME.field_mob_id - 1].ranks[1]) || (RESP.MF() > 0 && GAME.field_mf[GAME.field_mob_id - 1] < 2 && GAME.field_mobs[GAME.field_mob_id - 1].ranks[2]) || (RESP.MF() > 0 && GAME.field_mf[GAME.field_mob_id - 1] < 3 && GAME.field_mobs[GAME.field_mob_id - 1].ranks[3]) || (RESP.MF() > 0 && GAME.field_mf[GAME.field_mob_id - 1] < 4 && GAME.field_mobs[GAME.field_mob_id - 1].ranks[4]) || (RESP.MF() > 0 && GAME.field_mf[GAME.field_mob_id - 1] < 5 && GAME.field_mobs[GAME.field_mob_id - 1].ranks[5]) || !RESP.multifight) {
+                    await delay(500)
                     GAME.socket.emit('ga', {
-                        a: 7,
-                        order: 2,
-                        quick: 1,
-                        fo: GAME.map_options.ma
-                    });
-                } else if (RESP.MF2() > 0) {
-                    GAME.socket.emit('ga', {
-                        a: 13,
-                        mob_num: GAME.field_mob_id,
-                        fo: GAME.map_options.ma
-                    })
-                } else {
-                    GAME.socket.emit('ga', {
-                        a: 444,
-                        max: GAME.spawner[0],
-                        ignore: GAME.spawner[1]
+                        a: 8,
+                        type: 3
                     });
                 }
-                RESP.action();
             };
-            RESP.reload_map = () => {
-                RESP.reload = true;
+            RESP.check_all = async () => {
+                await RESP.check_ssj()
+                await RESP.check_code()
             };
-            RESP.MF = () => {
-                var r = 0;
-                if (GAME.field_mobs) {
-                    for (i = 0; i < GAME.map_options.ma.length; i++) {
-                        if (GAME.map_options.ma[i] === 1) {
-                            r += parseInt(GAME.field_mobs[0].ranks[i]);
-                            if (GAME.field_mobs[1]) {
-                                r += parseInt(GAME.field_mobs[1].ranks[i]);
-                            }
-                            if (GAME.field_mobs[2]) {
-                                r += parseInt(GAME.field_mobs[2].ranks[i]);
-                            }
-                            if (GAME.field_mobs[3]) {
-                                r += parseInt(GAME.field_mobs[3].ranks[i]);
-                            }
+            RESP.action = async (fmId = GAME.field_mob_id) => {
+                if (!RESP.stop) {
+                    await RESP.check_all()
+                    const check = await RESP.check()
+                    const check_bless = await RESP.check_bless()
+
+                    if (!check && !check_bless) {
+                        if (RESP.multifight) return RESP.fightMulti(fmId);
+                        while (await RESP.IdMobsExist(0)) {
+                            await RESP.qmattacko()
+                            await delay(51)
                         }
+                        await delay(90)
+                        await RESP.spawn()
+                        return RESP.action()
                     }
+
+                    await delay(1700)
+                    kom_clear();
+                    RESP.action()
                 }
-                return r;
             };
-            RESP.MF2 = () => {
-                var r = 0;
-                for (i = 0; i < GAME.map_options.ma.length; i++) {
-                    if (GAME.field_mob_id < GAME.field_mobs.length && "ranks" in GAME.field_mobs[GAME.field_mob_id] && GAME.map_options.ma[i] === 1) {
-                        r += parseInt(GAME.field_mobs[GAME.field_mob_id].ranks[i]);
-                    }
-                }
-                return r;
+            RESP.IdMobsExist = (fmId) => {
+                const fm = GAME.field_mobs
+                if (!fm) return false;
+
+                return fm[fmId].ranks.some(val => val > 0);
             };
-            RESP.go = () => {
+            RESP.qmattacko = () => {
+                //console.log('qmatacko')
+                GAME.socket.emit('ga', {
+                    a: 7,
+                    order: 2,
+                    quick: 1,
+                    fo: GAME.map_options.ma
+                });
+            }
+            RESP.fightMulti = (num = 0) => {
+                //console.log('multi')
+                GAME.socket.emit('ga', {
+                    a: 13,
+                    mob_num: num,
+                    fo: GAME.map_options.ma
+                });
+            }
+            RESP.spawn = () => {
+                //console.log('spawn')
                 GAME.socket.emit('ga', {
                     a: 444,
                     max: GAME.spawner[0],
                     ignore: GAME.spawner[1]
                 });
-                RESP.action();
             };
             RESP.check_bless = () => {
                 var błogo1 = $("#ekw_page_items").find("div[data-base_item_id=1801]").attr("data-item_id");
@@ -1964,7 +1865,7 @@ if (typeof GAME === 'undefined') {} else {
                         return GAME.quick_opts.senzus.find(senzu => senzu.item_id === 1243);
                 }
             };
-            RESP.useSenzu = () => {
+            RESP.useSenzu = async () => {
                 if (RESP.stop) return;
                 const blue = RESP.getSenzu(RESP.SENZU_BLUE);
                 const purple = RESP.getSenzu(RESP.SENZU_PURPLE);
@@ -1974,28 +1875,29 @@ if (typeof GAME === 'undefined') {} else {
                 const red = RESP.getSenzu(RESP.SENZU_RED);
                 switch (RESP.CONF_SENZU) {
                     case RESP.SENZU_BLUE:
-                        RESP.useBlue(Math.min(RESP.CONF_BLUE_AMOUNT(), blue.stack, RESP.CONF_BLUE_AMOUNT1));
+                        await RESP.useBlue(Math.min(RESP.CONF_BLUE_AMOUNT(), blue.stack, RESP.CONF_BLUE_AMOUNT1));
                         break;
                     case RESP.SENZU_PURPLE:
-                        RESP.usePurple(Math.min(RESP.CONF_PURPLE_AMOUNT, purple.stack));
+                        await RESP.usePurple(Math.min(RESP.CONF_PURPLE_AMOUNT, purple.stack));
                         break;
                     case RESP.SENZU_MAGIC:
-                        RESP.useMagic();
+                        await RESP.useMagic();
                         break;
                     case RESP.SENZU_GREEN:
-                        RESP.useGreen(Math.min(RESP.CONF_GREEN_AMOUNT(), green.stack, RESP.CONF_GREEN_AMOUNT1));
+                        await RESP.useGreen(Math.min(RESP.CONF_GREEN_AMOUNT(), green.stack, RESP.CONF_GREEN_AMOUNT1));
                         break;
                     case RESP.SENZU_YELLOW:
-                        RESP.useYellow(Math.min(RESP.CONF_YELLOW_AMOUNT, yellow.stack));
+                        await RESP.useYellow(Math.min(RESP.CONF_YELLOW_AMOUNT, yellow.stack));
                         break;
                     case RESP.SENZU_RED:
-                        RESP.useRed();
+                        await RESP.useRed();
                         break;
                     default:
                         if (blue && blue.stack > RESP.CONF_BLUE_AMOUNT() * 20) RESP.useBlue(Math.min(RESP.CONF_BLUE_AMOUNT(), blue.stack, RESP.CONF_BLUE_AMOUNT1));
                         else if (green && green.stack > RESP.CONF_GREEN_AMOUNT() * 5) RESP.useGreen(Math.min(RESP.CONF_GREEN_AMOUNT(), green.stack, RESP.CONF_GREEN_AMOUNT1));
                         else if (red && red.stack > 0) RESP.useRed();
                 }
+                return RESP.action()
             };
             RESP.useBlue = (amount = RESP.CONF_BLUE_AMOUNT()) => {
                 const blue = RESP.getSenzu(RESP.SENZU_BLUE);
@@ -2062,19 +1964,60 @@ if (typeof GAME === 'undefined') {} else {
                     am: 1
                 });
             };
-            RESP.useMagic = () => {
-                const magic = RESP.getSenzu(RESP.SENZU_MAGIC);
-                if (!magic) {
+            RESP.useMagic = async () => {
+                while (GAME.char_data.pr < GAME.getCharMaxPr()) {
+                    const magic = RESP.getSenzu(RESP.SENZU_MAGIC);
+                    if (!magic) {
+                        return;
+                    }
+                    GAME.socket.emit('ga', {
+                        a: 12,
+                        type: 14,
+                        iid: magic.id,
+                        page: GAME.ekw_page,
+                        am: 1
+                    });
+                    await delay(600)
+                };
+            };
+            RESP.multiFightResponse = async function(res) {
+               await delay(90)
+               let fmId = GAME.field_mob_id
+               if (await RESP.IdMobsExist(0) || await RESP.IdMobsExist(fmId - 1)) {
+                   await RESP.qmattacko()
+                   await delay(90)
+               }
+               if (fmId == GAME.field_mobs.length) {
+                   await RESP.spawn()
+                   fmId = 0
+               }
+               return RESP.action(fmId)
+            }
+            RESP.HandleSockets = function(res) {
+                if (RESP.stop) return;
+                // not enough pa to attack or spawn response
+                if (res.e == 8 && (res.a == 7 || res.a == 444)) {
+                    RESP.stop = true
+                    setTimeout(function() {
+                        RESP.stop = false
+                        RESP.useSenzu();            
+                    }, 1700);
                     return;
                 }
-                GAME.socket.emit('ga', {
-                    a: 12,
-                    type: 14,
-                    iid: magic.id,
-                    page: GAME.ekw_page,
-                    am: 1
-                });
-            };
+                // multifight response
+                if (res.e == 0 && res.a == 7 && res.mm == 1) {
+                    RESP.multiFightResponse()
+                }
+
+            }
+            GAME.socket.on('gr', function(msg) {
+                RESP.HandleSockets(msg);
+            });
+/*
+=========================================================================
+=========================== LPVM =========================================
+=========================================================================
+*/
             var LPVM = {
                 Stop: true,
                 Matrix: [],
