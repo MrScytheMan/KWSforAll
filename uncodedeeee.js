@@ -1982,14 +1982,14 @@ if (typeof GAME === 'undefined') {} else {
             var LPVM = {
                 Stop: true,
                 Matrix: [],
-                Map: 0,
                 Path: [],
                 Born: 2,
                 pvm_killed: 0,
                 limit: false,
                 Killed: false,
-                wait: 70,
-                limit2: 60
+                wait: 50,
+                limit2: 60,
+                avoidFields: [ 7000, 7001, 7002, 7003 ]
             };
             LPVM.UpdateKilledCounter = function(num) {
                 $("#lpvm_Panel .pvm_killed b").text(num);
@@ -1999,14 +1999,15 @@ if (typeof GAME === 'undefined') {} else {
             };
             LPVM.CreateMatrix = function() {
                 LPVM.Matrix = [];
-                LPVM.Map = GAME.mapcell;
+                const Map = GAME.mapcell;
                 for (var i = 0; i < parseInt(GAME.map.max_y); i++) {
                     LPVM.Matrix[i] = [];
                     for (var j = 0; j < parseInt(GAME.map.max_x); j++) {
-                        if (LPVM.Map[parseInt(j + 1) + '_' + parseInt(i + 1)].m == 1) {
-                            LPVM.Matrix[i][j] = 1;
-                        } else {
+                        let field = Map[parseInt(j + 1) + '_' + parseInt(i + 1)]
+                        if (field.m == 0 || LPVM.avoidFields.includes(field.f)) {
                             LPVM.Matrix[i][j] = 0
+                        } else {
+                            LPVM.Matrix[i][j] = 1;
                         }
                     }
                 }
@@ -2124,17 +2125,14 @@ if (typeof GAME === 'undefined') {} else {
                     }
                 }
             };
-            LPVM.Next = function() {
+            LPVM.Next = async function() {
                 if (LPVM.Path.length - 1 > 0) {
-                    LPVM.Path.shift();
-                    setTimeout(function() {
-                        LPVM.Move();
-                    }, LPVM.wait);
-                } else {
-                    setTimeout(function() {
-                        LPVM.KillWanted();
-                    }, 500);
+                    await LPVM.Path.shift();
+                    await delay(LPVM.wait);
+                    return LPVM.Move();
                 }
+                await delay(150);
+                return LPVM.KillWanted();
             };
             LPVM.HandleSockets = function(res) {
                 if (!LPVM.Stop && res.a === 4 && res.char_id === GAME.char_id) {
@@ -2142,11 +2140,7 @@ if (typeof GAME === 'undefined') {} else {
                 } else if (!LPVM.Stop && res.a === 32 && res.e == 0) {
                     if ($('button[data-wanted="' + LPVM.Born + '"]').html()) {
                         setTimeout(function() {
-                            GAME.socket.emit('ga', {
-                                a: 32,
-                                type: 2,
-                                wanted: LPVM.Born
-                            });
+                            LPVM.Collect();
                         }, 150);
                     } else {
                         setTimeout(function() {
@@ -2167,11 +2161,11 @@ if (typeof GAME === 'undefined') {} else {
                         if (GAME.char_data.x == GAME.map_wanteds.x && GAME.char_data.y == GAME.map_wanteds.y) {
                             setTimeout(function() {
                                 LPVM.KillWanted();
-                            }, 500);
+                            }, 150);
                         } else {
                             setTimeout(function() {
                                 LPVM.Go();
-                            }, 1000);
+                            }, 150);
                         }
                     } else {
                         setTimeout(() => {
