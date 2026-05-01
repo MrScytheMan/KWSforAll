@@ -1555,7 +1555,14 @@ if (typeof GAME === 'undefined') {} else {
                     const check_bless = await RESP.check_bless()
 
                     if (!check && !check_bless) {
-                        return RESP.fightMulti(fmId)
+                        if (RESP.multifight) return RESP.fightMulti(fmId);
+                        while (await RESP.IdMobsExist(0)) {
+                            await RESP.qmattacko()
+                            await delay(51)
+                        }
+                        await delay(90)
+                        await RESP.spawn()
+                        return RESP.action()
                     }
 
                     await delay(1700)
