@@ -1141,6 +1141,8 @@ if (typeof GAME === 'undefined') { } else {
             }
             pvpKill() {
                 if (!JQS.chm.is(":focus")) {
+                    if ($("#arena_players").is(":visible")) return this.attackAutoArena(); 
+
                     let opponents = $("#player_list_con").find(".player button" + "[data-quick=1]" + ":not(.initial_hide_forced)");
                     if ($("button[data-option='load_more_players']").is(":visible")) {
                         $("button[data-option='load_more_players']").click();
