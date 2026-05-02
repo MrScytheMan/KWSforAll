@@ -445,18 +445,20 @@ if (typeof GAME === 'undefined') { } else {
                 }
             }
             async manageAutoArena() {
-                if (!this.auto_arena) {
-                    this.stopAutoArena();
-                    return;
+                while (true) {
+                    if (!this.auto_arena) {
+                        this.stopAutoArena();
+                        return;
+                    }
+            
+                    GAME.socket.emit('ga', {
+                        a: 46,
+                        type: 0
+                    });
+            
+                    await delay(5000);
+                    await this.attackAutoArena();
                 }
-            
-                GAME.socket.emit('ga', {
-                    a: 46,
-                    type: 0
-                });
-            
-                await delay(1000);
-                this.attackAutoArena();
             }
             
             async attackAutoArena() {
@@ -465,11 +467,11 @@ if (typeof GAME === 'undefined') { } else {
                     return;
                 }
             
-                const $arenaCon = $("#arena_players");
-                const $opponents = $arenaCon.find('.player button[data-option="arena_attack"][data-quick="1"]:not(.initial_hide_forced)');
+                const arenaCon = $("#arena_players");
+                const opponents = arenaCon.find('.player button[data-option="arena_attack"][data-quick="1"]:not(.initial_hide_forced)');
             
-                if ($opponents.length > 0 && GAME.timed == 0) {
-                    const opponentIndex = parseInt($opponents.first().attr("data-index"));
+                if (opponents.length > 0 && GAME.timed == 0) {
+                    const opponentIndex = parseInt(opponents.first().attr("data-index"));
             
                     GAME.socket.emit('ga', {
                         a: 46,
@@ -478,12 +480,9 @@ if (typeof GAME === 'undefined') { } else {
                         quick: 1
                     });
             
-                    await delay(500);
-                    return this.attackAutoArena();
+                    await delay(250);
+                    return await this.attackAutoArena();
                 } 
-                
-                await delay(5000);
-                this.manageAutoArena();
             }
             stopAutoArena() {
                 this.auto_arena = false;
