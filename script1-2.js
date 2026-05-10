@@ -198,6 +198,8 @@ if (typeof GAME === 'undefined') { } else {
                 GAME.socket.on('gr', (res) => {
                     this.handleSockets(res);
                 });
+                // add instances to fast_locations
+                GAME.fast_locations.push(369, 394, 405, 407, 472, 478, 577, 580, 872);
             }
             isLogged(cb) {
                 let waitForID = setInterval(() => {
@@ -1048,6 +1050,12 @@ if (typeof GAME === 'undefined') { } else {
                     GAME.socket.emit('ga', {a: 29, type: 1, instance: GAME.current_instance });
                 }
             }
+            safeLastmapBack() {
+                if (GAME.fast_locations.includes(GAME.char_data.loc)) {
+                    return GAME.socket.emit('ga', {a:16});
+                }
+                GAME.ask_confirm(19,{a:16});
+            };
             questProceed() {
                 if (JQS.qcc.is(":visible")) {
                     if ($("button[data-option=finish_quest]").length === 1) {
@@ -1661,17 +1669,38 @@ if (typeof GAME === 'undefined') { } else {
                         } else if (event.key === "n" || event.key === "N") {
                             this.useCompressor();
                         } else if (event.key === "2") {
-                            GAME.socket.emit('ga', {
-                                a: 15,
-                                type: 13
-                            });
+                            if (GAME.char_data.last_map) {
+                                this.safeLastmapBack();
+                            } else {
+                                // teleport private planet
+                                GAME.socket.emit('ga', {
+                                    a: 15,
+                                    type: 13
+                                });
+                            }
                         } else if (event.key === "3") {
-                            GAME.socket.emit('ga', {
-                                a: 39,
-                                type: 32
-                            });
+                            if (GAME.char_data.last_map) {
+                                this.safeLastmapBack();
+                            } else {
+                                // teleport clan planet
+                                GAME.socket.emit('ga', {
+                                    a: 39,
+                                    type: 32
+                                });
+                            }
                         } else if (event.key === "4") {
-                            this.bless();
+                            if (GAME.char_data.last_map) {
+                                this.safeLastmapBack();
+                            } else {
+                                // teleport to character empire
+                                if (GAME.char_data.empire) {
+                                    GAME.socket.emit('ga', {
+                                        a: 50,
+                                        type: 5,
+                                        e: GAME.char_data.empire
+                                    });
+                                }
+                            }
                         } else if (event.key === "5") {
                             setTimeout(() => {
                                 GAME.socket.emit('ga', {
@@ -1707,6 +1736,8 @@ if (typeof GAME === 'undefined') { } else {
                                     set: set
                                 });
                             }
+                        } else if (event.key === "9") {
+                            this.bless();
                         } else if (event.key === "=") {
                             this.createAlternativePilot();
                         } else if (event.key === ",") {
@@ -1715,7 +1746,7 @@ if (typeof GAME === 'undefined') { } else {
                             this.goToPreviousChar();
                         } else if (event.key === "Tab") {
                             this.goToNextChar();
-                        } else if (event.key === "9" && JQS.qcc.is(":visible")) { }
+                        }
                     }
                 });
                 $("body").on("click", ".qlink.load_afo", () => {
