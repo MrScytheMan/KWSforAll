@@ -198,6 +198,8 @@ if (typeof GAME === 'undefined') { } else {
                 GAME.socket.on('gr', (res) => {
                     this.handleSockets(res);
                 });
+                // add instances to fast_locations
+                GAME.fast_locations.push(369, 394, 405, 407, 472, 478, 577, 580, 872);
             }
             isLogged(cb) {
                 let waitForID = setInterval(() => {
@@ -1048,20 +1050,34 @@ if (typeof GAME === 'undefined') { } else {
                     GAME.socket.emit('ga', {a: 29, type: 1, instance: GAME.current_instance });
                 }
             }
+            safeLastmapBack() {
+                if (GAME.fast_locations.includes(GAME.char_data.loc)) {
+                    return GAME.socket.emit('ga', {a:16});
+                }
+                GAME.ask_confirm(19,{a:16});
+            };
             questProceed() {
+                const dbButton = $("button[data-option=pick_db]");
+                if (dbButton.length > 0) {
+                    const dbID = dbButton.data("id");
+
+                    GAME.socket.emit('ga', {
+                        a: 33,
+                        type: 3,
+                        id: dbID
+                    });
+
+                    return true
+                }               
+                if ($('#fight_view').is(':visible')) {
+                    $('#fight_view').fadeOut();
+                    return true
+                }
                 if (JQS.qcc.is(":visible")) {
-                    if ($("button[data-option=finish_quest]").length === 1) {
-                        let qb_id = $("button[data-option=finish_quest]").attr("data-qb_id");
-                        GAME.socket.emit('ga', {
-                            a: 22,
-                            type: 2,
-                            button: 1,
-                            id: qb_id
-                        });
-                        return true
-                    }
-                    if ($("button[data-option=quest_riddle]").is(":visible")) {
-                        let qb_id = $("button[data-option=quest_riddle]").attr("data-qid");
+                    const riddleButton = $("button[data-option=quest_riddle]");
+
+                    if (riddleButton.is(":visible")) {
+                        const qb_id = riddleButton.attr("data-qid");
                         GAME.socket.emit('ga', {
                             a: 22,
                             type: 7,
@@ -1070,20 +1086,23 @@ if (typeof GAME === 'undefined') { } else {
                         });
                         return true
                     }
-                    if ($("button[data-option=quest_duel]").is(":visible")) {
-                        let fb_id = $("button[data-option=quest_duel]").attr("data-qid");
+
+                    const duelButton = $("button[data-option=quest_duel]");
+
+                    if (duelButton.is(":visible")) {
+                        const fb_id = duelButton.attr("data-qid");
                         GAME.socket.emit('ga', {
                             a: 22,
                             type: 6,
                             id: fb_id
                         });
-                        setTimeout(() => {
-                            $('#fight_view').fadeOut();
-                        }, 500);
                         return true
                     }
-                    if ($(".quest_win .sekcja").text().toLowerCase() === "nuda" && $("button[data-option=finish_quest]").length === 3) {
-                        let qb_id = $("button[data-option=finish_quest]").attr("data-qb_id");
+
+                    const finishButtons = $("button[data-option=finish_quest]");
+
+                    if ($(".quest_win .sekcja").text().toLowerCase() === "nuda" && finishButtons.length === 3) {
+                        const qb_id = finishButtons.eq(1).data("qb_id");
                         GAME.socket.emit('ga', {
                             a: 22,
                             type: 2,
@@ -1092,47 +1111,40 @@ if (typeof GAME === 'undefined') { } else {
                         });
                         return true
                     }
-                    if ($(".quest_win .sekcja").text().toLowerCase().startsWith("zadanie substancji") && $("button[data-option=finish_quest]").length === 3) {
-                        let qb_id = $("button[data-option=finish_quest]").attr("data-qb_id");
+                    // choose last finish_quest option by default. Override above when needed
+                    if (finishButtons.length > 0) {
+                        const qb_id = finishButtons.last().data("qb_id");
                         GAME.socket.emit('ga', {
                             a: 22,
                             type: 2,
-                            button: 3,
+                            button: finishButtons.length,
                             id: qb_id
                         });
-                        return true
-                    }
-                    if ($("button[data-option=finish_quest]").length === 2 && $("button[data-option=finish_quest]").eq(1).html() === "Mam dość tej studni") {
-                        let qb_id = $("button[data-option=finish_quest]").eq(1).attr("data-qb_id");
-                        GAME.socket.emit('ga', {
-                            a: 22,
-                            type: 2,
-                            button: 2,
-                            id: qb_id
-                        });
-                        return true
-                    }
-                    if ($("#field_opts_con .sekcja").html() == "Zasoby") {
-                        let qb_id = $("#field_opts_con .field_option").find("[data-option=start_mine]").attr("data-mid");
-                        GAME.socket.emit('ga', {
-                            a: 22,
-                            type: 8,
-                            mid: qb_id
-                        });
-                        return true
+                        return true;
                     }
                     if ($(".quest_action").is(":visible")) {
                         return GAME.questAction() 
                     }
                 }
-                if ($("button[data-option=start_mine]").length >= 1) {
-                    let mineID = parseInt($("button[data-option=start_mine]").attr("data-mid"));
-                    GAME.socket.emit('ga', {
-                        a: 22,
-                        type: 8,
-                        mid: mineID
-                    });
-                } 
+                const mineButton = $("button[data-option=start_mine]");
+                if (mineButton.length > 0) {
+                    const mineID = mineButton.data("mid");
+                    
+                    const isCooldownActive = $(`#mining_res_${mineID} span.timer`).length > 0;
+                
+                    if (!isCooldownActive) {
+                        GAME.socket.emit('ga', {
+                            a: 22,
+                            type: 8,
+                            mid: mineID
+                        });
+                        return true
+                    }
+                }               
+                if (GAME.spacebind && GAME.spacebind[0] == 2 && $('#field_q_' + GAME.spacebind[1]).css('display') == 'none') {
+                    GAME.emitOrder({a: 3, vo: GAME.map_options.vo});
+                    return true
+                }
                 return false
             }
             pvpKill() {
@@ -1661,17 +1673,38 @@ if (typeof GAME === 'undefined') { } else {
                         } else if (event.key === "n" || event.key === "N") {
                             this.useCompressor();
                         } else if (event.key === "2") {
-                            GAME.socket.emit('ga', {
-                                a: 15,
-                                type: 13
-                            });
+                            if (GAME.char_data.last_map) {
+                                this.safeLastmapBack();
+                            } else {
+                                // teleport private planet
+                                GAME.socket.emit('ga', {
+                                    a: 15,
+                                    type: 13
+                                });
+                            }
                         } else if (event.key === "3") {
-                            GAME.socket.emit('ga', {
-                                a: 39,
-                                type: 32
-                            });
+                            if (GAME.char_data.last_map) {
+                                this.safeLastmapBack();
+                            } else {
+                                // teleport clan planet
+                                GAME.socket.emit('ga', {
+                                    a: 39,
+                                    type: 32
+                                });
+                            }
                         } else if (event.key === "4") {
-                            this.bless();
+                            if (GAME.char_data.last_map) {
+                                this.safeLastmapBack();
+                            } else {
+                                // teleport to character empire
+                                if (GAME.char_data.empire) {
+                                    GAME.socket.emit('ga', {
+                                        a: 50,
+                                        type: 5,
+                                        e: GAME.char_data.empire
+                                    });
+                                }
+                            }
                         } else if (event.key === "5") {
                             setTimeout(() => {
                                 GAME.socket.emit('ga', {
@@ -1707,6 +1740,8 @@ if (typeof GAME === 'undefined') { } else {
                                     set: set
                                 });
                             }
+                        } else if (event.key === "9") {
+                            this.bless();
                         } else if (event.key === "=") {
                             this.createAlternativePilot();
                         } else if (event.key === ",") {
@@ -1715,7 +1750,7 @@ if (typeof GAME === 'undefined') { } else {
                             this.goToPreviousChar();
                         } else if (event.key === "Tab") {
                             this.goToNextChar();
-                        } else if (event.key === "9" && JQS.qcc.is(":visible")) { }
+                        }
                     }
                 });
                 $("body").on("click", ".qlink.load_afo", () => {
