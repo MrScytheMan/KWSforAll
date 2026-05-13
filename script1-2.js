@@ -2444,35 +2444,16 @@ if (typeof GAME === 'undefined') { } else {
             tooltip_bind();
             page_bind();
         }
+        GAME.parseTracker_o = GAME.parseTracker;
         GAME.parseTracker = function(track){
-            var con='';
-            var any=false;
-            //console.log(track);
-            if(track&&track.length){
-              var len=track.length;
-              var track=track.sort(function(a,b){return b.m-a.m||b.d-a.d||a.want.type-b.want.type});
-              //con+='<div class="sekcja" id="drag_tracker">'+LNG.lab181+'</div><div id="drag_con" class="scroll">';
-              for(var i=0;i<len;i++){
-                any=true;
-                var qn=track[i].header;
-                if(qn.length>15) qn=qn.slice(0,15)+'...';
-                con+='<div id="track_quest_'+track[i].qb_id+'" class="qtrack option" data-option="go_teleport" data-loc="'+track[i].loc+'"><div class="sep'+(track[i].m==1?3:(track[i].d==1?4:2))+'"></div><b>'+qn+'</b> '+this.quest_want(track[i].want,track[i].qb_id)+'</div>';
-              }
+            GAME.parseTracker_o(track);
+
+            $('#drag_con').removeClass('scroll');
+            if (!kws.settings.hide_tracker) {
+                $('#drag_con').show();
+            } else {
+                $('#drag_con').hide();
             }
-            
-            //con+='</div><div class="clr"></div>';
-            if(any)
-            {
-                $('#drag_con').html(con);
-                $('#quest_track_con').show();
-                option_bind();
-                if (!kws.settings.hide_tracker) {
-                    $('#drag_con').show();
-                } else {
-                    $('#drag_con').hide();
-                }
-            }
-            else $('#quest_track_con').hide();
         }
         GAME.getEmpDetails = function (petd) {
             kws.findWorker(petd, (el) => {
