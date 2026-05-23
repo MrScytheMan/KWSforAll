@@ -526,8 +526,8 @@ class pet_bonch {
                  <option value="52">15 minut(y) krótszy cooldown między walkami PvP</option>
                  <option value="53">50% większa ilość boskiego atrybutu przewodniego z walk PvM</option>
                  <option value="54">60% większa ilość boskiego atrybutu przewodniego z walk PvM</option>
-                 <option value="55">2% do szansy na ulepszenie przedmiotów M-borna</option>
-                 <option value="56">4% do szansy na ulepszenie przedmiotów M-borna</option>
+                 <option value="55">2% do szansy na ulepszenie przedmiotów klasy Mega</option>
+                 <option value="56">4% do szansy na ulepszenie przedmiotów klasy Mega</option>
                  <option value="57">5% do rezultatu treningu</option>
                  <option value="58">10% do rezultatu treningu</option>
                  <option value="59">2% do szansy na podwójnie efektywny bonus za ulepszenie treningu</option>
