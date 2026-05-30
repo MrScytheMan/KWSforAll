@@ -23,8 +23,7 @@ if (typeof GAME === 'undefined') { } else {
         });
 
         class kwsv3 {
-            constructor(charactersManager) {
-                this.charactersManager = charactersManager;
+            constructor() {
                 this.isLogged((data) => {
                     Object.defineProperty(GAME, 'pid', {
                         writable: false
@@ -857,8 +856,6 @@ if (typeof GAME === 'undefined') { } else {
                 let received = $("#act_prizes").find("div.act_prize.disabled").length;
                 let activities = `${activity}/185 (${received}/5)`;
                 $("#secondary_char_stats .activities ul").html(activities);
-
-                this.adjustCurrentCharacterId();
             }
             collectActivities() {
                 let received = $("#act_prizes").find("div.act_prize.disabled").length;
@@ -1361,11 +1358,11 @@ if (typeof GAME === 'undefined') { } else {
                     this.resetAFO();
                 });
                 $("body").on("click", "#changeProfilePrev", () => {
-                    this.goToPreviousChar();
+                    this.switchCharacter('prev')
                     this.resetCalculatedPower();
                 });
                 $("body").on("click", "#changeProfileNext", () => {
-                    this.goToNextChar();
+                    this.switchCharacter('next')
                     this.resetCalculatedPower();
                 });
                 $("body").on("click", `button[data-page="stelep"].cps`, () => {
@@ -1693,12 +1690,10 @@ if (typeof GAME === 'undefined') { } else {
                             this.bless();
                         } else if (event.key === "=") {
                             this.createAlternativePilot();
-                        } else if (event.key === ",") {
-                            this.goToPreviousChar();
                         } else if (event.key === "Tab" && event.shiftKey) {
-                            this.goToPreviousChar();
+                            this.switchCharacter('prev')
                         } else if (event.key === "Tab") {
-                            this.goToNextChar();
+                            this.switchCharacter('next')
                         }
                     }
                 });
@@ -2289,21 +2284,19 @@ if (typeof GAME === 'undefined') { } else {
                     this.useCompressor()
                 });
             }
-            goToNextChar() {
+            switchCharacter(direction) {
+                const charList = [...document.querySelectorAll('#char_list_con li')].map(li => Number(li.dataset.char_id));
+                const charIndex = charList.indexOf(GAME.char_data.id)
+
                 this.resetAFO();
-                var charId = this.charactersManager.getNextCharId();
-                GAME.emitOrder({ a: 2, char_id: charId });
-            }
-            goToPreviousChar() {
-                this.resetAFO();
-                var charId = this.charactersManager.getPreviousCharId();
-                GAME.emitOrder({ a: 2, char_id: charId });
-            }
-            adjustCurrentCharacterId() {
-                var thisCharId = GAME.char_id;
-                if (thisCharId != this.charactersManager.currentCharacterId) {
-                    this.charactersManager.setCurrentCharacterId(thisCharId);
+
+                let targetIndex;
+                if (direction === 'next') {
+                    targetIndex = (charIndex + 1) % charList.length;
+                } else if (direction === 'prev') {
+                    targetIndex = (charIndex - 1 + charList.length) % charList.length;
                 }
+                GAME.emitOrder({ a: 2, char_id: charList[targetIndex] });
             }
             resetAFO() {
                 //console.log("KWA_RESET_AFO: reset AFO values");
@@ -2334,7 +2327,7 @@ if (typeof GAME === 'undefined') { } else {
         GAME.socket.on('pong', function(ms) {
             latency = ms;
         });
-        const kws = new kwsv3(kwsLocalCharacters);
+        const kws = new kwsv3();
         GAME.komunikat2 = function (kom) {
             if (this.koms.indexOf(kom) == -1) {
                 if (this.komc > 50) this.komc = 40;

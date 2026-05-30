@@ -4,7 +4,6 @@
      scr.innerHTML = `const LoadScript = (url, cb) => { fetch(url).then(res => res.json()).then((out) => { cb(out) }).catch(err => { throw err }); }
  
  const links = {
-    "link0":"https://raw.githubusercontent.com/MrScytheMan/KWSforAll/main/charactersManager.js",
     "link1":"https://raw.githubusercontent.com/MrScytheMan/KWSforAll/main/ballExp.js",
     "link2":"https://raw.githubusercontent.com/MrScytheMan/KWSforAll/main/ballUpgrade.js",
     "link3":"https://raw.githubusercontent.com/MrScytheMan/KWSforAll/main/ballReset.js",
