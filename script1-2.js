@@ -874,74 +874,6 @@ if (typeof GAME === 'undefined') { } else {
                     }
                 }
             }
-            
-            wojny2() {
-                var aimp = $("#e_admiral_player").find("[data-option=show_player]").attr("data-char_id");
-                var imp = $("#leader_player").find("[data-option=show_player]").attr("data-char_id");
-                if (!adimp) {
-                    setTimeout(() => {
-                        GAME.socket.emit('ga', {
-                            a: 50,
-                            type: 0,
-                            empire: GAME.char_data.empire
-                        });
-                    }, 100);
-                    adimp = true;
-                    setTimeout(() => {
-                        this.wojny2();
-                    }, 300);
-                } else if (!GAME.emp_enemies.includes(1) && ![GAME.char_data.empire].includes(1) && (kws.check_imp().includes(GAME.char_id) || kws.check_imp2().includes(GAME.char_id) || imp == GAME.char_id || aimp == GAME.char_id)) {
-                    GAME.socket.emit('ga', {
-                        a: 50,
-                        type: 7,
-                        target: 1
-                    });
-                    setTimeout(() => {
-                        this.wojny2();
-                    }, 300);
-                } else if (!GAME.emp_enemies.includes(2) && ![GAME.char_data.empire].includes(2) && (kws.check_imp().includes(GAME.char_id) || kws.check_imp2().includes(GAME.char_id) || imp == GAME.char_id || aimp == GAME.char_id)) {
-                    GAME.socket.emit('ga', {
-                        a: 50,
-                        type: 7,
-                        target: 2
-                    });
-                    setTimeout(() => {
-                        this.wojny2();
-                    }, 300);
-                } else if (!GAME.emp_enemies.includes(3) && ![GAME.char_data.empire].includes(3) && (kws.check_imp().includes(GAME.char_id) || kws.check_imp2().includes(GAME.char_id) || imp == GAME.char_id || aimp == GAME.char_id)) {
-                    GAME.socket.emit('ga', {
-                        a: 50,
-                        type: 7,
-                        target: 3
-                    });
-                    setTimeout(() => {
-                        this.wojny2();
-                    }, 300);
-                } else if (!GAME.emp_enemies.includes(4) && ![GAME.char_data.empire].includes(4) && (kws.check_imp().includes(GAME.char_id) || kws.check_imp2().includes(GAME.char_id) || imp == GAME.char_id || aimp == GAME.char_id)) {
-                    GAME.socket.emit('ga', {
-                        a: 50,
-                        type: 7,
-                        target: 4
-                    });
-                    setTimeout(() => {
-                        this.wojny2();
-                    }, 300);
-                } else { }
-            }
-            check_imp() {
-                var tab = [];
-                for (var i = 0; i < 3; i++) {
-                    tab[i] = parseInt($("#empire_heroes .activity").eq(i).find("[data-option=show_player]").attr("data-char_id"));
-                }
-                return tab;
-            }
-            check_imp2() {
-                var tab = [];
-                for (var i = 0; i < 3; i++) {
-                    tab[i] = parseInt($("#empire_efrags .activity").eq(i).find("[data-option=show_player]").attr("data-char_id"));
-                }
-                return tab;
-            }
             vip() {
                 var month = $("#monthly_vip_rewards").find(".vip_cat.option" + ":not(.disabled)" + ":not(.received)");
                 var general = $("#general_vip_rewards").find(".vip_cat.option" + ":not(.disabled)" + ":not(.received)");
@@ -2337,120 +2269,74 @@ if (typeof GAME === 'undefined') { } else {
                 kom_close_bind();
             }
         }
+        GAME.cached_data_o = GAME.cached_data;
         GAME.cached_data = function () {
-            var pos = $('#char_buffs').offset();
-            pos.left -= 75;
-            pos.top -= 75;
-            this.char_buffs_pos = pos;
-            if (GAME.char_id != 0 && GAME.quick_opts.online_reward) {
-                setTimeout(() => {
-                    GAME.socket.emit('ga', {
-                        a: 26,
-                        type: 1
-                    });
-                    setTimeout(() => {
-                        $('#daily_reward').fadeOut();
-                        kom_clear();
-                    }, 400);
-                }, 1800);
-            }
-            setTimeout(() => {
-                if (GAME.emp_wars.length < 3 && GAME.quick_opts.empire) {
-                    setTimeout(() => {
-                        kws.wojny2();
-                    }, 300);
-                }
-            }, 1500);
+            GAME.cached_data_o();
+
             GAME.startLevel = GAME.char_data.level;
             GAME.startTime = Date.now();
-            setTimeout(() => {
-                if (GAME.char_data.planetary == 0) {
-                    setTimeout(() => {
-                        GAME.socket.emit('ga', {
-                            a: 39,
-                            type: 34
-                        });
-                    }, 300);
-                }
-            }, 1200);
+            kws.workers_info = [false, false];
+            arena_count = 0;
+            pvp_count = 0;
+
+            if (GAME.char_data.planetary == 0) {
+                setTimeout(() => {
+                    GAME.socket.emit('ga', {
+                        a: 39,
+                        type: 34
+                    });
+                }, 300);
+            }
+
             const emitCalls = [{
-                a: 33,
-                type: 0
-            }, {
                 a: 49,
                 type: 0
             }, {
-                a: 29,
+                a: 33,
                 type: 0
             },];
-            let cd = [300, 600, 900];
+            let cd = [200, 400];
             emitCalls.forEach((data, i) => {
                 setTimeout(() => {
                     GAME.socket.emit('ga', data);
                 }, cd[i]);
             });
             $('#train_uptime').html(GAME.showTimer(GAME.char_data.train_ucd - GAME.getTime()));
-            setTimeout(() => {
-                if (kws.check_act()) {
-                    $("#secondary_char_stats .activities").click();
-                }
-            }, 1200);
-            GAME.parseQuickOpts(1);
-            kws.workers_info = [false, false];
-            arena_count = 0;
-            pvp_count = 0;
-            setTimeout(() => {
-                if ((GAME.char_data.reborn == 4 || GAME.char_data.reborn == 5) && GAME.char_data.alt_transform_expiry < GAME.getTime()) {
-                    GAME.socket.emit('ga', {
-                        a: 18,
-                        type: 8,
-                        tech_id: 134
-                    });
-                }
-            }, 5300);
+            GAME.parseQuickOpts();
         }
-        GAME.parseQuickOpts = function (newq_bar = false) {
-            var opts = '';
-            if (this.quick_opts.tutorial) {
-                this.tutorials = this.quick_opts.tutorial;
-                opts += `<img id="open_tuts" src="/gfx/layout/helper.png" class="qlink2 option" data-option="open_tuts" data-toggle="tooltip" data-original-title="<div class=tt>${LNG.lab358}</div>" />`;
-                $.getJSON('/json/tutorial.json', function (json) {
-                    GAME.tutorial_data = json.tuts;
-                    GAME.checkTutorial();
-                });
+        GAME.parseQuickOpts_o = GAME.parseQuickOpts;
+        GAME.parseQuickOpts = function(){
+            GAME.parseQuickOpts_o()
+
+            const ssjClass = this.quick_opts.ssj[0] == "116" ? "_uio" : this.quick_opts.ssj[1];
+
+            const utHtml = `
+                  <div class="option qlink ssj${ssjClass} show_qat" data-option="use_transform" data-tech="${this.quick_opts.ssj[0]}" data-toggle="tooltip" data-original-title="<div class=tt>${LNG.lab139}</div>"></div>
+                  <div id="quick_allTransformations"></div>
+                  `;
+            $('.option[data-option="use_transform"]').replaceWith(utHtml);
+
+            const empireHtml = `
+                  <div class="select_page qlink emp${this.quick_opts.empire} empPos" data-page="game_empire" data-toggle="tooltip" data-original-title="<div class=tt>${LNG['empire' + this.quick_opts.empire]}</div>"></div>
+                  <div class="go_to_emp_con"> <div class="qlink go_to_emp emp1" style="filter:hue-rotate(168deg);" emp="1" data-toggle="tooltip" data-original-title="<div class=tt>Wejdź na siedzibę</div>"></div> <div class="qlink go_to_emp emp2" style="filter:hue-rotate(168deg);" emp="2" data-toggle="tooltip" data-original-title="<div class=tt>Wejdź na siedzibę</div>"></div> <div class="qlink go_to_emp emp3" style="filter:hue-rotate(168deg);" emp="3" data-toggle="tooltip" data-original-title="<div class=tt>Wejdź na siedzibę</div>"></div> <div class="qlink go_to_emp emp4" style="filter:hue-rotate(168deg);" emp="4" data-toggle="tooltip" data-original-title="<div class=tt>Wejdź na siedzibę</div>"></div> </div>
+                  `;
+            $('#quick_bar .select_page[data-page="game_empire"]').replaceWith(empireHtml);
+
+            let opts = '';
+
+            opts += '<br>';
+            if (GAME.char_data && GAME.char_data.klan_rent == 0) {
+                opts += `<div class="qlink get_titles_list" style="filter:hue-rotate(168deg);background-image: url('https://i.imgur.com/0eQCqBl.png');" data-toggle="tooltip" data-original-title="<div class=tt>Zmień tytuł</div>"></div>`;
             }
-            if (this.quick_opts.private_planet) opts += `<div class="option qlink priv" data-option="private_teleport" data-toggle="tooltip" data-original-title="<div class=tt>${LNG.lab138}</div>"></div>`;
-            if (this.quick_opts.teleport) opts += `<div class="option qlink tele" data-option="use_teleport" data-toggle="tooltip" data-original-title="<div class=tt>${LNG.lab140}</div>"></div>`;
-            if (this.quick_opts.travel) opts += `<div class="option qlink trav" data-option="use_travel" data-toggle="tooltip" data-original-title="<div class=tt>${LNG.lab141}</div>"></div>`;
-            if (this.quick_opts.ssj) {
-                opts += `<div class="option qlink ssj${this.quick_opts.ssj[0] == "116" ? "_uio" : this.quick_opts.ssj[1]} show_qat" data-option="use_transform" data-tech="${this.quick_opts.ssj[0]}"data-toggle="tooltip" data-original-title="<div class=tt>${LNG.lab139}</div>"></div>`;
-                opts += `<div id="quick_allTransformations"></div>`;
-            }
-            if (this.quick_opts.online_reward) opts += `<div class="option qlink dail" data-option="daily_reward" data-toggle="tooltip" data-original-title="<div class=tt>${LNG.lab176}</div>"></div>`;
-            if (this.quick_opts.bless) opts += `<div class="select_page qlink bles" data-page="game_buffs" data-toggle="tooltip" data-original-title="<div class=tt>${LNG.lab188}</div>"></div>`;
-            if (this.quick_opts.sub && this.quick_opts.sub.length) opts += `<div class="option qlink subs" data-option="quick_use_subs" data-toggle="tooltip" data-original-title="<div class=tt>${LNG.lab189}</div>"></div>`;
-            if (this.quick_opts.senzus && this.quick_opts.senzus.length) {
-                opts += `<div class="option qlink senz" data-option="quick_use_senzu" data-toggle="tooltip" data-original-title="<div class=tt>${LNG.lab190}</div>"></div>`;
-            }
-            if (this.quick_opts.empire) {
-                opts += `<div class="select_page qlink emp${this.quick_opts.empire} empPos" data-page="game_empire" data-toggle="tooltip" data-original-title="<div class=tt>${LNG['empire' + this.quick_opts.empire]}</div>"></div>`;
-                opts += `<div class="go_to_emp_con"> <div class="qlink go_to_emp emp1" style="filter:hue-rotate(168deg);" emp="1" data-toggle="tooltip" data-original-title="<div class=tt>Wejdź na siedzibę</div>"></div> <div class="qlink go_to_emp emp2" style="filter:hue-rotate(168deg);" emp="2" data-toggle="tooltip" data-original-title="<div class=tt>Wejdź na siedzibę</div>"></div> <div class="qlink go_to_emp emp3" style="filter:hue-rotate(168deg);" emp="3" data-toggle="tooltip" data-original-title="<div class=tt>Wejdź na siedzibę</div>"></div> <div class="qlink go_to_emp emp4" style="filter:hue-rotate(168deg);" emp="4" data-toggle="tooltip" data-original-title="<div class=tt>Wejdź na siedzibę</div>"></div> </div>`;
-            }
-            if (newq_bar || GAME.char_id) {
-                opts += '<br>';
-                if (GAME.clan_laws) {
-                    opts += `<div class="option qlink priv" style="filter:hue-rotate(168deg);" data-option="clan_planet_travel" data-toggle="tooltip" data-original-title="<div class=tt>Planeta klanowa</div>"></div>`;
-                }
-                if (GAME.char_data.klan_rent == 0) {
-                    opts += `<div class="qlink get_titles_list" style="filter:hue-rotate(168deg);background-image: url('https://i.imgur.com/0eQCqBl.png');" data-toggle="tooltip" data-original-title="<div class=tt>Zmień tytuł</div>"></div>`;
-                }
-                opts += `<div class="qlink load_afo" style="filter:hue-rotate(168deg);background-image: url('https://i.imgur.com/P8sJgQz.png');" data-toggle="tooltip" data-original-title="<div class=tt>Załaduj AFO</div>"></div>`;
-                opts += `<div class="qlink sideIcons manage_auto_abyss${kws.auto_abyss ? ' kws_active_icon' : ''}" style="filter:hue-rotate(168deg);background-image: url('https://i.imgur.com/j5eQv2B.png');display:block;top:-136px;position:absolute;" data-toggle="tooltip" data-original-title="<div class=tt>[Włącz / Wyłącz] Atakowanie Otchłani</div>"></div>`;
-                opts += `<div class="qlink sideIcons manage_auto_arena${kws.auto_arena ? ' kws_active_icon' : ''}" style="filter:hue-rotate(168deg);background-image: url('https://i.imgur.com/rAroNzD.png');display:block;top:-104px;position:absolute;" data-toggle="tooltip" data-original-title="<div class=tt>[Włącz / Wyłącz] Atakowanie na Arenie</div>"></div>`;
-                opts += `<div class="qlink sideIcons manage_autoExpeditions${kws.autoExpeditions ? ' kws_active_icon' : ''}" style="filter:hue-rotate(168deg);background-image: url('https://i.imgur.com/uSMzLBb.png');display:block;top:-72px;position:absolute;" data-toggle="tooltip" data-original-title="<div class=tt>[Włącz / Wyłącz] Automatyczne Wyprawy</div>"></div>`;
-                opts += ` <div class="autoExpeCodes"> <div style="padding-left:8px;"> <label for="aeCodes" style="cursor:pointer;">KODY</label> <div class="newCheckbox"><input type="checkbox" id="aeCodes" name="aeCodes" ${kws.settings.aeCodes ? "checked" : ""} /><label for="aeCodes"></label></div> </div> </div>`;
-            }
-            $('#quick_bar').html(opts);
+            opts += `<div class="qlink load_afo" style="filter:hue-rotate(168deg);background-image: url('https://i.imgur.com/P8sJgQz.png');" data-toggle="tooltip" data-original-title="<div class=tt>Załaduj AFO</div>"></div>`;
+
+            opts += `<div class="qlink sideIcons manage_auto_abyss${kws.auto_abyss ? ' kws_active_icon' : ''}" style="filter:hue-rotate(168deg);background-image: url('https://i.imgur.com/j5eQv2B.png');display:block;top:-136px;position:absolute;" data-toggle="tooltip" data-original-title="<div class=tt>[Włącz / Wyłącz] Atakowanie Otchłani</div>"></div>`;
+            opts += `<div class="qlink sideIcons manage_auto_arena${kws.auto_arena ? ' kws_active_icon' : ''}" style="filter:hue-rotate(168deg);background-image: url('https://i.imgur.com/rAroNzD.png');display:block;top:-104px;position:absolute;" data-toggle="tooltip" data-original-title="<div class=tt>[Włącz / Wyłącz] Atakowanie na Arenie</div>"></div>`;
+            opts += `<div class="qlink sideIcons manage_autoExpeditions${kws.autoExpeditions ? ' kws_active_icon' : ''}" style="filter:hue-rotate(168deg);background-image: url('https://i.imgur.com/uSMzLBb.png');display:block;top:-72px;position:absolute;" data-toggle="tooltip" data-original-title="<div class=tt>[Włącz / Wyłącz] Automatyczne Wyprawy</div>"></div>`;
+            opts += ` <div class="autoExpeCodes"> <div style="padding-left:8px;"> <label for="aeCodes" style="cursor:pointer;">KODY</label> <div class="newCheckbox"><input type="checkbox" id="aeCodes" name="aeCodes" ${kws.settings.aeCodes ? "checked" : ""} /><label for="aeCodes"></label></div> </div> </div>`;
+
+            $('#quick_bar').append(opts);
+
             if (GAME.char_id && GAME.char_data.klan_rent === 0) {
                 kws.listQts();
                 if ("empire" in GAME.quick_opts) {
@@ -2610,46 +2496,21 @@ if (typeof GAME === 'undefined') { } else {
                 }
             }, 300);
         };
+        GAME.endQuest_o = GAME.endQuest;
         GAME.endQuest = function (quest_end) {
-            JQS.qcc.hide();
-            $('#field_q_' + quest_end).fadeOut();
-            for (var ind in this.map_quests) {
-                if (this.map_quests.hasOwnProperty(ind)) {
-                    var len = this.map_quests[ind].length;
-                    for (var i = 0; i < len; i++) {
-                        if (this.map_quests[ind][i].qb_id == quest_end) {
-                            this.map_quests[ind][i].end = 1;
-                        }
-                    }
-                }
-            }
+            GAME.endQuest_o(quest_end);
+
             if (GAME.map_quests) {
                 kws.parseMapInfo(GAME.map_quests, "GAME.endQuest");
             }
         };
+        GAME.moveQuest_o = GAME.moveQuest;
         GAME.moveQuest = function (quest_move) {
-            if (this.char_data.loc == quest_move.loc) {
-                JQS.qcc.hide();
-                $('#field_q_' + quest_move.qb_id).fadeOut();
-                for (var ind in this.map_quests) {
-                    if (this.map_quests.hasOwnProperty(ind)) {
-                        var len = this.map_quests[ind].length;
-                        for (var i = 0; i < len; i++) {
-                            if (this.map_quests[ind][i].qb_id == quest_move.qb_id) {
-                                this.map_quests[ind][i].move = {
-                                    new_x: quest_move.x,
-                                    new_y: quest_move.y,
-                                    start: this.getmTime(),
-                                    duration: 300
-                                };
-                            }
-                        }
-                    }
-                }
-                if (GAME.map_quests) {
-                    kws.parseMapInfo(GAME.map_quests, "GAME.moveQuest");
-                }
-            } else this.endQuest(quest_move.qb_id);
+            GAME.moveQuest_o(quest_move);
+
+            if (GAME.map_quests) {
+                kws.parseMapInfo(GAME.map_quests, "GAME.moveQuest");
+            }
         };
         GAME.parseLocBons_o = GAME.parseLocBons;
         GAME.parseLocBons = function (loc_data) {
@@ -2657,7 +2518,7 @@ if (typeof GAME === 'undefined') { } else {
             return GAME.parseLocBons_o(loc_data); //bons;
         };
         GAME.emit = function (order, data, force) {
-            if (!this.is_loading || force) {
+            if (!is_loading || force) {
                 this.load_start();
                 this.socket.emit(order, data);
             } else if (this.debug) console.log('failed order', order, data);
@@ -2665,22 +2526,7 @@ if (typeof GAME === 'undefined') { } else {
         GAME.emitOrder = function (data, force = false) {
             this.emit('ga', data, force);
         };
-        GAME.initiate = function () {
-            $('#player_login').text(this.login);
-            $('#game_win').show();
-            if (this.char_id == 0 && this.pid > 0) {
-                this.emitOrder({
-                    a: 1
-                });
-            }
-            var len = this.servers.length,
-                con = '';
-            for (var i = 0; i < len; i++) {
-                con += '<option value="' + this.servers[i] + '">' + LNG['server' + this.servers[i]] + '</option>';
-            }
-            $('#available_servers').html(con);
-            $('#available_servers option[value=' + this.server + ']').prop('selected', true);
-        };
+
         const kulka = new ballManager();
         const ekwipunek = new ekwipunekMenager();
         let adimp = false;
