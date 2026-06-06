@@ -910,22 +910,6 @@ if (typeof GAME === 'undefined') {} else {
             GAME.emitOrder = function(data, force = false) {
                 this.emit('ga', data, force);
             };
-            GAME.initiate = function() {
-                $('#player_login').text(this.login);
-                $('#game_win').show();
-                if (this.char_id == 0 && this.pid > 0) {
-                    this.emitOrder({
-                        a: 1
-                    });
-                }
-                var len = this.servers.length,
-                    con = '';
-                for (var i = 0; i < len; i++) {
-                    con += '<option value="' + this.servers[i] + '">' + LNG['server' + this.servers[i]] + '</option>';
-                }
-                $('#available_servers').html(con);
-                $('#available_servers option[value=' + this.server + ']').prop('selected', true);
-            };
 
 /*
 =========================================================================
