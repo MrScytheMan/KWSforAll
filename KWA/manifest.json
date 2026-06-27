@@ -1,50 +1,50 @@
-  {
-    "name": "KW Assistant",
-    "description": "Dla kazdego - za free, na zawsze! Mozliwe dzieki wsparciu patronow na www.patronite.pl/kwa | Szczegolne podziekowania dla: - https://www.youtube.com/@SebastianWujke1",
-    "version": "3.4.9",
-    "manifest_version": 3,
-    "permissions": [
-      "tabs",
-     "scripting",
-      "storage",
-      "activeTab"
-    ],
-	"host_permissions": [
-	 "https://*.kosmiczni.pl/*"
-	],
-    "action": {
-      "default_popup": "popup.html"
-    },
-    "icons": {
-      "16": "images/16.png",
-      "48": "images/48.png",
-      "128": "images/128.png"
-    },
-    "content_scripts": [
-      {
-        "matches": [
-          "https://*.kosmiczni.pl/*"
-        ],
-		 "run_at": "document_end",
-        "js": [
-		  "content_script.js",
-          "jquery.js"
-        ]
-      },
-      {
-        "css": [
-          "custom_styles.css"
-        ],
-        "matches": [
-          "https://*.kosmiczni.pl/*"
-        ]
-      }
-    ],
-	"web_accessible_resources": [
+{
+  "name": "KW Assistant",
+  "description": "Dla kazdego - za free, na zawsze! Mozliwe dzieki wsparciu patronow na www.patronite.pl/kwa | Szczegolne podziekowania dla: - https://www.youtube.com/@SebastianWujke1",
+  "version": "3.4.9",
+  "manifest_version": 3,
+  "permissions": [
+    "tabs",
+    "scripting",
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://*.kosmiczni.pl/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "images/16.png",
+    "48": "images/48.png",
+    "128": "images/128.png"
+  },
+  "content_scripts": [
     {
-      "resources": [ "content_script.js", "content_script1.js", "scripts/*.js", "main.js",  "scripts/*.js", "top_bar.js", "top_bar1.js", "jquery-3.7.1.min.js", "jquery-3.7.2.min.js"],
-      "matches": [ "https://*.kosmiczni.pl/*" ]
+      "matches": [
+        "https://*.kosmiczni.pl/*"
+      ],
+      "run_at": "document_end",
+      "css": [
+        "custom_styles.css"
+      ],
+      "js": [
+        "content_script.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "content_script1.js",
+        "scripts/*.js",
+        "main.js",
+        "images/*"
+      ],
+      "matches": [
+        "https://*.kosmiczni.pl/*"
+      ]
     }
   ]
-    
-  }
+}
