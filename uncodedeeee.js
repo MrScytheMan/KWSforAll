@@ -1349,7 +1349,7 @@ if (typeof GAME === 'undefined') {} else {
                 const maxClanWars = GAME.klan_data.s4 + GAME.klan_data.s4u + 1
 
                 if (count > 0 && GAME.char_data.klan_rent == 0 && GAME.clan_wars.length < maxClanWars && GAME.clan_wars.length < count) {
-                    GAME.socket.emit('ga', {
+                    GAME.emitOrder({
                         a: 39,
                         type: 24,
                         shorts: PVP.clan_war_list
@@ -1379,7 +1379,7 @@ if (typeof GAME === 'undefined') {} else {
                 if (!PVP.wi) return;
             
                 if (!PVP.adimp) {
-                    GAME.socket.emit('ga', {
+                    GAME.emitOrder({
                         a: 50,
                         type: 0,
                         empire: GAME.char_data.empire
@@ -1405,7 +1405,7 @@ if (typeof GAME === 'undefined') {} else {
             
                     if (!alreadyAtWar && !isMyEmpire) {
                         if (GAME.debug) console.log(`Starting war with Empire ${targetEmpire}...`);
-                        GAME.socket.emit('ga', {
+                        GAME.emitOrder({
                             a: 50,
                             type: 7,
                             target: targetEmpire
@@ -1450,7 +1450,7 @@ if (typeof GAME === 'undefined') {} else {
                 return PVP.zejdz();
             };
             PVP.zejdz = async () => {
-                GAME.socket.emit('ga', {
+                GAME.emitOrder({
                     a: 16
                 });
                 await delay(500); 
@@ -1462,12 +1462,12 @@ if (typeof GAME === 'undefined') {} else {
             };
             PVP.teleport = async () => {
                 if (PVP.tele) {
-                    GAME.socket.emit('ga', {
+                    GAME.emitOrder({
                         a: 50,
                         type: 5,
                         e: PVP.route[PVP.routeIndex]
                     });
-                    await delay(500); 
+                    await delay(800); 
                     while (!GAME.maploaded || is_loading) {
                         console.log('maploaded: ' + GAME.maploaded + ' is_loading: ' + is_loading)
                         GAME.page_switch('game_map');
