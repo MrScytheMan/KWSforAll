@@ -414,44 +414,43 @@ if (typeof GAME === 'undefined') { } else {
                     $(".qlink.manage_autoExpeditions").removeClass("kws_active_icon");
                 }
             }
-            manageAutoAbyss() {
-                GAME.socket.emit('ga', {
+            async manageAutoAbyss() {
+                GAME.emitOrder({
                     a: 59,
                     type: 0
                 });
-                setTimeout(() => {
+                await delay(1000)
+                if ($("#ss_cd_still").css("display") == "none") {
                     if (GAME.quick_opts.ssj && $("#ssj_bar").css("display") == "none") {
-                        GAME.socket.emit('ga', {
+                        GAME.emitOrder({
                             a: 18,
                             type: 5,
                             tech_id: GAME.quick_opts.ssj[0]
                         });
                     } else if ($('#ssj_status').text() == "--:--:--") {
-                        GAME.socket.emit('ga', {
+                        GAME.emitOrder({
                             a: 18,
                             type: 6
                         });
                     }
-                }, 1000);
-                if ($("#ss_cd_still").css("display") == "none") {
-                    setTimeout(() => {
-                        GAME.socket.emit('ga', {
-                            a: 59,
-                            type: 1
+                    await delay(1000)
+
+                    if ((GAME.char_data.reborn == 4 || GAME.char_data.reborn == 5) && GAME.char_data.alt_transform_expiry < GAME.getTime()) {
+                        GAME.emitOrder({
+                            a: 18,
+                            type: 8,
+                            tech_id: 134
                         });
-                    }, 1000);
-                    setTimeout(() => {
-                        $('#fight_view').fadeOut();
-                    }, 2000);
-                    setTimeout(() => {
-                        if ((GAME.char_data.reborn == 4 || GAME.char_data.reborn == 5) && GAME.char_data.alt_transform_expiry < GAME.getTime()) {
-                            GAME.socket.emit('ga', {
-                                a: 18,
-                                type: 8,
-                                tech_id: 134
-                            });
-                        }
-                    }, 3000);
+                    }
+                    await delay(1000)
+
+                    GAME.emitOrder({
+                        a: 59,
+                        type: 1
+                    });
+                    await delay(1000)
+
+                    $('#fight_view').fadeOut();
                 }
             }
             async manageAutoArena() {
