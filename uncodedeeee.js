@@ -1289,7 +1289,7 @@ if (typeof GAME === 'undefined') {} else {
             PVP.check_code = async () => {
                 if (!PVP.code) return;
 
-                if ($("#train_uptime").find('.timer').length == 0) {
+                if (GAME.trainupnotisend) {
                     //check ssj
                     if ($('#ssj_status').text() == "--:--:--") {
                         GAME.socket.emit('ga', {
@@ -1736,7 +1736,7 @@ if (typeof GAME === 'undefined') {} else {
             RESP.check_code = async () => {
                 if (!RESP.code) return;
 
-                if ($("#train_uptime").find('.timer').length == 0) {
+                if (GAME.trainupnotisend) {
                     if (!GAME.is_training) {
                         GAME.socket.emit('ga', {
                             a: 8,
@@ -2753,7 +2753,7 @@ if (typeof GAME === 'undefined') {} else {
                         used: 1
                     });
                     window.setTimeout(CODE.kodyy, CODE.wait);
-                } else if ($("#char_buffs").find("[data-buff=80]").length != 1 && $("#train_uptime").find('.timer').length == 0 && błogo2 && CODE.b2 && !CODE.acc && !CODE.zast && !CODE.stop) {
+                } else if ($("#char_buffs").find("[data-buff=80]").length != 1 && GAME.trainupnotisend && błogo2 && CODE.b2 && !CODE.acc && !CODE.zast && !CODE.stop) {
                     GAME.socket.emit('ga', {
                         a: 12,
                         type: 14,
@@ -2761,7 +2761,7 @@ if (typeof GAME === 'undefined') {} else {
                         page: 10
                     });
                     window.setTimeout(CODE.kodyy, CODE.wait);
-                } else if ($("#train_uptime").find('.timer').length == 0) {
+                } else if (GAME.trainupnotisend) {
                     setTimeout(() => {
                         GAME.socket.emit('ga', {
                             a: 8,
