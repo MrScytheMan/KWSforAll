@@ -374,12 +374,12 @@ if (typeof GAME === 'undefined') { } else {
                         setTimeout(() => {
                             GAME.parseTimed();
                         }, 100);
-                        if (this.settings.aeCodes && $("#train_uptime").find('.timer').length == 0 && !GAME.is_training && $("#timed_label").text().includes("Wyprawa") && GAME.char_tables.timed_actions[0] != undefined) {
+                        if (this.settings.aeCodes && GAME.trainupnotisend && !GAME.is_training && $("#timed_label").text().includes("Wyprawa") && GAME.char_tables.timed_actions[0] != undefined) {
                             GAME.socket.emit('ga', {
                                 a: 8,
                                 type: 3
                             });
-                        } else if (this.settings.aeCodes && $("#train_uptime").find('.timer').length == 0 && !GAME.is_training) {
+                        } else if (this.settings.aeCodes && GAME.trainupnotisend && !GAME.is_training) {
                             GAME.socket.emit('ga', {
                                 a: 8,
                                 type: 2,
@@ -393,7 +393,7 @@ if (typeof GAME === 'undefined') { } else {
                                     apud: 'vzaaa'
                                 });
                             }, 1500);
-                        } else if (this.settings.aeCodes && GAME.is_training && $("#train_uptime").find('.timer').length == 1) {
+                        } else if (this.settings.aeCodes && GAME.is_training && ! GAME.trainupnotisend) {
                             GAME.socket.emit('ga', {
                                 a: 8,
                                 type: 3
@@ -804,9 +804,7 @@ if (typeof GAME === 'undefined') { } else {
                 const sk_timer = $(`#mdbp_${char.reborn}`).find('.timer').text();
                 const sk_status = sk_timer.length > 0 ? sk_timer : "AKTYWNE";
                 
-                let train_upgr = $("#train_uptime").find('.timer').text();
-                if (!train_upgr || train_upgr === "00:00:00") train_upgr = "AKTYWNE";
-            
+                const train_upgr = GAME.trainupnotisend ? "AKTYWNE" : $("#train_uptime").find('.timer').text();
 
                 const soulCards_current = $(".sc_sets_all.current").html();
                 const romans = ["I", "II", "III", "IV", "V"];
