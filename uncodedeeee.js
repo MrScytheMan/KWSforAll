@@ -1606,16 +1606,7 @@ if (typeof GAME === 'undefined') {} else {
                 SENZU_RED: 'SENZU_RED',
                 SENZU_MAGIC: 'SENZU_MAGIC',
                 SENZU_PURPLE: 'SENZU_PURPLE',
-                CONF_BLUE_AMOUNT: () => {
-                    return Math.floor(GAME.getCharMaxPr() / 100 * 0.9999)
-                },
-                CONF_BLUE_AMOUNT1: Math.floor(GAME.getCharMaxPr() / 100 * 0.9999),
                 CONF_PURPLE_AMOUNT: 30,
-                CONF_GREEN_AMOUNT: () => {
-                    return Math.floor(GAME.getCharMaxPr() / 2000 * 0.9999)
-                },
-                CONF_GREEN_AMOUNT1: Math.floor(GAME.getCharMaxPr() / 2000 * 0.9999),
-                CONF_YELLOW_AMOUNT: 6,
                 CONF_SENZU: false,
                 bless: false,
                 checkOST_timer: 0,
@@ -2024,7 +2015,7 @@ if (typeof GAME === 'undefined') {} else {
                 const red = RESP.getSenzu(RESP.SENZU_RED);
                 switch (RESP.CONF_SENZU) {
                     case RESP.SENZU_BLUE:
-                        await RESP.useBlue(Math.min(RESP.CONF_BLUE_AMOUNT(), blue.stack, RESP.CONF_BLUE_AMOUNT1));
+                        await RESP.useBlue();
                         break;
                     case RESP.SENZU_PURPLE:
                         await RESP.usePurple(Math.min(RESP.CONF_PURPLE_AMOUNT, purple.stack));
@@ -2033,43 +2024,46 @@ if (typeof GAME === 'undefined') {} else {
                         await RESP.useMagic();
                         break;
                     case RESP.SENZU_GREEN:
-                        await RESP.useGreen(Math.min(RESP.CONF_GREEN_AMOUNT(), green.stack, RESP.CONF_GREEN_AMOUNT1));
+                        await RESP.useGreen();
                         break;
                     case RESP.SENZU_YELLOW:
-                        await RESP.useYellow(Math.min(RESP.CONF_YELLOW_AMOUNT, yellow.stack));
+                        await RESP.useYellow();
                         break;
                     case RESP.SENZU_RED:
                         await RESP.useRed();
                         break;
                     default:
-                        if (blue && blue.stack > RESP.CONF_BLUE_AMOUNT() * 20) RESP.useBlue(Math.min(RESP.CONF_BLUE_AMOUNT(), blue.stack, RESP.CONF_BLUE_AMOUNT1));
-                        else if (green && green.stack > RESP.CONF_GREEN_AMOUNT() * 5) RESP.useGreen(Math.min(RESP.CONF_GREEN_AMOUNT(), green.stack, RESP.CONF_GREEN_AMOUNT1));
+                        if (blue && blue.stack > 0) RESP.useBlue();
+                        else if (green && green.stack > 0) RESP.useGreen();
                         else if (red && red.stack > 0) RESP.useRed();
                 }
                 return RESP.action()
             };
-            RESP.useBlue = (amount = RESP.CONF_BLUE_AMOUNT()) => {
-                const blue = RESP.getSenzu(RESP.SENZU_BLUE);
-                if (!blue) {
+            RESP.useBlue = () => {
+                const senzu = RESP.getSenzu(RESP.SENZU_BLUE);
+                if (!senzu) {
                     return;
                 }
+                const amount = Math.min(senzu.stack, Math.floor((GAME.getCharMaxPr() - GAME.char_data.pr) / 100))
+                if (GAME.debug) console.log('Max PA: %s, Current PA: %s, Using: %s Blue senzu.', GAME.getCharMaxPr(), GAME.char_data.pr, amount);
                 GAME.socket.emit('ga', {
                     a: 12,
                     type: 14,
-                    iid: blue.id,
+                    iid: senzu.id,
                     page: GAME.ekw_page,
                     am: amount
                 });
             };
-            RESP.useGreen = (amount = RESP.CONF_GREEN_AMOUNT()) => {
-                const green = RESP.getSenzu(RESP.SENZU_GREEN);
-                if (!green) {
+            RESP.useGreen = () => {
+                const senzu = RESP.getSenzu(RESP.SENZU_GREEN);
+                if (!senzu) {
                     return;
                 }
+                const amount = Math.min(senzu.stack, Math.floor((GAME.getCharMaxPr() - GAME.char_data.pr) / 2000))
                 GAME.socket.emit('ga', {
                     a: 12,
                     type: 14,
-                    iid: green.id,
+                    iid: senzu.id,
                     page: GAME.ekw_page,
                     am: amount
                 });
@@ -2087,30 +2081,30 @@ if (typeof GAME === 'undefined') {} else {
                     am: amount
                 });
             };
-            RESP.useYellow = (amount = RESP.CONF_YELLOW_AMOUNT) => {
-                const yellow = RESP.getSenzu(RESP.SENZU_YELLOW);
-                if (!yellow) {
+            RESP.useYellow = () => {
+                const senzu = RESP.getSenzu(RESP.SENZU_YELLOW);
+                if (!senzu) {
                     return;
                 }
+                const maxPA = GAME.getCharMaxPr()
+                const amount = Math.min(senzu.stack, Math.floor((maxPA - GAME.char_data.pr) / (maxPA * 0.15 + 10000)))
                 GAME.socket.emit('ga', {
                     a: 12,
                     type: 14,
-                    iid: yellow.id,
+                    iid: senzu.id,
                     page: GAME.ekw_page,
                     am: amount
                 });
             };
             RESP.useRed = () => {
-                const red = RESP.getSenzu(RESP.SENZU_RED);
-                if (!red) {
+                const senzu = RESP.getSenzu(RESP.SENZU_RED);
+                if (!senzu || GAME.char_data.pr > GAME.getCharMaxPr() * 0.3) {
                     return;
                 }
                 GAME.socket.emit('ga', {
                     a: 12,
-                    type: 14,
-                    iid: red.id,
-                    page: GAME.ekw_page,
-                    am: 1
+                    type: 19,
+                    iid: senzu.id,
                 });
             };
             RESP.useMagic = async () => {
@@ -2121,10 +2115,8 @@ if (typeof GAME === 'undefined') {} else {
                     }
                     GAME.socket.emit('ga', {
                         a: 12,
-                        type: 14,
+                        type: 19,
                         iid: magic.id,
-                        page: GAME.ekw_page,
-                        am: 1
                     });
                     await delay(600)
                 };
