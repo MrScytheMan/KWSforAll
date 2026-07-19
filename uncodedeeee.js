@@ -1609,7 +1609,6 @@ if (typeof GAME === 'undefined') {} else {
                 CONF_PURPLE_AMOUNT: 30,
                 CONF_SENZU: false,
                 bless: false,
-                checkOST_timer: 0,
                 code: true,
                 b1: false,
                 b2: false,
@@ -1758,17 +1757,29 @@ if (typeof GAME === 'undefined') {} else {
                     });
                 }
             };
+            RESP.checkSub = async () => {
+                if (!RESP.checkOST) return;
+
+                if ($("#doubler_bar").css("display") === "none" || GAME.doubler_end * 1000 - Date.now() < 1800) {
+                    await delay(1900)
+                    GAME.socket.emit(`ga`, {
+                        a: 12,
+                        type: 19,
+                        iid: GAME.quick_opts.sub[RESP.jaka].id
+                    });
+                }
+            };
             RESP.check_all = async () => {
                 await RESP.check_ssj()
                 await RESP.check_code()
+                await RESP.checkSub()
             };
             RESP.action = async (fmId = GAME.field_mob_id) => {
                 if (!RESP.stop) {
                     await RESP.check_all()
-                    const check = await RESP.check()
                     const check_bless = await RESP.check_bless()
 
-                    if (!check && !check_bless) {
+                    if (!check_bless) {
                         if (RESP.multifight) return RESP.fightMulti(fmId);
                         while (await RESP.IdMobsExist(0)) {
                             await RESP.qmattacko()
