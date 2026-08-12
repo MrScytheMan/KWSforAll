@@ -81,7 +81,7 @@ class ballExp {
         var expKuliPotrzebny = parseInt(expKuliPodzielony[1]);
         
         if (expKuli < expKuliPotrzebny || this.nonStopExp) {
-            GAME.emitOrder({ a: 45, type: 3, bid: GAME.ball_id });
+            GAME.socket.emit('ga', { a: 45, type: 3, bid: GAME.ball_id });
         } else {
             this.stopUpgrading();
         }
