@@ -1,5 +1,4 @@
 var checked = false;
-var latency = -1;
 const gitUrl = 'https://mrscytheman.github.io/KWSforAll'
 const delay = (ms) => new Promise(res => setTimeout(res, ms));
 
@@ -814,6 +813,12 @@ if (typeof GAME === 'undefined') { } else {
                     return "<span class='sc_btn soul_cards_" + (i + 1) + " " + activeClass + "'>" + rom + "</span>";
                 }).join('');
             
+                let latency = -1;
+                const pingElement = document.querySelector('.ping-value');
+
+                if (pingElement) {
+                    latency = parseInt(pingElement.textContent, 10) || 0;
+                }
                 const lColor = latency < 51 ? "lime" : latency < 100 ? "yellow" : latency < 140 ? "orange" : "red";
             
                 const traderBtn = (new Date().getDay() === 6) ? "<span class='kws_top_bar_section trader_info' style='cursor:pointer;'>HANDLARZ</span>" : "";
@@ -2266,9 +2271,6 @@ if (typeof GAME === 'undefined') { } else {
                 }, 1000);
             }
         }
-        GAME.socket.on('pong', function(ms) {
-            latency = ms;
-        });
         const kws = new kwsv3();
         GAME.komunikat2 = function (kom) {
             if (this.koms.indexOf(kom) == -1) {
