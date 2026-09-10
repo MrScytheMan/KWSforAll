@@ -32,14 +32,6 @@ if (typeof GAME === 'undefined') { } else {
 
         class kwsv3 {
             constructor() {
-                this.isLogged((data) => {
-                    Object.defineProperty(GAME, 'pid', {
-                        writable: false
-                    });
-                    Object.defineProperty(GAME, 'login', {
-                        writable: false
-                    });
-                });
                 this.isCheckingTournaments = false;
                 this.tournamentCategory = undefined;
                 this.newTournamentID = undefined;
@@ -207,14 +199,6 @@ if (typeof GAME === 'undefined') { } else {
                 });
                 // add instances to fast_locations
                 GAME.fast_locations.push(369, 394, 405, 407, 472, 478, 577, 580, 872);
-            }
-            isLogged(cb) {
-                let waitForID = setInterval(() => {
-                    if (GAME.pid) {
-                        clearInterval(waitForID);
-                        cb(GAME.pid);
-                    }
-                }, 200);
             }
             loadRiddles(cb) {
                 fetch(`${gitUrl}/riddles.json`).then(res => res.json()).then((out) => {
