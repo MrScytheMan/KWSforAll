@@ -1760,8 +1760,8 @@ if (typeof GAME === 'undefined') {} else {
             RESP.checkSub = async () => {
                 if (!RESP.checkOST) return;
 
-                if ($("#doubler_bar").css("display") === "none" || GAME.doubler_end * 1000 - Date.now() < 2000) {
-                    await delay(3000)
+                if ($("#doubler_bar").css("display") === "none" || GAME.doubler_end * 1000 - Date.now() < 1800) {
+                    await delay(3800)
                     GAME.socket.emit(`ga`, {
                         a: 12,
                         type: 19,
