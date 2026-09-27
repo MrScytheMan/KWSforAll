@@ -1,6 +1,79 @@
-var checked = false;
+let checked = false;
 const gitUrl = 'https://mrscytheman.github.io/KWSforAll'
 const delay = (ms) => new Promise(res => setTimeout(res, ms));
+
+function getSettings() {
+    let settings = JSON.parse(localStorage.getItem("kws_settings"));
+    let settings_sample = {
+        lastCharacter: null,
+        hide_tracker: false,
+        aeCodes: false,
+        spawner: [1000, [0, 0, 0, 0, 0, 0]]
+    };
+    if (settings) {
+        for (const key of Object.keys(settings_sample)) {
+            if (settings[key] === undefined) {
+                settings[key] = settings_sample[key];
+            }
+        }
+        localStorage.setItem("kws_settings", JSON.stringify(settings));
+        return settings;
+    } else {
+        localStorage.setItem("kws_settings", JSON.stringify(settings_sample));
+        return settings_sample;
+    }
+}
+
+function handleLogin() {
+    const notLoggedDiv = document.getElementById('not_logged');
+    const loginButton1 = document.getElementById('cg_login_button1');
+    const loginButton2 = document.getElementById('cg_login_button2');
+
+    if (notLoggedDiv) {
+        const isHidden = window.getComputedStyle(notLoggedDiv).display === 'none';
+
+        if (!isHidden) {
+            console.log('[Auto-Restore] Clicking cg_login_button1 to login...');
+            loginButton1.click();
+        } else {
+            console.log('[Auto-Restore] Clicking cg_login_button2 to launch game...');
+            loginButton2.click();
+        }
+    }
+}
+
+let kws_recovery = false
+const kws_settings = getSettings()
+setInterval(function() {
+    if (typeof window.GAME !== 'undefined' && GAME.connectionRecovery.canSend()) {
+        if (GAME.char_id == 0) {
+            setTimeout(() => {
+                const lastCharacter = kws_settings.lastCharacter
+                if (GAME.char_id == 0 && lastCharacter && $(`#char_list_con li[data-char_id="${lastCharacter}"]`).length) {
+                    console.log(`[Auto-Restore] Selecting character: ${lastCharacter}`);
+                    GAME.emitOrder({a:2,char_id: lastCharacter})
+                }
+            }, 3000);
+        }
+        if(kws_recovery) kws_recovery = false;
+        return;
+    }
+
+    if (window.location.hostname !== 'kosmiczni.pl') {
+        console.log('[Auto-Restore] Disconnected. Will redirect to https://kosmiczni.pl/ in 5 sec...');
+        if(kws_recovery) {
+            window.location.href = 'https://kosmiczni.pl/?recovery=true';
+            return;
+        }
+        kws_recovery = true;
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if (urlParams.get('recovery') === 'true') {
+        handleLogin();
+    }
+}, 5000);
 
 if (typeof GAME === 'undefined') { } else {
     let Pog = setInterval(() => {
@@ -37,7 +110,7 @@ if (typeof GAME === 'undefined') { } else {
                 this.newTournamentID = undefined;
                 this.tourSigned = false;
                 this.firstTournamentPageLoaded = false;
-                this.settings = this.getSettings();
+                this.settings = kws_settings;
                 this.createCSS();
                 this.createMinimapSettings();
                 if ($("#top_bar .adv").length) $("#top_bar .adv").remove();
@@ -213,26 +286,6 @@ if (typeof GAME === 'undefined') { } else {
                     $("input[id=quest_riddle]").val(riddle.answer);
                 } else {
                     console.log('riddle id: ', r_id)
-                }
-            }
-            getSettings() {
-                let settings = JSON.parse(localStorage.getItem("kws_settings"));
-                let settings_sample = {
-                    hide_tracker: false,
-                    aeCodes: false,
-                    spawner: GAME.spawner
-                };
-                if (settings) {
-                    for (const key of Object.keys(settings_sample)) {
-                        if (settings[key] === undefined) {
-                            settings[key] = settings_sample[key];
-                        }
-                    }
-                    localStorage.setItem("kws_settings", JSON.stringify(settings));
-                    return settings;
-                } else {
-                    localStorage.setItem("kws_settings", JSON.stringify(settings_sample));
-                    return settings_sample;
                 }
             }
             updateSettings() {
@@ -1149,29 +1202,19 @@ if (typeof GAME === 'undefined') { } else {
             handleSockets(res) {
                 //console.log("KWA_HANDLE_SOCKETS: res.a == %s", res.a);
                 switch (res.a) {
+                    case 2: // On select character set lastCharacter
+                        this.settings.lastCharacter = res.char_id;
+                        this.updateSettings();
+                        break;
                     case 7: //?? PvP fight result?
                         if (!this.stopped) {
                             if("result" in res && res.result && "reward" in res.result && res.result.reward && "arena_exp" in res.result.reward && res.result.reward.arena_exp && res.result.result === 1) {
                                 this.arena_count();
                             } else if ("result" in res && res.result && "reward" in res.result && res.result.reward && "empire_war" in res.result.reward && res.result.reward.empire_war && res.result.result === 1) {
                                 this.pvp_count();
-                            } else {
-                                break;
                             }
-                        } else {
-                            break;
                         }
-                    case 57: //Tournament related
-                        if(res.tours) {
-                            if (res.a === 57 && res.tours) {
-                                const foundCatObject = res.tours.find(tour => tour.cat === this.tournamentCategory);
-                                if (foundCatObject) {
-                                    this.newTournamentID = foundCatObject.id;
-                                }
-                            }
-                        } else {
-                            break;
-                        }
+                        break;
                     default:
                         //console.log("KWA_HANDLE_SOCKETS: unhandeled response");
                         break;
