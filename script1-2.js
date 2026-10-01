@@ -2232,16 +2232,16 @@ if (typeof GAME === 'undefined') { } else {
             resetAFO() {
                 //console.log("KWA_RESET_AFO: reset AFO values");
                 if ($("#resp_Panel .resp_status").eq(0).hasClass("green")) {
-                    $("#resp_Panel .resp_button.resp_resp").click();
+                    $("#resp_Panel .afo-button.resp_resp").click();
                 }
                 if ($("#pvp_Panel .pvp_status").eq(0).hasClass("green")) {
-                    $("#pvp_Panel .pvp_button.pvp_pvp").click();
+                    $("#pvp_Panel .afo-button.pvp_pvp").click();
                 }
                 if ($("#lpvm_Panel .lpvm_status").eq(0).hasClass("green")) {
-                    $("#lpvm_Panel .lpvm_button.lpvm_lpvm").click();
+                    $("#lpvm_Panel .afo-button.lpvm_lpvm").click();
                 }
                 if ($("#res_Panel .res_status").eq(0).hasClass("green")) {
-                    $("#res_Panel .res_button.res_res").click();
+                    $("#res_Panel .afo-button.res_res").click();
                 }
                 if ($(".manage_autoExpeditions").eq(0).hasClass("kws_active_icon")) {
                     $(".manage_autoExpeditions").click();
