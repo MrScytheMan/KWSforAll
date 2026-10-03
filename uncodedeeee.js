@@ -1148,6 +1148,10 @@ if (typeof GAME === 'undefined') {} else {
                         PVP.stop = true;
                         break;
                     }
+                    if (PVP.fightAccount && PVP.routeStart) {
+                        await PVP.change_char_to_next()
+                        continue;
+                    }
 
                     await PVP.check_all();
 
@@ -1180,9 +1184,6 @@ if (typeof GAME === 'undefined') {} else {
                 await delay(500);
             };
             PVP.check_all = async () => {
-
-                if (PVP.fightAccount && PVP.routeStart) return PVP.change_char_to_next()
-
                 while($("#ewar_list").text().includes("--:--:--")) {
                     await delay(300);
                 }
@@ -1256,7 +1257,9 @@ if (typeof GAME === 'undefined') {} else {
 
                     if (repeat_counter >= 5) {
                         if (GAME.debug) console.log('attack stuck: '+repeat_counter+' ec: '+enemies_count)
-                        return; 
+                        repeat_counter = 0;
+                        GAME.emitOrder({a: 3, vo: GAME.map_options.vo});
+                        await delay(1000) 
                     }
                     prev_enemy_count = enemies_count;
 
