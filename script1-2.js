@@ -2,9 +2,6 @@ let checked = false;
 const gitUrl = 'https://mrscytheman.github.io/KWSforAll'
 const delay = (ms) => new Promise(res => setTimeout(res, ms));
 
-let statusFailedCheckCount = 0;
-const STATUS_MAX_FAILURES = 3;
-
 function getSettings() {
     let settings = JSON.parse(localStorage.getItem("kws_settings"));
     let settings_sample = {
@@ -27,35 +24,54 @@ function getSettings() {
     }
 }
 
+function handleLogin() {
+    const notLoggedDiv = document.getElementById('not_logged');
+    const loginButton1 = document.getElementById('cg_login_button1');
+    const loginButton2 = document.getElementById('cg_login_button2');
+
+    if (notLoggedDiv) {
+        const isHidden = window.getComputedStyle(notLoggedDiv).display === 'none';
+
+        if (!isHidden) {
+            console.log('[Auto-Restore] Clicking cg_login_button1 to login...');
+            loginButton1.click();
+        } else {
+            console.log('[Auto-Restore] Clicking cg_login_button2 to launch game...');
+            loginButton2.click();
+        }
+    }
+}
+
+let kws_recovery = false
 const kws_settings = getSettings()
 setInterval(function() {
     if (typeof window.GAME !== 'undefined' && GAME.connectionRecovery.canSend()) {
-        statusFailedCheckCount = 0;
-        const lastCharacter = kws_settings.lastCharacter
-        if (GAME.char_id == 0 && lastCharacter && $(`#char_list_con li[data-char_id="${lastCharacter}"]`).length) {
-            console.log(`[Auto-Restore] Selecting character: ${lastCharacter}`);
-            GAME.emitOrder({a:2,char_id: lastCharacter})
+        if (GAME.char_id == 0) {
+            setTimeout(() => {
+                const lastCharacter = kws_settings.lastCharacter
+                if (GAME.char_id == 0 && lastCharacter && $(`#char_list_con li[data-char_id="${lastCharacter}"]`).length) {
+                    console.log(`[Auto-Restore] Selecting character: ${lastCharacter}`);
+                    GAME.emitOrder({a:2,char_id: lastCharacter})
+                }
+            }, 3000);
         }
+        if(kws_recovery) kws_recovery = false;
         return;
     }
-
-    statusFailedCheckCount++;
-    console.log(`[Auto-Restore] Check failed. Waiting for reconnect... (${statusFailedCheckCount}/${STATUS_MAX_FAILURES})`);
-    if (statusFailedCheckCount < 3) {
-        return;
-    }
-    statusFailedCheckCount = 0;
 
     if (window.location.hostname !== 'kosmiczni.pl') {
-        console.log('[Auto-Restore] Redirecting to https://kosmiczni.pl/...');
-        window.location.href = 'https://kosmiczni.pl/';
-        return;
+        console.log('[Auto-Restore] Disconnected. Will redirect to https://kosmiczni.pl/ in 5 sec...');
+        if(kws_recovery) {
+            window.location.href = 'https://kosmiczni.pl/?recovery=true';
+            return;
+        }
+        kws_recovery = true;
     }
 
-    const loginBtn = document.getElementById('cg_login_button2');
-    if (loginBtn) {
-        console.log('[Auto-Restore] Clicking cg_login_button2 to launch game...');
-        loginBtn.click();
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if (urlParams.get('recovery') === 'true') {
+        handleLogin();
     }
 }, 5000);
 
